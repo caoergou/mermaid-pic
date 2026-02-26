@@ -454,18 +454,57 @@ button.success { border-color: #4caf50; color: #4caf50; }
 .render-status.error { color: var(--error-color); }
 .render-status.ok { color: #4caf50; }
 
-.error {
-  color: var(--error-color);
-  background: var(--error-bg);
-  padding: 16px;
+.error-banner {
+  margin: 16px;
   border-radius: 8px;
-  font-family: 'Fira Code', 'Consolas', monospace;
+  border: 1px solid var(--error-color);
+  background: var(--error-bg);
+  overflow: hidden;
+}
+.error-banner__header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  background: var(--error-color);
+  color: #fff;
   font-size: 12.5px;
+  font-weight: 600;
+}
+.error-banner__line {
+  margin-left: 4px;
+  opacity: 0.85;
+  font-weight: 400;
+  font-size: 11.5px;
+}
+.error-banner__close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  border-radius: 3px;
+}
+.error-banner__close:hover { opacity: 1; background: rgba(255,255,255,0.2); }
+.error-banner__msg {
+  color: var(--error-color);
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
   white-space: pre-wrap;
   margin: 0;
-  max-width: 100%;
+  padding: 12px 14px;
   overflow: auto;
-  border-left: 3px solid var(--error-color);
+  max-height: 180px;
+  border-bottom: 1px solid var(--border-color);
+}
+.error-banner__tip {
+  padding: 8px 14px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
 }
 
 .placeholder {

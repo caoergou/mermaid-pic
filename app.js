@@ -189,9 +189,24 @@ import { oneDark } from "@codemirror/theme-one-dark";
       clearDiagnostics();
       setTimeout(function () { setRenderStatus('', ''); }, 1500);
     } catch (err) {
-      preview.innerHTML = '<pre class="error">' + escapeHtml(err.message || String(err)) + '</pre>';
+      var msg = err.message || String(err);
+      var lineMatch = msg.match(/line\s+(\d+)/i);
+      var lineHint = lineMatch ? '<span class="error-banner__line">第 ' + lineMatch[1] + ' 行 · Line ' + lineMatch[1] + '</span>' : '';
+      preview.innerHTML =
+        '<div class="error-banner">' +
+          '<div class="error-banner__header">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
+            '<span>语法错误 · Syntax Error</span>' +
+            lineHint +
+            '<button class="error-banner__close" title="关闭 · Dismiss" onclick="this.closest(\'.error-banner\').remove()">' +
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+            '</button>' +
+          '</div>' +
+          '<pre class="error-banner__msg">' + escapeHtml(msg) + '</pre>' +
+          '<div class="error-banner__tip">修复代码后将自动重新渲染 · Fix the code above and it will re-render automatically</div>' +
+        '</div>';
       setRenderStatus('error', '✗ 错误 Error');
-      pushDiagnosticFromError(err.message || String(err));
+      pushDiagnosticFromError(msg);
     }
   }
 
