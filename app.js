@@ -44,6 +44,9 @@ import { oneDark } from "@codemirror/theme-one-dark";
   var btnDownloadSvg = document.getElementById('btn-download-svg');
   var btnDownloadPng = document.getElementById('btn-download-png');
   var btnShare = document.getElementById('btn-share');
+  var shareDropdownToggle = document.getElementById('share-dropdown-toggle');
+  var shareDropdownMenu = document.getElementById('share-dropdown-menu');
+  var btnEmbedCode = document.getElementById('btn-embed-code');
   var btnCopyAiPrompt = document.getElementById('btn-copy-ai-prompt');
   var btnBgToggle = document.getElementById('btn-bg-toggle');
   var exportBgSelect = document.getElementById('export-bg-select');
@@ -189,6 +192,12 @@ import { oneDark } from "@codemirror/theme-one-dark";
         fontSize: handDrawn ? '17px' : '14px',
       },
     });
+    // Wait for hand-drawn fonts to load before rendering, so Mermaid measures
+    // text widths with the correct (wider) glyphs and doesn't clip node labels.
+    if (handDrawn && !noHandDrawn) {
+      try { await document.fonts.load('16px Virgil'); } catch (e) {}
+      try { await document.fonts.load('16px "LXGW WenKai TC"'); } catch (e) {}
+    }
     try {
       renderCounter++;
       var id = 'mermaid-diagram-' + renderCounter;
@@ -319,6 +328,8 @@ import { oneDark } from "@codemirror/theme-one-dark";
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     iconSun.style.display = dark ? 'none' : '';
     iconMoon.style.display = dark ? '' : 'none';
+    var label = document.getElementById('theme-toggle-label');
+    if (label) label.textContent = dark ? '深色' : '浅色';
   }
 
   var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -329,11 +340,16 @@ import { oneDark } from "@codemirror/theme-one-dark";
     applyUiTheme(!isDark);
   });
 
-  // ── Theme / Hand-drawn ─────────────────────────────────────────────
-  themeSelect.addEventListener('change', function () {
-    currentTheme = themeSelect.value;
-    initMermaid();
-    renderDiagram();
+  // ── Theme pills ────────────────────────────────────────────────────
+  document.querySelectorAll('.theme-pill').forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      currentTheme = pill.getAttribute('data-theme');
+      document.querySelectorAll('.theme-pill').forEach(function (p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+      themeSelect.value = currentTheme;
+      initMermaid();
+      renderDiagram();
+    });
   });
 
   // Set hand-drawn on by default
@@ -606,16 +622,6 @@ import { oneDark } from "@codemirror/theme-one-dark";
   helpModal.addEventListener('click', function (e) { if (e.target === helpModal) closeHelp(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeHelp(); closeTour(); } });
 
-  document.querySelectorAll('.example-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var code = btn.getAttribute('data-code');
-      if (editorView && code) {
-        editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: code } });
-      }
-      closeHelp();
-    });
-  });
-
   // ── Examples strip ─────────────────────────────────────────────────
   var EXAMPLES = [
     { label: '流程图', code: 'graph TD\n    A[开始] --> B{判断}\n    B -->|是| C[成功]\n    B -->|否| D[失败]\n    C --> E[结束]\n    D --> E' },
@@ -629,27 +635,29 @@ import { oneDark } from "@codemirror/theme-one-dark";
     { label: '架构图', code: 'graph LR\n    subgraph 前端\n        A[浏览器]\n    end\n    subgraph 后端\n        B[API]\n        C[数据库]\n    end\n    A -->|HTTP| B\n    B -->|SQL| C' },
   ];
 
+  // ── Examples strip + modal grid (unified data source) ──────────────
   var examplesStrip = document.getElementById('examples-strip');
+  var modalExampleGrid = document.getElementById('modal-example-grid');
+
   EXAMPLES.forEach(function (ex) {
+    // strip chip
+    var chip = document.createElement('button');
+    chip.className = 'example-chip';
+    chip.textContent = ex.label;
+    chip.addEventListener('click', function () {
+      if (editorView) editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: ex.code } });
+    });
+    examplesStrip.appendChild(chip);
+
+    // modal grid button
     var btn = document.createElement('button');
-    btn.className = 'example-chip';
+    btn.className = 'example-btn';
     btn.textContent = ex.label;
     btn.addEventListener('click', function () {
-      if (editorView) {
-        editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: ex.code } });
-      }
+      if (editorView) editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: ex.code } });
+      closeHelp();
     });
-    examplesStrip.appendChild(btn);
-  });
-
-  // examples strip chips (legacy, now handled above)
-  document.querySelectorAll('.example-chip').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var code = btn.getAttribute('data-code');
-      if (editorView && code) {
-        editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: code } });
-      }
-    });
+    modalExampleGrid.appendChild(btn);
   });
 
   btnRestartTour.addEventListener('click', function () { closeHelp(); startTour(); });
@@ -990,10 +998,11 @@ import { oneDark } from "@codemirror/theme-one-dark";
     });
   }
 
-  // close both popovers on outside click
+  // close all popovers on outside click
   document.addEventListener('click', function () {
     if (exportDropdownMenu) exportDropdownMenu.classList.remove('open');
     if (settingsMenu) settingsMenu.classList.remove('open');
+    if (shareDropdownMenu) shareDropdownMenu.classList.remove('open');
   });
 
   // ── Event binding ──────────────────────────────────────────────────
@@ -1002,6 +1011,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
   btnDownloadPng.addEventListener('click', function () { downloadPng().catch(function (e) { showToast('下载失败 · ' + e.message); }); });
   if (btnCopyAiPrompt) {
     btnCopyAiPrompt.addEventListener('click', function () {
+      shareDropdownMenu.classList.remove('open');
       var code = getCode();
       var bytes = new TextEncoder().encode(code);
       var binary = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
@@ -1032,7 +1042,8 @@ import { oneDark } from "@codemirror/theme-one-dark";
   // Use TextEncoder for proper UTF-8 support (handles Chinese characters)
   function encodeCode(code) {
     var bytes = new TextEncoder().encode(code);
-    var binary = Array.from(bytes).map(function(b) { return String.fromCharCode(b); }).join('');
+    var compressed = pako.deflate(bytes);
+    var binary = Array.from(compressed).map(function(b) { return String.fromCharCode(b); }).join('');
     return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
 
@@ -1042,7 +1053,12 @@ import { oneDark } from "@codemirror/theme-one-dark";
     var binary = atob(encoded);
     var bytes = new Uint8Array(binary.length);
     for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    return new TextDecoder().decode(bytes);
+    // 尝试 pako 解压，失败则 fallback 到旧的纯 base64（兼容旧链接）
+    try {
+      return new TextDecoder().decode(pako.inflate(bytes));
+    } catch (e) {
+      return new TextDecoder().decode(bytes);
+    }
   }
 
   function getQueryCode() {
@@ -1075,71 +1091,31 @@ import { oneDark } from "@codemirror/theme-one-dark";
   }
 
   async function copyEmbedCode() {
-    updateHash(getCode());
-    var url = location.href;
-    var embedCode = '<iframe src="' + url + '" width="100%" height="600" frameborder="0" style="border: none;" title="Mermaid Diagram"></iframe>';
+    var encoded = encodeCode(getCode());
+    var embedUrl = location.origin + location.pathname.replace(/[^/]*$/, '') + 'embed.html#' + encoded;
+    var embedCode = '<iframe src="' + embedUrl + '" width="100%" height="600" frameborder="0" style="border: none;" title="Mermaid Diagram"></iframe>';
     await navigator.clipboard.writeText(embedCode);
     showToast(STRINGS[currentLang].toastEmbedCopied);
     btnSuccess(btnShare);
   }
 
-  // Add embed code to i18n strings
-  if (!STRINGS.zh.toastEmbedCopied) STRINGS.zh.toastEmbedCopied = '嵌入代码已复制';
-  if (!STRINGS.en.toastEmbedCopied) STRINGS.en.toastEmbedCopied = 'Embed code copied';
-
-  // Create a share menu with both link and embed options
-  function createShareMenu() {
-    var menu = document.createElement('div');
-    menu.className = 'share-menu';
-    menu.style.cssText = 'position:fixed;top:-100px;left:-100px;background:var(--modal-bg);border:1px solid var(--border-color);border-radius:8px;padding:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10000;display:flex;flex-direction:column;gap:4px;min-width:180px;';
-
-    var linkBtn = document.createElement('button');
-    linkBtn.textContent = STRINGS[currentLang].share + ' 链接';
-    linkBtn.style.cssText = 'width:100%;padding:8px;text-align:left;font-size:13px;';
-    linkBtn.addEventListener('click', function() {
-      copyShareLink().catch(function(e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
-      hideShareMenu();
-    });
-
-    var embedBtn = document.createElement('button');
-    embedBtn.textContent = '嵌入代码';
-    embedBtn.style.cssText = 'width:100%;padding:8px;text-align:left;font-size:13px;';
-    embedBtn.addEventListener('click', function() {
-      copyEmbedCode().catch(function(e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
-      hideShareMenu();
-    });
-
-    menu.appendChild(linkBtn);
-    menu.appendChild(embedBtn);
-    document.body.appendChild(menu);
-    return menu;
-  }
-
-  var shareMenu = null;
-
-  function showShareMenu() {
-    if (!shareMenu) shareMenu = createShareMenu();
-
-    var rect = btnShare.getBoundingClientRect();
-    shareMenu.style.top = (rect.bottom + 8) + 'px';
-    shareMenu.style.left = rect.left + 'px';
-    shareMenu.style.display = 'flex';
-  }
-
-  function hideShareMenu() {
-    if (shareMenu) shareMenu.style.display = 'none';
-  }
-
-  // Close share menu when clicking outside
-  document.addEventListener('click', function(e) {
-    if (shareMenu && e.target !== btnShare && !btnShare.contains(e.target) && !shareMenu.contains(e.target)) {
-      hideShareMenu();
-    }
+  // ── Share split button ─────────────────────────────────────────────
+  shareDropdownToggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    shareDropdownMenu.classList.toggle('open');
+    if (exportDropdownMenu) exportDropdownMenu.classList.remove('open');
+    if (settingsMenu) settingsMenu.classList.remove('open');
   });
 
-  btnShare.addEventListener('click', function(e) {
-    e.stopPropagation();
-    showShareMenu();
+  shareDropdownMenu.addEventListener('click', function (e) { e.stopPropagation(); });
+
+  btnShare.addEventListener('click', function () {
+    copyShareLink().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+  });
+
+  btnEmbedCode.addEventListener('click', function () {
+    copyEmbedCode().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+    shareDropdownMenu.classList.remove('open');
   });
 
   // ── Preview right-click context menu ───────────────────────────────
