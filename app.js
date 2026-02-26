@@ -57,6 +57,10 @@ import { oneDark } from "@codemirror/theme-one-dark";
   var tourOverlay = document.getElementById('tour-overlay');
   var tourHighlight = document.getElementById('tour-highlight');
   var tourTooltip = document.getElementById('tour-tooltip');
+  var tourCurtainTop    = document.getElementById('tour-curtain-top');
+  var tourCurtainBottom = document.getElementById('tour-curtain-bottom');
+  var tourCurtainLeft   = document.getElementById('tour-curtain-left');
+  var tourCurtainRight  = document.getElementById('tour-curtain-right');
   var tourStepEl = document.getElementById('tour-step');
   var tourTitleEl = document.getElementById('tour-title');
   var tourBodyEl = document.getElementById('tour-body');
@@ -124,7 +128,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
   function updateEditorStatus() {
     var val = getCode();
     var lines = val ? val.split('\n').length : 0;
-    editorStatus.textContent = lines + ' 行 lines · ' + val.length + ' 字符 chars';
+    editorStatus.textContent = STRINGS[currentLang].editorStatusTpl(lines, val.length);
   }
 
   function setRenderStatus(state, text) {
@@ -158,12 +162,12 @@ import { oneDark } from "@codemirror/theme-one-dark";
   async function renderDiagram() {
     var code = getCode().trim();
     if (!code) {
-      preview.innerHTML = '<p class="placeholder">在左侧输入 Mermaid 代码，图表将实时显示在这里<br><small>Type Mermaid code on the left, the diagram renders here in real time</small></p>';
+      preview.innerHTML = '<p class="placeholder">' + STRINGS[currentLang].placeholderMain + '</p>';
       setRenderStatus('', '');
       clearDiagnostics();
       return;
     }
-    setRenderStatus('rendering', '渲染中 Rendering...');
+    setRenderStatus('rendering', STRINGS[currentLang].renderingStatus);
     // some diagram types have known issues with handDrawn look; fall back to classic
     var noHandDrawn = /^\s*(classDiagram|stateDiagram|erDiagram|gantt|pie|mindmap|timeline|xychart)/i.test(code);
     var handwritingFont = "'Long Cang', 'Caveat', cursive";
@@ -185,27 +189,28 @@ import { oneDark } from "@codemirror/theme-one-dark";
       var result = await mermaid.render(id, code);
       preview.innerHTML = result.svg;
       pushHistory(code);
-      setRenderStatus('ok', '✓ OK');
+      setRenderStatus('ok', STRINGS[currentLang].renderOk);
       clearDiagnostics();
       setTimeout(function () { setRenderStatus('', ''); }, 1500);
     } catch (err) {
       var msg = err.message || String(err);
       var lineMatch = msg.match(/line\s+(\d+)/i);
-      var lineHint = lineMatch ? '<span class="error-banner__line">第 ' + lineMatch[1] + ' 行 · Line ' + lineMatch[1] + '</span>' : '';
+      var s = STRINGS[currentLang];
+      var lineHint = lineMatch ? '<span class="error-banner__line">' + s.errorLine.replace('{n}', lineMatch[1]) + '</span>' : '';
       preview.innerHTML =
         '<div class="error-banner">' +
           '<div class="error-banner__header">' +
             '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
-            '<span>语法错误 · Syntax Error</span>' +
+            '<span>' + s.errorSyntax + '</span>' +
             lineHint +
-            '<button class="error-banner__close" title="关闭 · Dismiss" onclick="this.closest(\'.error-banner\').remove()">' +
+            '<button class="error-banner__close" title="' + s.errorDismiss + '" onclick="this.closest(\'.error-banner\').remove()">' +
               '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
             '</button>' +
           '</div>' +
           '<pre class="error-banner__msg">' + escapeHtml(msg) + '</pre>' +
-          '<div class="error-banner__tip">修复代码后将自动重新渲染 · Fix the code above and it will re-render automatically</div>' +
+          '<div class="error-banner__tip">' + s.errorTip + '</div>' +
         '</div>';
-      setRenderStatus('error', '✗ 错误 Error');
+      setRenderStatus('error', STRINGS[currentLang].renderError);
       pushDiagnosticFromError(msg);
     }
   }
@@ -426,18 +431,18 @@ import { oneDark } from "@codemirror/theme-one-dark";
   // ── Copy / Download ────────────────────────────────────────────────
   async function copySvg() {
     var svgEl = preview.querySelector('svg');
-    if (!svgEl) { showToast('没有可复制的图表 · No diagram'); return; }
+    if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
     await navigator.clipboard.writeText(new XMLSerializer().serializeToString(svgEl));
-    showToast('SVG 已复制到剪贴板 · Copied');
+    showToast(STRINGS[currentLang].toastCopied);
     btnSuccess(btnCopySvg);
   }
 
   async function copyPng() {
     var svgEl = preview.querySelector('svg');
-    if (!svgEl) { showToast('没有可复制的图表 · No diagram'); return; }
+    if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
     var blob = await svgToPngBlob(svgEl);
     await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-    showToast('PNG 已复制到剪贴板 · Copied');
+    showToast(STRINGS[currentLang].toastCopiedPng);
     btnSuccess(btnCopyPng);
   }
 
@@ -451,17 +456,17 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
   function downloadSvg() {
     var svgEl = preview.querySelector('svg');
-    if (!svgEl) { showToast('没有可下载的图表 · No diagram'); return; }
+    if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
     var blob = new Blob([new XMLSerializer().serializeToString(svgEl)], { type: 'image/svg+xml' });
     downloadFile(blob, 'diagram.svg');
-    showToast('SVG 已下载 · Downloaded');
+    showToast(STRINGS[currentLang].toastDownloadSvg);
   }
 
   async function downloadPng() {
     var svgEl = preview.querySelector('svg');
-    if (!svgEl) { showToast('没有可下载的图表 · No diagram'); return; }
+    if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
     downloadFile(await svgToPngBlob(svgEl), 'diagram.png');
-    showToast('PNG 已下载 · Downloaded');
+    showToast(STRINGS[currentLang].toastDownloadPng);
   }
 
   // ── Keyboard shortcuts ─────────────────────────────────────────────
@@ -470,9 +475,9 @@ import { oneDark } from "@codemirror/theme-one-dark";
     if (!ctrl) return;
     if (e.key === 'Enter') { e.preventDefault(); clearTimeout(renderTimeout); renderDiagram(); }
     else if (e.key === 's' && !e.shiftKey) { e.preventDefault(); downloadSvg(); }
-    else if (e.key === 's' && e.shiftKey) { e.preventDefault(); downloadPng().catch(function (err) { showToast('下载失败 · Failed: ' + err.message); }); }
-    else if (e.key === 'c' && e.shiftKey) { e.preventDefault(); copySvg().catch(function (err) { showToast('复制失败 · Failed: ' + err.message); }); }
-    else if (e.key === 'p' && e.shiftKey) { e.preventDefault(); copyPng().catch(function (err) { showToast('复制失败 · Failed: ' + err.message); }); }
+    else if (e.key === 's' && e.shiftKey) { e.preventDefault(); downloadPng().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
+    else if (e.key === 'c' && e.shiftKey) { e.preventDefault(); copySvg().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
+    else if (e.key === 'p' && e.shiftKey) { e.preventDefault(); copyPng().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
   });
 
   // ── Draggable divider ──────────────────────────────────────────────
@@ -560,52 +565,288 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
   btnRestartTour.addEventListener('click', function () { closeHelp(); startTour(); });
 
+  // ── i18n ───────────────────────────────────────────────────────────
+  var STRINGS = {
+    zh: {
+      editorPanel: '编辑器',
+      previewPanel: '预览',
+      themeLabel: '主题',
+      handdrawnLabel: '手绘',
+      copysvg: '复制 SVG',
+      copypng: '复制 PNG',
+      share: '分享',
+      renderingStatus: '渲染中...',
+      renderOk: '✓ 完成',
+      renderError: '✗ 错误',
+      toastCopied: 'SVG 已复制',
+      toastCopiedPng: 'PNG 已复制',
+      toastDownloadSvg: 'SVG 已下载',
+      toastDownloadPng: 'PNG 已下载',
+      toastLinkCopied: '链接已复制',
+      toastNoDiagram: '没有可操作的图表',
+      toastFailed: '操作失败',
+      editorStatusTpl: function(lines, chars) { return lines + ' 行 · ' + chars + ' 字符'; },
+      modalTitle: '示例模板',
+      modalPickExample: '选择一个示例开始',
+      modalShortcuts: '快捷键',
+      modalRestartTour: '重新引导',
+      modalClose: '关闭',
+      tourSkip: '跳过',
+      tourNext: '下一步 →',
+      tourDone: '完成 ✓',
+      tourLangTitle: '选择语言',
+      tourLangBody: '请选择您偏好的界面语言。\nPlease choose your preferred language.',
+      tourSteps: [
+        { title: '代码编辑器', body: '在这里输入 Mermaid 代码，支持语法高亮和错误提示。输入后图表会自动实时渲染。' },
+        { title: '实时预览', body: '图表实时渲染在这里。右上角的棋盘格按钮可切换背景，方便查看透明区域。' },
+        { title: '图表主题', body: '切换 5 种内置配色主题：Default、Dark、Forest、Neutral、Base。' },
+        { title: '手绘风格', body: '开启后图表变为草图/手绘风格，适合非正式场合或设计稿。' },
+        { title: '导出图表', body: '复制 SVG/PNG 到剪贴板，或直接下载文件。PNG 以 2x 分辨率导出，清晰锐利。' },
+        { title: '示例与快捷键', body: '点击这里查看示例模板和所有快捷键。' },
+      ],
+      shortcutForceRender: '立即渲染',
+      shortcutCopySvg: '复制 SVG',
+      shortcutCopyPng: '复制 PNG',
+      shortcutDlSvg: '下载 SVG',
+      shortcutDlPng: '下载 PNG',
+      errorSyntax: '语法错误',
+      errorLine: '第 {n} 行',
+      errorTip: '修复代码后将自动重新渲染',
+      errorDismiss: '关闭',
+      placeholderMain: '在左侧输入 Mermaid 代码，图表将实时显示在这里',
+      historyLabel: '历史',
+    },
+    en: {
+      editorPanel: 'Editor',
+      previewPanel: 'Preview',
+      themeLabel: 'Theme',
+      handdrawnLabel: 'Hand-drawn',
+      copysvg: 'Copy SVG',
+      copypng: 'Copy PNG',
+      share: 'Share',
+      renderingStatus: 'Rendering...',
+      renderOk: '✓ OK',
+      renderError: '✗ Error',
+      toastCopied: 'SVG copied',
+      toastCopiedPng: 'PNG copied',
+      toastDownloadSvg: 'SVG downloaded',
+      toastDownloadPng: 'PNG downloaded',
+      toastLinkCopied: 'Link copied',
+      toastNoDiagram: 'No diagram to act on',
+      toastFailed: 'Operation failed',
+      editorStatusTpl: function(lines, chars) { return lines + ' lines · ' + chars + ' chars'; },
+      modalTitle: 'Examples',
+      modalPickExample: 'Pick an example to start',
+      modalShortcuts: 'Shortcuts',
+      modalRestartTour: 'Restart Tour',
+      modalClose: 'Close',
+      tourSkip: 'Skip',
+      tourNext: 'Next →',
+      tourDone: 'Done ✓',
+      tourLangTitle: 'Choose Language',
+      tourLangBody: 'Please choose your preferred language.',
+      tourSteps: [
+        { title: 'Code Editor', body: 'Type Mermaid code here with syntax highlighting and inline error hints. The diagram updates automatically.' },
+        { title: 'Live Preview', body: 'The diagram renders here in real time. Use the grid button to toggle a checker background.' },
+        { title: 'Diagram Theme', body: 'Switch between 5 built-in color themes: Default, Dark, Forest, Neutral, Base.' },
+        { title: 'Hand-drawn Style', body: 'Toggle a sketchy hand-drawn look — great for informal diagrams or wireframes.' },
+        { title: 'Export', body: 'Copy SVG/PNG to clipboard or download. PNG exports at 2x resolution for crisp output.' },
+        { title: 'Examples & Shortcuts', body: 'Click here anytime to browse example templates and keyboard shortcuts.' },
+      ],
+      shortcutForceRender: 'Force render',
+      shortcutCopySvg: 'Copy SVG',
+      shortcutCopyPng: 'Copy PNG',
+      shortcutDlSvg: 'Download SVG',
+      shortcutDlPng: 'Download PNG',
+      errorSyntax: 'Syntax Error',
+      errorLine: 'Line {n}',
+      errorTip: 'Fix the code above and it will re-render automatically',
+      errorDismiss: 'Dismiss',
+      placeholderMain: 'Type Mermaid code on the left, the diagram renders here in real time',
+      historyLabel: 'History',
+    },
+  };
+
+  var currentLang = (function () {
+    var saved = localStorage.getItem('mermaid-editor-lang');
+    if (saved && STRINGS[saved]) return saved;
+    var browser = (navigator.language || 'en').toLowerCase();
+    return browser.startsWith('zh') ? 'zh' : 'en';
+  })();
+
+  function applyI18n() {
+    var s = STRINGS[currentLang];
+    // toolbar
+    document.querySelector('[data-i18n="theme"]').textContent = s.themeLabel;
+    document.querySelector('[data-i18n="handdrawn"]').textContent = s.handdrawnLabel;
+    document.querySelector('[data-i18n="copysvg"]').textContent = s.copysvg;
+    document.querySelector('[data-i18n="copypng"]').textContent = s.copypng;
+    document.querySelector('[data-i18n="share"]') && (document.querySelector('[data-i18n="share"]').textContent = s.share);
+    // panels
+    document.querySelector('[data-i18n="editor"]').textContent = s.editorPanel;
+    document.querySelector('[data-i18n="preview"]').textContent = s.previewPanel;
+    // modal
+    document.getElementById('modal-title').textContent = s.modalTitle;
+    document.querySelector('.help-section h3').textContent = s.modalPickExample;
+    document.querySelectorAll('.help-section h3')[1].textContent = s.modalShortcuts;
+    document.getElementById('btn-restart-tour').textContent = s.modalRestartTour;
+    document.getElementById('modal-ok').textContent = s.modalClose;
+    // shortcuts table
+    var tds = document.querySelectorAll('.help-table td:first-child');
+    var keys = ['shortcutForceRender','shortcutCopySvg','shortcutCopyPng','shortcutDlSvg','shortcutDlPng'];
+    tds.forEach(function(td, i) { if (keys[i]) td.textContent = s[keys[i]]; });
+    // history label
+    var histLabel = document.querySelector('.history-bar__label');
+    if (histLabel) histLabel.textContent = s.historyLabel;
+    // update editor status
+    updateEditorStatus();
+  }
+
   // ── Interactive Tour ───────────────────────────────────────────────
-  var TOUR_STEPS = [
-    {
-      target: '.panel--editor',
-      title: '代码编辑器 · Code Editor',
-      body: '在这里输入 Mermaid 代码，支持语法高亮和错误提示。输入后图表会自动实时渲染。\nType Mermaid code here with syntax highlighting and inline error hints. The diagram updates automatically.',
-      placement: 'right',
-    },
-    {
-      target: '.panel--preview',
-      title: '实时预览 · Live Preview',
-      body: '图表实时渲染在这里。右上角的棋盘格按钮可切换背景，方便查看透明区域。\nThe diagram renders here in real time. Use the grid button to toggle a checker background.',
-      placement: 'left',
-    },
-    {
-      target: '#theme-select',
-      title: '图表主题 · Diagram Theme',
-      body: '切换 5 种内置配色主题：Default、Dark、Forest、Neutral、Base。\nSwitch between 5 built-in color themes.',
-      placement: 'bottom',
-    },
-    {
-      target: '#hand-drawn-toggle',
-      title: '手绘风格 · Hand-drawn Style',
-      body: '开启后图表变为草图/手绘风格，适合非正式场合或设计稿。\nToggle a sketchy hand-drawn look — great for informal diagrams or wireframes.',
-      placement: 'bottom',
-    },
-    {
-      target: '.btn-group',
-      title: '导出图表 · Export',
-      body: '复制 SVG/PNG 到剪贴板，或直接下载文件。PNG 以 2x 分辨率导出，清晰锐利。\nCopy SVG/PNG to clipboard or download. PNG exports at 2x resolution for crisp output.',
-      placement: 'bottom',
-    },
-    {
-      target: '#btn-help',
-      title: '示例与快捷键 · Examples & Shortcuts',
-      body: '点击这里查看示例模板和所有快捷键。\nClick here anytime to browse example templates and keyboard shortcuts.',
-      placement: 'bottom',
-    },
+  var TOUR_TARGETS = [
+    { target: '.panel--editor',  placement: 'right'  },
+    { target: '.panel--preview', placement: 'left'   },
+    { target: '#theme-select',   placement: 'bottom' },
+    { target: '#hand-drawn-toggle', placement: 'bottom' },
+    { target: '.btn-group',      placement: 'bottom' },
+    { target: '#btn-help',       placement: 'bottom' },
   ];
 
   var tourStep = 0;
 
+  function setCurtains(rect, pad) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var t = rect.top - pad, l = rect.left - pad;
+    var r = rect.right + pad, b = rect.bottom + pad;
+    tourCurtainTop.style.cssText    = 'top:0;left:0;right:0;height:' + Math.max(0,t) + 'px';
+    tourCurtainBottom.style.cssText = 'top:' + Math.min(vh,b) + 'px;left:0;right:0;bottom:0';
+    tourCurtainLeft.style.cssText   = 'top:' + Math.max(0,t) + 'px;left:0;width:' + Math.max(0,l) + 'px;height:' + (Math.min(vh,b)-Math.max(0,t)) + 'px';
+    tourCurtainRight.style.cssText  = 'top:' + Math.max(0,t) + 'px;left:' + Math.min(vw,r) + 'px;right:0;height:' + (Math.min(vh,b)-Math.max(0,t)) + 'px';
+  }
+
+  function showLangPicker() {
+    // Full-screen curtain (no highlight cutout)
+    tourCurtainTop.style.cssText    = 'top:0;left:0;right:0;bottom:0';
+    tourCurtainBottom.style.cssText = '';
+    tourCurtainLeft.style.cssText   = '';
+    tourCurtainRight.style.cssText  = '';
+    tourHighlight.style.cssText     = 'display:none';
+
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var ttW = 320;
+    tourTooltip.style.width = ttW + 'px';
+    tourTooltip.style.top  = (vh / 2 - 110) + 'px';
+    tourTooltip.style.left = (vw / 2 - ttW / 2) + 'px';
+
+    tourTooltip.classList.remove('animating');
+    void tourTooltip.offsetWidth;
+    tourTooltip.classList.add('animating');
+
+    tourStepEl.textContent = '';
+    tourTitleEl.textContent = STRINGS[currentLang].tourLangTitle;
+    tourBodyEl.innerHTML =
+      '<div style="margin-bottom:12px;opacity:0.85;font-size:13px;line-height:1.6">' + STRINGS[currentLang].tourLangBody + '</div>' +
+      '<div style="display:flex;gap:8px;justify-content:center">' +
+        '<button class="tour-btn primary lang-pick" data-lang="zh" style="font-size:13px;padding:7px 20px">中文</button>' +
+        '<button class="tour-btn primary lang-pick" data-lang="en" style="font-size:13px;padding:7px 20px">English</button>' +
+      '</div>';
+
+    tourTooltip.querySelectorAll('.lang-pick').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        currentLang = btn.getAttribute('data-lang');
+        localStorage.setItem('mermaid-editor-lang', currentLang);
+        applyI18n();
+        tourStep = 0;
+        tourHighlight.style.display = '';
+        showTourStep(tourStep);
+      });
+    });
+
+    // dots: just one inactive dot for lang step
+    tourDotsEl.innerHTML = '';
+    TOUR_TARGETS.forEach(function() {
+      var dot = document.createElement('div');
+      dot.className = 'tour-dot';
+      tourDotsEl.appendChild(dot);
+    });
+
+    tourNext.style.display = 'none';
+    tourSkip.textContent = STRINGS[currentLang].tourSkip;
+  }
+
+  function showTourStep(idx) {
+    var step = TOUR_TARGETS[idx];
+    var s = STRINGS[currentLang].tourSteps[idx];
+    var targetEl = document.querySelector(step.target);
+    if (!targetEl) { nextTourStep(); return; }
+
+    var rect = targetEl.getBoundingClientRect();
+    var pad = 6;
+
+    // Position curtains
+    setCurtains(rect, pad);
+
+    // Position highlight
+    tourHighlight.style.top    = (rect.top - pad) + 'px';
+    tourHighlight.style.left   = (rect.left - pad) + 'px';
+    tourHighlight.style.width  = (rect.width + pad * 2) + 'px';
+    tourHighlight.style.height = (rect.height + pad * 2) + 'px';
+    tourHighlight.style.display = '';
+
+    // Content
+    tourStepEl.textContent  = (idx + 1) + ' / ' + TOUR_TARGETS.length;
+    tourTitleEl.textContent = s.title;
+    tourBodyEl.textContent  = s.body;
+    tourNext.style.display  = '';
+    tourNext.textContent    = idx === TOUR_TARGETS.length - 1
+      ? STRINGS[currentLang].tourDone
+      : STRINGS[currentLang].tourNext;
+    tourSkip.textContent    = STRINGS[currentLang].tourSkip;
+
+    // Dots
+    tourDotsEl.innerHTML = '';
+    TOUR_TARGETS.forEach(function(_, i) {
+      var dot = document.createElement('div');
+      dot.className = 'tour-dot' + (i === idx ? ' active' : '');
+      tourDotsEl.appendChild(dot);
+    });
+
+    // Animate tooltip
+    tourTooltip.classList.remove('animating');
+    void tourTooltip.offsetWidth;
+    tourTooltip.classList.add('animating');
+
+    // Position tooltip
+    var ttW = 290, ttH = 170, margin = 14;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var top, left;
+
+    if (step.placement === 'right') {
+      left = rect.right + margin;
+      top  = rect.top + rect.height / 2 - ttH / 2;
+      if (left + ttW > vw - 8) { left = rect.left - ttW - margin; }
+    } else if (step.placement === 'left') {
+      left = rect.left - ttW - margin;
+      top  = rect.top + rect.height / 2 - ttH / 2;
+      if (left < 8) { left = rect.right + margin; }
+    } else {
+      top  = rect.bottom + margin;
+      left = rect.left + rect.width / 2 - ttW / 2;
+      if (top + ttH > vh - 8) { top = rect.top - ttH - margin; }
+    }
+
+    top  = Math.max(8, Math.min(top,  vh - ttH - 8));
+    left = Math.max(8, Math.min(left, vw - ttW - 8));
+
+    tourTooltip.style.top   = top + 'px';
+    tourTooltip.style.left  = left + 'px';
+    tourTooltip.style.width = ttW + 'px';
+  }
+
   function startTour() {
     tourStep = 0;
     tourOverlay.style.display = 'block';
-    showTourStep(tourStep);
+    showLangPicker();
   }
 
   function closeTour() {
@@ -613,63 +854,8 @@ import { oneDark } from "@codemirror/theme-one-dark";
     localStorage.setItem('mermaid-editor-tour-seen', '1');
   }
 
-  function showTourStep(idx) {
-    var step = TOUR_STEPS[idx];
-    var targetEl = document.querySelector(step.target);
-    if (!targetEl) { nextTourStep(); return; }
-
-    var rect = targetEl.getBoundingClientRect();
-    var pad = 6;
-
-    // Position highlight
-    tourHighlight.style.top = (rect.top - pad) + 'px';
-    tourHighlight.style.left = (rect.left - pad) + 'px';
-    tourHighlight.style.width = (rect.width + pad * 2) + 'px';
-    tourHighlight.style.height = (rect.height + pad * 2) + 'px';
-
-    // Content
-    tourStepEl.textContent = (idx + 1) + ' / ' + TOUR_STEPS.length;
-    tourTitleEl.textContent = step.title;
-    tourBodyEl.textContent = step.body;
-    tourNext.textContent = idx === TOUR_STEPS.length - 1 ? '完成 Done ✓' : '下一步 Next →';
-
-    // Dots
-    tourDotsEl.innerHTML = '';
-    TOUR_STEPS.forEach(function (_, i) {
-      var dot = document.createElement('div');
-      dot.className = 'tour-dot' + (i === idx ? ' active' : '');
-      tourDotsEl.appendChild(dot);
-    });
-
-    // Position tooltip
-    var ttW = 280, ttH = 160, margin = 14;
-    var vw = window.innerWidth, vh = window.innerHeight;
-    var top, left;
-
-    if (step.placement === 'right') {
-      left = rect.right + margin;
-      top = rect.top + rect.height / 2 - ttH / 2;
-      if (left + ttW > vw - 8) { left = rect.left - ttW - margin; }
-    } else if (step.placement === 'left') {
-      left = rect.left - ttW - margin;
-      top = rect.top + rect.height / 2 - ttH / 2;
-      if (left < 8) { left = rect.right + margin; }
-    } else { // bottom
-      top = rect.bottom + margin;
-      left = rect.left + rect.width / 2 - ttW / 2;
-      if (top + ttH > vh - 8) { top = rect.top - ttH - margin; }
-    }
-
-    top = Math.max(8, Math.min(top, vh - ttH - 8));
-    left = Math.max(8, Math.min(left, vw - ttW - 8));
-
-    tourTooltip.style.top = top + 'px';
-    tourTooltip.style.left = left + 'px';
-    tourTooltip.style.width = ttW + 'px';
-  }
-
   function nextTourStep() {
-    if (tourStep < TOUR_STEPS.length - 1) {
+    if (tourStep < TOUR_TARGETS.length - 1) {
       tourStep++;
       showTourStep(tourStep);
     } else {
@@ -705,12 +891,12 @@ import { oneDark } from "@codemirror/theme-one-dark";
   async function copyShareLink() {
     updateHash(getCode());
     await navigator.clipboard.writeText(location.href);
-    showToast('链接已复制 · Link copied');
+    showToast(STRINGS[currentLang].toastLinkCopied);
     btnSuccess(btnShare);
   }
 
   btnShare.addEventListener('click', function () {
-    copyShareLink().catch(function (e) { showToast('复制失败 · ' + e.message); });
+    copyShareLink().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
   });
 
   // ── Bootstrap ──────────────────────────────────────────────────────
@@ -720,6 +906,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
       return;
     }
     initMermaid();
+    applyI18n();
     var initialCode = getHashCode() || DEFAULT_CODE;
     createEditor(initialCode);
     updateEditorStatus();

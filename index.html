@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mermaid Editor — 在线流程图绘制工具</title>
-  <meta name="description" content="免费在线 Mermaid 图表编辑器，支持流程图、时序图、甘特图等实时预览，一键导出 SVG/PNG。Free online Mermaid diagram editor with live preview and SVG/PNG export.">
-  <meta name="keywords" content="mermaid, 流程图, 时序图, 甘特图, 在线编辑器, diagram editor, flowchart, sequence diagram">
+  <title>Mermaid Editor — Mermaid 图表转图片工具</title>
+  <meta name="description" content="在线 Mermaid 代码转图片工具，支持流程图、时序图、甘特图等，实时预览并一键导出 SVG/PNG。Online Mermaid diagram to image converter with live preview and SVG/PNG export.">
+  <meta name="keywords" content="mermaid, mermaid转图片, mermaid to image, 流程图转图片, diagram to image, flowchart export, SVG export, PNG export, mermaid editor">
   <meta name="author" content="Mermaid Editor">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://ericcao.github.io/mermaid-pic/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Mermaid Editor — 在线流程图绘制工具">
-  <meta property="og:description" content="免费在线 Mermaid 图表编辑器，支持流程图、时序图、甘特图等实时预览，一键导出 SVG/PNG。">
+  <meta property="og:title" content="Mermaid Editor — Mermaid 图表转图片工具">
+  <meta property="og:description" content="在线 Mermaid 代码转图片工具，实时预览，一键导出 SVG/PNG。Online Mermaid diagram to image converter.">
   <meta property="og:url" content="https://ericcao.github.io/mermaid-pic/">
 
   <!-- Favicon: Mermaid-style graph icon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23333'/><circle cx='16' cy='7' r='3' fill='%2300b4d8'/><circle cx='7' cy='25' r='3' fill='%2300b4d8'/><circle cx='25' cy='25' r='3' fill='%2300b4d8'/><line x1='16' y1='10' x2='7' y2='22' stroke='%2300b4d8' stroke-width='2'/><line x1='16' y1='10' x2='25' y2='22' stroke='%2300b4d8' stroke-width='2'/></svg>">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Long+Cang&display=swap">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;600&family=Long+Cang&display=swap">
   <link rel="stylesheet" href="style.css">
   <script type="importmap">
   {
@@ -80,7 +81,7 @@
       </div>
         <button id="btn-share" title="复制分享链接 · Copy share link">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          <span>分享 Share</span>
+          <span data-i18n="share">分享 Share</span>
         </button>
       </div>
       <div class="toolbar__sep"></div>
@@ -102,10 +103,6 @@
       </div>
       <div class="examples-strip" id="examples-strip"></div>
       <div id="editor-container"></div>
-      <div class="history-bar" id="history-bar">
-        <span class="history-bar__label">历史 History</span>
-        <div class="history-list" id="history-list"></div>
-      </div>
     </div>
     <div id="divider" title="拖拽调整面板大小 · Drag to resize"></div>
     <div class="panel panel--preview">
@@ -139,6 +136,10 @@
 
   <!-- Interactive Tour -->
   <div id="tour-overlay" class="tour-overlay" style="display:none">
+    <div id="tour-curtain-top"    class="tour-curtain"></div>
+    <div id="tour-curtain-bottom" class="tour-curtain"></div>
+    <div id="tour-curtain-left"   class="tour-curtain"></div>
+    <div id="tour-curtain-right"  class="tour-curtain"></div>
     <div id="tour-highlight" class="tour-highlight"></div>
     <div id="tour-tooltip" class="tour-tooltip">
       <div id="tour-step" class="tour-tooltip__step"></div>

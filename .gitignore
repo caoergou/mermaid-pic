@@ -1,0 +1,7 @@
+/node_modules/
+/test-results/
+/playwright-report/
+package.json
+package-lock.json
+playwright.config.js
+test-tour.spec.js
