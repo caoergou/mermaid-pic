@@ -619,6 +619,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
       share: '分享',
       copyaiprompt: 'AI 提示词',
       toastAiPromptCopied: 'AI 提示词已复制',
+      toastEmbedCopied: '嵌入代码已复制',
       exportbg: '背景',
       renderingStatus: '渲染中...',
       renderOk: '✓ 完成',
@@ -671,6 +672,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
       share: 'Share',
       copyaiprompt: 'AI Prompt',
       toastAiPromptCopied: 'AI prompt copied',
+      toastEmbedCopied: 'Embed code copied',
       exportbg: 'BG',
       renderingStatus: 'Rendering...',
       renderOk: '✓ OK',
@@ -930,11 +932,11 @@ import { oneDark } from "@codemirror/theme-one-dark";
       var bytes = new TextEncoder().encode(code);
       var binary = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
       var encoded = btoa(binary);
-      var url = 'http://eric.run.place/mermaid-pic/?code=' + encoded;
+      var url = 'https://mermaid2pic.run.place/?code=' + encoded;
       var prompt = [
         'You can use Mermaid Editor to render diagrams.',
         'When the user needs a diagram, generate Mermaid code and construct a shareable link:',
-        '  http://eric.run.place/mermaid-pic/?code={base64(mermaid_code)}',
+        '  https://mermaid2pic.run.place/?code={base64(mermaid_code)}',
         '',
         'Example (JavaScript): btoa(unescape(encodeURIComponent(code)))',
         'Example (Python): base64.b64encode(code.encode()).decode()',
@@ -952,27 +954,126 @@ import { oneDark } from "@codemirror/theme-one-dark";
     });
   }
 
-  // ── URL hash share ─────────────────────────────────────────────────
+  // ── URL compression and share ──────────────────────────────────────
+  // Simple LZ77-based compression for URL encoding (lightweight alternative to LZMA)
+  function compressToUint8Array(input) {
+    // Use a simple compression approach for compatibility (avoiding external libraries)
+    // For better compression, we could use lz-string, but we need to keep it lightweight
+    // This implementation uses a simple dictionary-based approach
+    var dictionary = {};
+    var dictSize = 256;
+    var result = [];
+    var current = "";
+
+    for (var i = 0; i < input.length; i++) {
+      var char = input[i];
+      var currentChar = current + char;
+      if (dictionary[currentChar]) {
+        current = currentChar;
+      } else {
+        result.push(current.length > 1 ? dictionary[current] : current.charCodeAt(0));
+        dictionary[currentChar] = dictSize++;
+        current = char;
+      }
+    }
+
+    if (current.length > 0) {
+      result.push(current.length > 1 ? dictionary[current] : current.charCodeAt(0));
+    }
+
+    return new Uint8Array(result);
+  }
+
+  function decompressFromUint8Array(compressed) {
+    var dictionary = {};
+    var dictSize = 256;
+    for (var i = 0; i < 256; i++) {
+      dictionary[i] = String.fromCharCode(i);
+    }
+
+    var result = [];
+    var current = String.fromCharCode(compressed[0]);
+    result.push(current);
+
+    for (var i = 1; i < compressed.length; i++) {
+      var code = compressed[i];
+      var entry;
+
+      if (dictionary[code]) {
+        entry = dictionary[code];
+      } else if (code === dictSize) {
+        entry = current + current[0];
+      } else {
+        throw new Error("Invalid compressed data");
+      }
+
+      result.push(entry);
+      dictionary[dictSize++] = current + entry[0];
+      current = entry;
+    }
+
+    return result.join("");
+  }
+
+  // URL-safe base64 encoding (replace + with -, / with _, remove = padding)
+  function base64UrlEncode(data) {
+    var bytes = new Uint8Array(data);
+    var binary = Array.from(bytes).map(function(b) { return String.fromCharCode(b); }).join('');
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function base64UrlDecode(encoded) {
+    // Add back padding if needed
+    encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    while (encoded.length % 4 !== 0) {
+      encoded += '=';
+    }
+
+    var binary = atob(encoded);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+  }
+
   function getQueryCode() {
     try {
       var param = new URLSearchParams(location.search).get('code');
       if (!param) return null;
-      return new TextDecoder().decode(Uint8Array.from(atob(param), function(c) { return c.charCodeAt(0); }));
-    } catch (e) { return null; }
+
+      var compressed = base64UrlDecode(param);
+      return decompressFromUint8Array(compressed);
+    } catch (e) {
+      // Fallback to old base64 decoding if compression fails
+      try {
+        return new TextDecoder().decode(Uint8Array.from(atob(param), function(c) { return c.charCodeAt(0); }));
+      } catch (e2) {
+        return null;
+      }
+    }
   }
 
   function getHashCode() {
     try {
       var hash = location.hash.slice(1);
       if (!hash) return null;
-      return new TextDecoder().decode(Uint8Array.from(atob(hash), function(c) { return c.charCodeAt(0); }));
-    } catch (e) { return null; }
+
+      var compressed = base64UrlDecode(hash);
+      return decompressFromUint8Array(compressed);
+    } catch (e) {
+      // Fallback to old base64 decoding if compression fails
+      try {
+        return new TextDecoder().decode(Uint8Array.from(atob(hash), function(c) { return c.charCodeAt(0); }));
+      } catch (e2) {
+        return null;
+      }
+    }
   }
 
   function updateHash(code) {
-    var bytes = new TextEncoder().encode(code);
-    var binary = Array.from(bytes).map(function(b) { return String.fromCharCode(b); }).join('');
-    var encoded = btoa(binary);
+    var compressed = compressToUint8Array(code);
+    var encoded = base64UrlEncode(compressed);
     window.history.replaceState(null, '', '#' + encoded);
     try { localStorage.setItem('mermaid-editor-code', code); } catch(e) {}
   }
@@ -984,8 +1085,72 @@ import { oneDark } from "@codemirror/theme-one-dark";
     btnSuccess(btnShare);
   }
 
-  btnShare.addEventListener('click', function () {
-    copyShareLink().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+  async function copyEmbedCode() {
+    updateHash(getCode());
+    var url = location.href;
+    var embedCode = '<iframe src="' + url + '" width="100%" height="600" frameborder="0" style="border: none;" title="Mermaid Diagram"></iframe>';
+    await navigator.clipboard.writeText(embedCode);
+    showToast(STRINGS[currentLang].toastEmbedCopied);
+    btnSuccess(btnShare);
+  }
+
+  // Add embed code to i18n strings
+  if (!STRINGS.zh.toastEmbedCopied) STRINGS.zh.toastEmbedCopied = '嵌入代码已复制';
+  if (!STRINGS.en.toastEmbedCopied) STRINGS.en.toastEmbedCopied = 'Embed code copied';
+
+  // Create a share menu with both link and embed options
+  function createShareMenu() {
+    var menu = document.createElement('div');
+    menu.className = 'share-menu';
+    menu.style.cssText = 'position:fixed;top:-100px;left:-100px;background:var(--modal-bg);border:1px solid var(--border-color);border-radius:8px;padding:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10000;display:flex;flex-direction:column;gap:4px;min-width:180px;';
+
+    var linkBtn = document.createElement('button');
+    linkBtn.textContent = STRINGS[currentLang].share + ' 链接';
+    linkBtn.style.cssText = 'width:100%;padding:8px;text-align:left;font-size:13px;';
+    linkBtn.addEventListener('click', function() {
+      copyShareLink().catch(function(e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+      hideShareMenu();
+    });
+
+    var embedBtn = document.createElement('button');
+    embedBtn.textContent = '嵌入代码';
+    embedBtn.style.cssText = 'width:100%;padding:8px;text-align:left;font-size:13px;';
+    embedBtn.addEventListener('click', function() {
+      copyEmbedCode().catch(function(e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+      hideShareMenu();
+    });
+
+    menu.appendChild(linkBtn);
+    menu.appendChild(embedBtn);
+    document.body.appendChild(menu);
+    return menu;
+  }
+
+  var shareMenu = null;
+
+  function showShareMenu() {
+    if (!shareMenu) shareMenu = createShareMenu();
+
+    var rect = btnShare.getBoundingClientRect();
+    shareMenu.style.top = (rect.bottom + 8) + 'px';
+    shareMenu.style.left = rect.left + 'px';
+    shareMenu.style.display = 'flex';
+  }
+
+  function hideShareMenu() {
+    if (shareMenu) shareMenu.style.display = 'none';
+  }
+
+  // Close share menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (shareMenu && e.target !== btnShare && !btnShare.contains(e.target) && !shareMenu.contains(e.target)) {
+      hideShareMenu();
+    }
+  });
+
+  btnShare.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showShareMenu();
   });
 
   // ── Bootstrap ──────────────────────────────────────────────────────
