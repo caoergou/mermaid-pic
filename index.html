@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid Diagram Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Long+Cang&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "style-mod":                  "https://esm.sh/style-mod",
+      "w3c-keyname":                "https://esm.sh/w3c-keyname",
+      "crelt":                      "https://esm.sh/crelt",
+      "@marijn/find-cluster-break": "https://esm.sh/@marijn/find-cluster-break",
+      "@lezer/":                    "https://esm.sh/*@lezer/",
+      "@codemirror/":               "https://esm.sh/*@codemirror/",
+      "codemirror":                 "https://esm.sh/*codemirror",
+      "codemirror-lang-mermaid":    "https://esm.sh/*codemirror-lang-mermaid"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="toolbar">
+    <h1 class="toolbar__title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="12" y1="8" x2="5" y2="16"/><line x1="12" y1="8" x2="19" y2="16"/></svg>
+      Mermaid Editor
+    </h1>
+    <div class="toolbar__controls">
+      <label class="control-label">
+        <span class="control-label__text" data-i18n="theme">主题 Theme</span>
+        <select id="theme-select">
+          <option value="default">Default</option>
+          <option value="dark">Dark</option>
+          <option value="forest">Forest</option>
+          <option value="neutral">Neutral</option>
+          <option value="base">Base</option>
+        </select>
+      </label>
+      <label class="toggle" title="手绘风格 Hand-drawn style">
+        <input type="checkbox" id="hand-drawn-toggle">
+        <span class="toggle__track"><span class="toggle__thumb"></span></span>
+        <span data-i18n="handdrawn">手绘 Hand-drawn</span>
+      </label>
+      <div class="toolbar__sep"></div>
+      <div class="btn-group">
+        <button id="btn-copy-svg" title="复制 SVG 代码 · Copy SVG code (Ctrl+Shift+C)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span data-i18n="copysvg">复制 SVG</span>
+        </button>
+        <button id="btn-copy-png" title="复制 PNG 图片 · Copy PNG image (Ctrl+Shift+P)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span data-i18n="copypng">复制 PNG</span>
+        </button>
+        <button id="btn-download-svg" title="下载 SVG 文件 · Download SVG (Ctrl+S)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          SVG
+        </button>
+        <button id="btn-download-png" title="下载 PNG 文件 · Download PNG (Ctrl+Shift+S)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          PNG
+        </button>
+      </div>
+        <button id="btn-share" title="复制分享链接 · Copy share link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <span>分享 Share</span>
+        </button>
+      </div>
+      <div class="toolbar__sep"></div>
+      <button id="btn-help" class="btn-icon" title="使用教程 · Help">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </button>
+      <button id="ui-theme-toggle" class="btn-icon" title="切换深色/浅色模式 · Toggle dark/light mode">
+        <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="editor-layout">
+    <div class="panel panel--editor">
+      <div class="panel__header">
+        <span data-i18n="editor">编辑器 Editor</span>
+        <span id="editor-status" class="panel__status"></span>
+      </div>
+      <div class="examples-strip" id="examples-strip"></div>
+      <div id="editor-container"></div>
+      <div class="history-bar" id="history-bar">
+        <span class="history-bar__label">历史 History</span>
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </div>
+    <div id="divider" title="拖拽调整面板大小 · Drag to resize"></div>
+    <div class="panel panel--preview">
+      <div class="panel__header">
+        <span data-i18n="preview">预览 Preview</span>
+        <div class="panel__actions">
+          <button id="btn-zoom-out" class="btn-tiny" title="缩小 · Zoom out">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <span id="zoom-label" class="zoom-label">100%</span>
+          <button id="btn-zoom-in" class="btn-tiny" title="放大 · Zoom in">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button id="btn-zoom-reset" class="btn-tiny" title="重置视图 · Reset view">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <div class="panel__sep-v"></div>
+          <button id="btn-bg-toggle" class="btn-tiny" title="切换棋盘格背景 · Toggle checker background">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </button>
+          <span id="render-status" class="render-status"></span>
+        </div>
+      </div>
+      <div id="preview-viewport" class="preview-viewport">
+        <div id="mermaid-preview" class="preview-container"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Interactive Tour -->
+  <div id="tour-overlay" class="tour-overlay" style="display:none">
+    <div id="tour-highlight" class="tour-highlight"></div>
+    <div id="tour-tooltip" class="tour-tooltip">
+      <div id="tour-step" class="tour-tooltip__step"></div>
+      <div id="tour-title" class="tour-tooltip__title"></div>
+      <div id="tour-body" class="tour-tooltip__body"></div>
+      <div class="tour-tooltip__footer">
+        <div id="tour-dots" class="tour-dots"></div>
+        <div style="display:flex;gap:6px">
+          <button id="tour-skip" class="tour-btn">跳过 Skip</button>
+          <button id="tour-next" class="tour-btn primary">下一步 Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example picker modal (triggered from help button) -->
+  <div id="help-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 id="modal-title">示例模板 · Examples</h2>
+        <button id="modal-close" class="btn-icon" title="关闭 Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <div class="help-section">
+          <h3>选择一个示例开始 · Pick an example to start</h3>
+          <div class="example-grid">
+            <button class="example-btn" data-code="graph TD
+    A[开始 Start] --> B{判断 Decision}
+    B -->|是 Yes| C[成功 OK]
+    B -->|否 No| D[失败 Fail]
+    C --> E[结束 End]
+    D --> E">流程图<br>Flowchart</button>
+            <button class="example-btn" data-code="sequenceDiagram
+    participant 用户 as User
+    participant 服务器 as Server
+    用户->>服务器: 请求 Request
+    服务器-->>用户: 响应 Response">时序图<br>Sequence</button>
+            <button class="example-btn" data-code="classDiagram
+    class Animal {
+        +String name
+        +makeSound()
+    }
+    class Dog {
+        +fetch()
+    }
+    Animal &lt;|-- Dog">类图<br>Class</button>
+            <button class="example-btn" data-code="gantt
+    title 项目计划 Project Plan
+    dateFormat YYYY-MM-DD
+    section 阶段一 Phase 1
+    设计 Design: 2024-01-01, 7d
+    开发 Dev: 2024-01-08, 14d
+    section 阶段二 Phase 2
+    测试 Test: 2024-01-22, 7d">甘特图<br>Gantt</button>
+            <button class="example-btn" data-code="pie title 占比 Distribution
+    &quot;A&quot; : 40
+    &quot;B&quot; : 30
+    &quot;C&quot; : 20
+    &quot;D&quot; : 10">饼图<br>Pie</button>
+            <button class="example-btn" data-code="mindmap
+  root((核心 Core))
+    分支一 Branch1
+      子节点 Child1
+      子节点 Child2
+    分支二 Branch2
+      子节点 Child3">思维导图<br>Mindmap</button>
+            <button class="example-btn" data-code="erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    PRODUCT ||--o{ LINE-ITEM : includes">ER 图<br>ER Diagram</button>
+            <button class="example-btn" data-code="stateDiagram-v2
+    [*] --> 空闲 : 初始化
+    空闲 --> 运行中 : 启动
+    运行中 --> 暂停 : 暂停
+    暂停 --> 运行中 : 恢复
+    运行中 --> [*] : 停止">状态图<br>State</button>
+            <button class="example-btn" data-code="graph LR
+    subgraph 前端 Frontend
+        A[浏览器 Browser]
+    end
+    subgraph 后端 Backend
+        B[API 服务 API]
+        C[数据库 DB]
+    end
+    A -->|HTTP| B
+    B -->|SQL| C">架构图<br>Architecture</button>
+          </div>
+        </div>
+        <div class="help-section">
+          <h3>快捷键 · Shortcuts</h3>
+          <table class="help-table">
+            <tr><td>立即渲染 · Force render</td><td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td></tr>
+            <tr><td>复制 SVG · Copy SVG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td></tr>
+            <tr><td>复制 PNG · Copy PNG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td></tr>
+            <tr><td>下载 SVG · Download SVG</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td></tr>
+            <tr><td>下载 PNG · Download PNG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button id="btn-restart-tour" class="tour-btn" style="background:var(--btn-bg);color:var(--btn-text);border-color:var(--border-color)">
+          重新引导 · Restart Tour
+        </button>
+        <button id="modal-ok" class="btn-primary">关闭 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
