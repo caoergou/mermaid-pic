@@ -20,6 +20,9 @@ import { oneDark } from "@codemirror/theme-one-dark";
   var pz = { scale: 1, tx: 0, ty: 0, dragging: false, startX: 0, startY: 0, startTx: 0, startTy: 0 };
   var MIN_SCALE = 0.1, MAX_SCALE = 8;
 
+  // export background
+  var exportBg = 'white';
+
   // history state
   var history = []; // [{code, time}]
   var MAX_HISTORY = 20;
@@ -42,7 +45,10 @@ import { oneDark } from "@codemirror/theme-one-dark";
   var btnDownloadSvg = document.getElementById('btn-download-svg');
   var btnDownloadPng = document.getElementById('btn-download-png');
   var btnShare = document.getElementById('btn-share');
+  var btnCopyAiPrompt = document.getElementById('btn-copy-ai-prompt');
   var btnBgToggle = document.getElementById('btn-bg-toggle');
+  var exportBgSelect = document.getElementById('export-bg-select');
+  var exportBgCustom = document.getElementById('export-bg-custom');
   var btnHelp = document.getElementById('btn-help');
   var divider = document.getElementById('divider');
   var toast = document.getElementById('toast');
@@ -86,6 +92,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
   }
 
   function renderHistoryBar() {
+    if (!historyList) return;
     historyList.innerHTML = '';
     history.slice().reverse().forEach(function (snap, i) {
       var realIdx = history.length - 1 - i;
@@ -339,10 +346,42 @@ import { oneDark } from "@codemirror/theme-one-dark";
     renderDiagram();
   });
 
+  // ── Mobile tabs ────────────────────────────────────────────────────
+  var tabEditor = document.getElementById('tab-editor');
+  var tabPreview = document.getElementById('tab-preview');
+  var panelEditor = document.querySelector('.panel--editor');
+  var panelPreview = document.querySelector('.panel--preview');
+
+  function switchMobileTab(tab) {
+    if (tab === 'editor') {
+      tabEditor.classList.add('active');
+      tabPreview.classList.remove('active');
+      panelEditor.classList.remove('mobile-hidden');
+      panelPreview.classList.add('mobile-hidden');
+    } else {
+      tabPreview.classList.add('active');
+      tabEditor.classList.remove('active');
+      panelPreview.classList.remove('mobile-hidden');
+      panelEditor.classList.add('mobile-hidden');
+    }
+  }
+
+  tabEditor.addEventListener('click', function () { switchMobileTab('editor'); });
+  tabPreview.addEventListener('click', function () { switchMobileTab('preview'); });
+
   // ── Preview background ─────────────────────────────────────────────
   btnBgToggle.addEventListener('click', function () {
     checkerBg = !checkerBg;
     previewViewport.classList.toggle('checker', checkerBg);
+  });
+
+  // ── Export background ──────────────────────────────────────────────
+  exportBgSelect.addEventListener('change', function () {
+    exportBg = exportBgSelect.value;
+    exportBgCustom.style.display = exportBg === 'custom' ? '' : 'none';
+  });
+  exportBgCustom.addEventListener('change', function () {
+    exportBg = 'custom';
   });
 
   // ── Pan / Zoom ─────────────────────────────────────────────────────
@@ -414,8 +453,11 @@ import { oneDark } from "@codemirror/theme-one-dark";
         canvas.width = width * scale;
         canvas.height = height * scale;
         var ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        var bg = exportBg === 'custom' ? exportBgCustom.value : exportBg;
+        if (bg !== 'transparent') {
+          ctx.fillStyle = bg;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
         ctx.scale(scale, scale);
         ctx.drawImage(img, 0, 0, width, height);
         URL.revokeObjectURL(url);
@@ -575,6 +617,9 @@ import { oneDark } from "@codemirror/theme-one-dark";
       copysvg: '复制 SVG',
       copypng: '复制 PNG',
       share: '分享',
+      copyaiprompt: 'AI 提示词',
+      toastAiPromptCopied: 'AI 提示词已复制',
+      exportbg: '背景',
       renderingStatus: '渲染中...',
       renderOk: '✓ 完成',
       renderError: '✗ 错误',
@@ -624,6 +669,9 @@ import { oneDark } from "@codemirror/theme-one-dark";
       copysvg: 'Copy SVG',
       copypng: 'Copy PNG',
       share: 'Share',
+      copyaiprompt: 'AI Prompt',
+      toastAiPromptCopied: 'AI prompt copied',
+      exportbg: 'BG',
       renderingStatus: 'Rendering...',
       renderOk: '✓ OK',
       renderError: '✗ Error',
@@ -682,9 +730,14 @@ import { oneDark } from "@codemirror/theme-one-dark";
     document.querySelector('[data-i18n="copysvg"]').textContent = s.copysvg;
     document.querySelector('[data-i18n="copypng"]').textContent = s.copypng;
     document.querySelector('[data-i18n="share"]') && (document.querySelector('[data-i18n="share"]').textContent = s.share);
+    document.querySelector('[data-i18n="exportbg"]') && (document.querySelector('[data-i18n="exportbg"]').textContent = s.exportbg);
+    document.querySelector('[data-i18n="copyaiprompt"]') && (document.querySelector('[data-i18n="copyaiprompt"]').textContent = s.copyaiprompt);
     // panels
     document.querySelector('[data-i18n="editor"]').textContent = s.editorPanel;
     document.querySelector('[data-i18n="preview"]').textContent = s.previewPanel;
+    // mobile tabs
+    document.querySelectorAll('[data-i18n="editor"]').forEach(function(el) { el.textContent = s.editorPanel; });
+    document.querySelectorAll('[data-i18n="preview"]').forEach(function(el) { el.textContent = s.previewPanel; });
     // modal
     document.getElementById('modal-title').textContent = s.modalTitle;
     document.querySelector('.help-section h3').textContent = s.modalPickExample;
@@ -871,6 +924,33 @@ import { oneDark } from "@codemirror/theme-one-dark";
   btnCopyPng.addEventListener('click', function () { copyPng().catch(function (e) { showToast('复制失败 · ' + e.message); }); });
   btnDownloadSvg.addEventListener('click', downloadSvg);
   btnDownloadPng.addEventListener('click', function () { downloadPng().catch(function (e) { showToast('下载失败 · ' + e.message); }); });
+  if (btnCopyAiPrompt) {
+    btnCopyAiPrompt.addEventListener('click', function () {
+      var code = getCode();
+      var bytes = new TextEncoder().encode(code);
+      var binary = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
+      var encoded = btoa(binary);
+      var url = 'http://eric.run.place/mermaid-pic/?code=' + encoded;
+      var prompt = [
+        'You can use Mermaid Editor to render diagrams.',
+        'When the user needs a diagram, generate Mermaid code and construct a shareable link:',
+        '  http://eric.run.place/mermaid-pic/?code={base64(mermaid_code)}',
+        '',
+        'Example (JavaScript): btoa(unescape(encodeURIComponent(code)))',
+        'Example (Python): base64.b64encode(code.encode()).decode()',
+        '',
+        'Supported diagram types:',
+        '  graph, flowchart, sequenceDiagram, classDiagram,',
+        '  stateDiagram-v2, erDiagram, gantt, pie, mindmap',
+        '',
+        'Current diagram link: ' + url,
+      ].join('\n');
+      navigator.clipboard.writeText(prompt).then(function () {
+        showToast(STRINGS[currentLang].toastAiPromptCopied);
+        btnSuccess(btnCopyAiPrompt);
+      }).catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+    });
+  }
 
   // ── URL hash share ─────────────────────────────────────────────────
   function getQueryCode() {
@@ -894,6 +974,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
     var binary = Array.from(bytes).map(function(b) { return String.fromCharCode(b); }).join('');
     var encoded = btoa(binary);
     window.history.replaceState(null, '', '#' + encoded);
+    try { localStorage.setItem('mermaid-editor-code', code); } catch(e) {}
   }
 
   async function copyShareLink() {
@@ -915,10 +996,12 @@ import { oneDark } from "@codemirror/theme-one-dark";
     }
     initMermaid();
     applyI18n();
-    var initialCode = getQueryCode() || getHashCode() || DEFAULT_CODE;
+    var savedCode = (function() { try { return localStorage.getItem('mermaid-editor-code'); } catch(e) { return null; } })();
+    var initialCode = getQueryCode() || getHashCode() || savedCode || DEFAULT_CODE;
     createEditor(initialCode);
     updateEditorStatus();
     renderDiagram();
+    if (window.innerWidth <= 768) { switchMobileTab('editor'); }
     if (!localStorage.getItem('mermaid-editor-tour-seen')) {
       setTimeout(startTour, 500);
     }

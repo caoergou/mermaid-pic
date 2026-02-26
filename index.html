@@ -61,6 +61,17 @@
         <span data-i18n="handdrawn">手绘 Hand-drawn</span>
       </label>
       <div class="toolbar__sep"></div>
+      <label class="control-label" title="导出背景色 · Export background">
+        <span class="control-label__text" data-i18n="exportbg">背景</span>
+        <select id="export-bg-select">
+          <option value="white">白色</option>
+          <option value="transparent">透明</option>
+          <option value="black">黑色</option>
+          <option value="custom">自定义</option>
+        </select>
+        <input type="color" id="export-bg-custom" value="#ffffff" style="display:none;width:28px;height:24px;padding:1px 2px;border-radius:4px;cursor:pointer;">
+      </label>
+      <div class="toolbar__sep"></div>
       <div class="btn-group">
         <button id="btn-copy-svg" title="复制 SVG 代码 · Copy SVG code (Ctrl+Shift+C)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -83,6 +94,10 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           <span data-i18n="share">分享 Share</span>
         </button>
+        <button id="btn-copy-ai-prompt" title="复制 AI 提示词，粘贴给 AI 即可让它学会使用本工具 · Copy AI prompt">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v1h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h3V4a2 2 0 0 1 2-2z"/><path d="M9 12h6M9 16h4"/></svg>
+          <span data-i18n="copyaiprompt">AI 提示词</span>
+        </button>
       </div>
       <div class="toolbar__sep"></div>
       <button id="btn-help" class="btn-icon" title="使用教程 · Help">
@@ -96,6 +111,11 @@
   </header>
 
   <main class="editor-layout">
+    <!-- Mobile tab bar -->
+    <div class="mobile-tabs" id="mobile-tabs">
+      <button class="mobile-tab active" id="tab-editor" data-i18n="editor">编辑器</button>
+      <button class="mobile-tab" id="tab-preview" data-i18n="preview">预览</button>
+    </div>
     <div class="panel panel--editor">
       <div class="panel__header">
         <span data-i18n="editor">编辑器 Editor</span>

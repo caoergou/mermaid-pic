@@ -779,7 +779,48 @@ kbd {
 ::-webkit-scrollbar-thumb { border-radius: 3px; background: var(--scrollbar-thumb); }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* ── Responsive ──────────────────────────────────────────────────── */
+/* ── Mobile tabs ─────────────────────────────────────────────────── */
+.mobile-tabs {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-tabs {
+    display: flex;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--panel-header-bg);
+  }
+  .mobile-tab {
+    flex: 1;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .mobile-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: transparent;
+  }
+  .mobile-tab:hover { background: var(--btn-hover); }
+
+  /* hide inactive panel on mobile */
+  .panel--editor.mobile-hidden,
+  .panel--preview.mobile-hidden {
+    display: none;
+  }
+  /* hide divider on mobile */
+  #divider { display: none; }
+}
+
+
 @media (max-width: 768px) {
   .toolbar { height: auto; padding: 8px 12px; flex-wrap: wrap; }
   .toolbar__controls { width: 100%; flex-wrap: wrap; overflow-x: visible; }
