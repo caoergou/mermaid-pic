@@ -446,8 +446,21 @@ button.success { border-color: #4caf50; color: #4caf50; }
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  height: 28px;
+  min-height: 36px;
+  gap: 8px;
 }
+
+.panel--preview .panel__header {
+  flex-wrap: nowrap;
+}
+
+.panel--preview .theme-pills {
+  flex: 1;
+  justify-content: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.panel--preview .theme-pills::-webkit-scrollbar { display: none; }
 
 .panel__status {
   font-size: 11px;
@@ -462,6 +475,7 @@ button.success { border-color: #4caf50; color: #4caf50; }
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 /* ── Examples strip ──────────────────────────────────────────────── */

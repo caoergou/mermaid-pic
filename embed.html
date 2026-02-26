@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid Diagram</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: transparent; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    #diagram { max-width: 100%; }
+    #error { color: #c0392b; font-family: monospace; font-size: 13px; padding: 16px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div id="diagram"></div>
+  <div id="error" style="display:none"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+  <script>
+    function decodeCode(encoded) {
+      encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
+      while (encoded.length % 4 !== 0) encoded += '=';
+      var binary = atob(encoded);
+      var bytes = new Uint8Array(binary.length);
+      for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      try {
+        return new TextDecoder().decode(pako.inflate(bytes));
+      } catch (e) {
+        return new TextDecoder().decode(bytes);
+      }
+    }
+
+    var hash = location.hash.slice(1);
+    var params = new URLSearchParams(location.search);
+    var encoded = hash || params.get('code');
+
+    if (!encoded) {
+      document.getElementById('error').style.display = '';
+      document.getElementById('error').textContent = 'No diagram code found in URL.';
+    } else {
+      try {
+        var code = decodeCode(encoded);
+        var theme = params.get('theme') || 'default';
+        var look = params.get('look') || 'handDrawn';
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: theme,
+          look: look,
+          handDrawnSeed: 42,
+          securityLevel: 'loose',
+        });
+
+        var el = document.getElementById('diagram');
+        mermaid.render('mermaid-svg', code).then(function(result) {
+          el.innerHTML = result.svg;
+        }).catch(function(err) {
+          document.getElementById('error').style.display = '';
+          document.getElementById('error').textContent = 'Render error: ' + err.message;
+        });
+      } catch (e) {
+        document.getElementById('error').style.display = '';
+        document.getElementById('error').textContent = 'Decode error: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
