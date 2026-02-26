@@ -1,5 +1,9 @@
 # Mermaid Editor
 
+[![Deploy to GitHub Pages](https://github.com/caoergou/mermaid-pic/actions/workflows/deploy.yml/badge.svg)](https://github.com/caoergou/mermaid-pic/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/caoergou/mermaid-pic)](https://github.com/caoergou/mermaid-pic/stargazers)
+
 A lightweight, zero-dependency online Mermaid diagram editor with live preview and one-click export.
 
 **Live demo: [eric.run.place/mermaid-pic](http://eric.run.place/mermaid-pic/)**
