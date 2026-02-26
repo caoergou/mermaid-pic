@@ -7,14 +7,14 @@ Online Mermaid diagram editor with live preview and SVG/PNG export. No backend, 
 To open a diagram in the editor, base64-encode the Mermaid code and append it as a `?code=` query parameter:
 
 ```
-http://eric.run.place/mermaid-pic/?code={base64(mermaid_code)}
+https://eric.run.place/?code={base64(mermaid_code)}
 ```
 
 ### Example (JavaScript)
 
 ```js
 const code = `graph TD\n  A[Start] --> B{Decision}\n  B -->|Yes| C[OK]\n  B -->|No| D[Fail]`;
-const url = `http://eric.run.place/mermaid-pic/?code=${btoa(unescape(encodeURIComponent(code)))}`;
+const url = `https://eric.run.place/?code=${btoa(unescape(encodeURIComponent(code)))}`;
 ```
 
 ### Example (Python)
@@ -22,7 +22,7 @@ const url = `http://eric.run.place/mermaid-pic/?code=${btoa(unescape(encodeURICo
 ```python
 import base64
 code = "graph TD\n  A[Start] --> B{Decision}"
-url = "http://eric.run.place/mermaid-pic/?code=" + base64.b64encode(code.encode()).decode()
+url = "https://eric.run.place/?code=" + base64.b64encode(code.encode()).decode()
 ```
 
 ## Supported diagram types

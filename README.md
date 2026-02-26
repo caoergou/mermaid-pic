@@ -6,7 +6,7 @@
 
 A lightweight, zero-dependency online Mermaid diagram editor with live preview and one-click export.
 
-**Live demo: [eric.run.place/mermaid-pic](http://eric.run.place/mermaid-pic/)**
+**Live demo: [eric.run.place](https://eric.run.place/)**
 
 ---
 

@@ -932,11 +932,11 @@ import { oneDark } from "@codemirror/theme-one-dark";
       var bytes = new TextEncoder().encode(code);
       var binary = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
       var encoded = btoa(binary);
-      var url = 'http://eric.run.place/mermaid-pic/?code=' + encoded;
+      var url = 'https://eric.run.place/?code=' + encoded;
       var prompt = [
         'You can use Mermaid Editor to render diagrams.',
         'When the user needs a diagram, generate Mermaid code and construct a shareable link:',
-        '  http://eric.run.place/mermaid-pic/?code={base64(mermaid_code)}',
+        '  https://eric.run.place/?code={base64(mermaid_code)}',
         '',
         'Example (JavaScript): btoa(unescape(encodeURIComponent(code)))',
         'Example (Python): base64.b64encode(code.encode()).decode()',
