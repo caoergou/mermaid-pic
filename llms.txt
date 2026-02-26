@@ -1,0 +1,38 @@
+# Mermaid Editor
+
+Online Mermaid diagram editor with live preview and SVG/PNG export. No backend, no login required.
+
+## How to use from AI
+
+To open a diagram in the editor, base64-encode the Mermaid code and append it as a `?code=` query parameter:
+
+```
+https://ericcao.github.io/mermaid-pic/?code={base64(mermaid_code)}
+```
+
+### Example (JavaScript)
+
+```js
+const code = `graph TD\n  A[Start] --> B{Decision}\n  B -->|Yes| C[OK]\n  B -->|No| D[Fail]`;
+const url = `https://ericcao.github.io/mermaid-pic/?code=${btoa(unescape(encodeURIComponent(code)))}`;
+```
+
+### Example (Python)
+
+```python
+import base64
+code = "graph TD\n  A[Start] --> B{Decision}"
+url = "https://ericcao.github.io/mermaid-pic/?code=" + base64.b64encode(code.encode()).decode()
+```
+
+## Supported diagram types
+
+graph, flowchart, sequenceDiagram, classDiagram, stateDiagram-v2, erDiagram, gantt, pie, mindmap, timeline, xychart-beta, gitGraph
+
+## Features
+
+- Live preview with 300ms debounce
+- Export as SVG or PNG (2x resolution)
+- 5 themes: default, dark, forest, neutral, base
+- Hand-drawn style toggle
+- Shareable URL via `?code=` or `#hash`

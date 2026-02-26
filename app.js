@@ -873,6 +873,14 @@ import { oneDark } from "@codemirror/theme-one-dark";
   btnDownloadPng.addEventListener('click', function () { downloadPng().catch(function (e) { showToast('下载失败 · ' + e.message); }); });
 
   // ── URL hash share ─────────────────────────────────────────────────
+  function getQueryCode() {
+    try {
+      var param = new URLSearchParams(location.search).get('code');
+      if (!param) return null;
+      return new TextDecoder().decode(Uint8Array.from(atob(param), function(c) { return c.charCodeAt(0); }));
+    } catch (e) { return null; }
+  }
+
   function getHashCode() {
     try {
       var hash = location.hash.slice(1);
@@ -907,7 +915,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
     }
     initMermaid();
     applyI18n();
-    var initialCode = getHashCode() || DEFAULT_CODE;
+    var initialCode = getQueryCode() || getHashCode() || DEFAULT_CODE;
     createEditor(initialCode);
     updateEditorStatus();
     renderDiagram();
