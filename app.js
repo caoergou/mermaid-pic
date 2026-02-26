@@ -38,9 +38,8 @@ import { oneDark } from "@codemirror/theme-one-dark";
   var btnZoomReset = document.getElementById('btn-zoom-reset');
   var historyList = document.getElementById('history-list');
   var themeSelect = document.getElementById('theme-select');
-  var handDrawnToggle = document.getElementById('hand-drawn-toggle');
+  var handDrawnBtn = document.getElementById('hand-drawn-btn');
   var uiThemeToggle = document.getElementById('ui-theme-toggle');
-  var btnCopySvg = document.getElementById('btn-copy-svg');
   var btnCopyPng = document.getElementById('btn-copy-png');
   var btnDownloadSvg = document.getElementById('btn-download-svg');
   var btnDownloadPng = document.getElementById('btn-download-png');
@@ -150,7 +149,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
   // ── Mermaid ────────────────────────────────────────────────────────
   function initMermaid() {
-    var handwritingFont = "'Long Cang', 'Caveat', cursive";
+    var handwritingFont = "'Virgil', 'LXGW WenKai TC', 'KaiTi', 'STKaiti', cursive";
     var normalFont = "system-ui, -apple-system, sans-serif";
     mermaid.initialize({
       startOnLoad: false,
@@ -177,7 +176,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
     setRenderStatus('rendering', STRINGS[currentLang].renderingStatus);
     // some diagram types have known issues with handDrawn look; fall back to classic
     var noHandDrawn = /^\s*(classDiagram|stateDiagram|erDiagram|gantt|pie|mindmap|timeline|xychart)/i.test(code);
-    var handwritingFont = "'Long Cang', 'Caveat', cursive";
+    var handwritingFont = "'Virgil', 'LXGW WenKai TC', 'KaiTi', 'STKaiti', cursive";
     var normalFont = "system-ui, -apple-system, sans-serif";
     mermaid.initialize({
       startOnLoad: false,
@@ -337,14 +336,17 @@ import { oneDark } from "@codemirror/theme-one-dark";
     renderDiagram();
   });
 
-  // Set hand-drawn toggle to checked by default
-  handDrawnToggle.checked = true;
+  // Set hand-drawn on by default
+  if (handDrawnBtn) handDrawnBtn.classList.add('active');
 
-  handDrawnToggle.addEventListener('change', function () {
-    handDrawn = handDrawnToggle.checked;
-    initMermaid();
-    renderDiagram();
-  });
+  if (handDrawnBtn) {
+    handDrawnBtn.addEventListener('click', function () {
+      handDrawn = !handDrawn;
+      handDrawnBtn.classList.toggle('active', handDrawn);
+      initMermaid();
+      renderDiagram();
+    });
+  }
 
   // ── Mobile tabs ────────────────────────────────────────────────────
   var tabEditor = document.getElementById('tab-editor');
@@ -437,48 +439,87 @@ import { oneDark } from "@codemirror/theme-one-dark";
   btnZoomOut.addEventListener('click', function () { zoomTo(pz.scale / 1.25); });
   btnZoomReset.addEventListener('click', resetView);
 
+  // ── SVG font inlining ──────────────────────────────────────────────
+  // Cache fetched font data to avoid repeated network requests
+  var fontDataCache = {};
+
+  async function fetchFontAsBase64(url) {
+    if (fontDataCache[url]) return fontDataCache[url];
+    try {
+      var resp = await fetch(url);
+      var buf = await resp.arrayBuffer();
+      var bytes = new Uint8Array(buf);
+      var binary = '';
+      for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      var b64 = btoa(binary);
+      var mime = url.endsWith('.woff2') ? 'font/woff2' : url.endsWith('.woff') ? 'font/woff' : 'font/truetype';
+      fontDataCache[url] = 'data:' + mime + ';base64,' + b64;
+      return fontDataCache[url];
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function buildInlineFontCss() {
+    if (!handDrawn) return '';
+    // Fetch Virgil font (Excalidraw's hand-drawn font) as a single woff2 file
+    var virgilUrl = 'https://cdn.jsdelivr.net/gh/excalidraw/virgil/Virgil.woff2';
+    try {
+      var dataUri = await fetchFontAsBase64(virgilUrl);
+      if (!dataUri) return '';
+      return "@font-face { font-family: 'Virgil'; src: url('" + dataUri + "') format('woff2'); font-display: swap; }";
+    } catch (e) {
+      return '';
+    }
+  }
+
+  async function inlineFontsIntoSvg(svgEl) {
+    var clone = svgEl.cloneNode(true);
+    var fontCss = await buildInlineFontCss();
+    if (fontCss) {
+      var styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+      styleEl.textContent = fontCss;
+      clone.insertBefore(styleEl, clone.firstChild);
+    }
+    return clone;
+  }
+
   // ── SVG to PNG ─────────────────────────────────────────────────────
   function svgToPngBlob(svgEl, scale) {
-    scale = scale || 2;
+    scale = scale || 4;
     return new Promise(function (resolve, reject) {
-      var svgData = new XMLSerializer().serializeToString(svgEl);
-      var bbox = svgEl.getBoundingClientRect();
-      var width = bbox.width || 800;
-      var height = bbox.height || 600;
-      var svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      var url = URL.createObjectURL(svgBlob);
-      var img = new Image();
-      img.onload = function () {
-        var canvas = document.createElement('canvas');
-        canvas.width = width * scale;
-        canvas.height = height * scale;
-        var ctx = canvas.getContext('2d');
-        var bg = exportBg === 'custom' ? exportBgCustom.value : exportBg;
-        if (bg !== 'transparent') {
-          ctx.fillStyle = bg;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-        ctx.scale(scale, scale);
-        ctx.drawImage(img, 0, 0, width, height);
-        URL.revokeObjectURL(url);
-        canvas.toBlob(function (blob) {
-          blob ? resolve(blob) : reject(new Error('Canvas toBlob failed'));
-        }, 'image/png');
-      };
-      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Failed to load SVG')); };
-      img.src = url;
+      inlineFontsIntoSvg(svgEl).then(function(cloned) {
+        var svgData = new XMLSerializer().serializeToString(cloned);
+        var bbox = svgEl.getBoundingClientRect();
+        var width = bbox.width || 800;
+        var height = bbox.height || 600;
+        var svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        var url = URL.createObjectURL(svgBlob);
+        var img = new Image();
+        img.onload = function () {
+          var canvas = document.createElement('canvas');
+          canvas.width = width * scale;
+          canvas.height = height * scale;
+          var ctx = canvas.getContext('2d');
+          var bg = exportBg === 'custom' ? exportBgCustom.value : exportBg;
+          if (bg !== 'transparent') {
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+          ctx.scale(scale, scale);
+          ctx.drawImage(img, 0, 0, width, height);
+          URL.revokeObjectURL(url);
+          canvas.toBlob(function (blob) {
+            blob ? resolve(blob) : reject(new Error('Canvas toBlob failed'));
+          }, 'image/png');
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Failed to load SVG')); };
+        img.src = url;
+      }).catch(reject);
     });
   }
 
   // ── Copy / Download ────────────────────────────────────────────────
-  async function copySvg() {
-    var svgEl = preview.querySelector('svg');
-    if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
-    await navigator.clipboard.writeText(new XMLSerializer().serializeToString(svgEl));
-    showToast(STRINGS[currentLang].toastCopied);
-    btnSuccess(btnCopySvg);
-  }
-
   async function copyPng() {
     var svgEl = preview.querySelector('svg');
     if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
@@ -496,10 +537,11 @@ import { oneDark } from "@codemirror/theme-one-dark";
     document.body.removeChild(a); URL.revokeObjectURL(url);
   }
 
-  function downloadSvg() {
+  async function downloadSvg() {
     var svgEl = preview.querySelector('svg');
     if (!svgEl) { showToast(STRINGS[currentLang].toastNoDiagram); return; }
-    var blob = new Blob([new XMLSerializer().serializeToString(svgEl)], { type: 'image/svg+xml' });
+    var cloned = await inlineFontsIntoSvg(svgEl);
+    var blob = new Blob([new XMLSerializer().serializeToString(cloned)], { type: 'image/svg+xml' });
     downloadFile(blob, 'diagram.svg');
     showToast(STRINGS[currentLang].toastDownloadSvg);
   }
@@ -516,9 +558,14 @@ import { oneDark } from "@codemirror/theme-one-dark";
     var ctrl = e.ctrlKey || e.metaKey;
     if (!ctrl) return;
     if (e.key === 'Enter') { e.preventDefault(); clearTimeout(renderTimeout); renderDiagram(); }
-    else if (e.key === 's' && !e.shiftKey) { e.preventDefault(); downloadSvg(); }
-    else if (e.key === 's' && e.shiftKey) { e.preventDefault(); downloadPng().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
-    else if (e.key === 'c' && e.shiftKey) { e.preventDefault(); copySvg().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
+    else if (e.key === 's') {
+      e.preventDefault();
+      // Open export dropdown so user can pick format
+      if (exportDropdownMenu) {
+        exportDropdownMenu.classList.toggle('open');
+        if (settingsMenu) settingsMenu.classList.remove('open');
+      }
+    }
     else if (e.key === 'p' && e.shiftKey) { e.preventDefault(); copyPng().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
   });
 
@@ -726,18 +773,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
   function applyI18n() {
     var s = STRINGS[currentLang];
-    // toolbar
-    document.querySelector('[data-i18n="theme"]').textContent = s.themeLabel;
-    document.querySelector('[data-i18n="handdrawn"]').textContent = s.handdrawnLabel;
-    document.querySelector('[data-i18n="copysvg"]').textContent = s.copysvg;
-    document.querySelector('[data-i18n="copypng"]').textContent = s.copypng;
-    document.querySelector('[data-i18n="share"]') && (document.querySelector('[data-i18n="share"]').textContent = s.share);
-    document.querySelector('[data-i18n="exportbg"]') && (document.querySelector('[data-i18n="exportbg"]').textContent = s.exportbg);
-    document.querySelector('[data-i18n="copyaiprompt"]') && (document.querySelector('[data-i18n="copyaiprompt"]').textContent = s.copyaiprompt);
-    // panels
-    document.querySelector('[data-i18n="editor"]').textContent = s.editorPanel;
-    document.querySelector('[data-i18n="preview"]').textContent = s.previewPanel;
-    // mobile tabs
+    // mobile tabs (still use data-i18n)
     document.querySelectorAll('[data-i18n="editor"]').forEach(function(el) { el.textContent = s.editorPanel; });
     document.querySelectorAll('[data-i18n="preview"]').forEach(function(el) { el.textContent = s.previewPanel; });
     // modal
@@ -762,7 +798,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
     { target: '.panel--editor',  placement: 'right'  },
     { target: '.panel--preview', placement: 'left'   },
     { target: '#theme-select',   placement: 'bottom' },
-    { target: '#hand-drawn-toggle', placement: 'bottom' },
+    { target: '#hand-drawn-btn', placement: 'bottom' },
     { target: '.btn-group',      placement: 'bottom' },
     { target: '#btn-help',       placement: 'bottom' },
   ];
@@ -921,8 +957,46 @@ import { oneDark } from "@codemirror/theme-one-dark";
   tourNext.addEventListener('click', nextTourStep);
   tourSkip.addEventListener('click', closeTour);
 
+  // ── Export dropdown ────────────────────────────────────────────────
+  var exportDropdownToggle = document.getElementById('export-dropdown-toggle');
+  var exportDropdownMenu = document.getElementById('export-dropdown-menu');
+
+  function toggleExportMenu(e) {
+    e.stopPropagation();
+    exportDropdownMenu.classList.toggle('open');
+    if (settingsMenu) settingsMenu.classList.remove('open');
+  }
+
+  if (exportDropdownToggle) {
+    exportDropdownToggle.addEventListener('click', toggleExportMenu);
+  }
+
+  // prevent clicks inside the menu from closing it via the document listener
+  if (exportDropdownMenu) {
+    exportDropdownMenu.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
+
+  // ── Settings popover ───────────────────────────────────────────────
+  var settingsToggle = document.getElementById('settings-toggle');
+  var settingsMenu = document.getElementById('settings-menu');
+
+  if (settingsToggle) {
+    settingsToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      settingsMenu.classList.toggle('open');
+      if (exportDropdownMenu) exportDropdownMenu.classList.remove('open');
+    });
+  }
+
+  // close both popovers on outside click
+  document.addEventListener('click', function () {
+    if (exportDropdownMenu) exportDropdownMenu.classList.remove('open');
+    if (settingsMenu) settingsMenu.classList.remove('open');
+  });
+
   // ── Event binding ──────────────────────────────────────────────────
-  btnCopySvg.addEventListener('click', function () { copySvg().catch(function (e) { showToast('复制失败 · ' + e.message); }); });
   btnCopyPng.addEventListener('click', function () { copyPng().catch(function (e) { showToast('复制失败 · ' + e.message); }); });
   btnDownloadSvg.addEventListener('click', downloadSvg);
   btnDownloadPng.addEventListener('click', function () { downloadPng().catch(function (e) { showToast('下载失败 · ' + e.message); }); });
@@ -954,126 +1028,41 @@ import { oneDark } from "@codemirror/theme-one-dark";
     });
   }
 
-  // ── URL compression and share ──────────────────────────────────────
-  // Simple LZ77-based compression for URL encoding (lightweight alternative to LZMA)
-  function compressToUint8Array(input) {
-    // Use a simple compression approach for compatibility (avoiding external libraries)
-    // For better compression, we could use lz-string, but we need to keep it lightweight
-    // This implementation uses a simple dictionary-based approach
-    var dictionary = {};
-    var dictSize = 256;
-    var result = [];
-    var current = "";
-
-    for (var i = 0; i < input.length; i++) {
-      var char = input[i];
-      var currentChar = current + char;
-      if (dictionary[currentChar]) {
-        current = currentChar;
-      } else {
-        result.push(current.length > 1 ? dictionary[current] : current.charCodeAt(0));
-        dictionary[currentChar] = dictSize++;
-        current = char;
-      }
-    }
-
-    if (current.length > 0) {
-      result.push(current.length > 1 ? dictionary[current] : current.charCodeAt(0));
-    }
-
-    return new Uint8Array(result);
-  }
-
-  function decompressFromUint8Array(compressed) {
-    var dictionary = {};
-    var dictSize = 256;
-    for (var i = 0; i < 256; i++) {
-      dictionary[i] = String.fromCharCode(i);
-    }
-
-    var result = [];
-    var current = String.fromCharCode(compressed[0]);
-    result.push(current);
-
-    for (var i = 1; i < compressed.length; i++) {
-      var code = compressed[i];
-      var entry;
-
-      if (dictionary[code]) {
-        entry = dictionary[code];
-      } else if (code === dictSize) {
-        entry = current + current[0];
-      } else {
-        throw new Error("Invalid compressed data");
-      }
-
-      result.push(entry);
-      dictionary[dictSize++] = current + entry[0];
-      current = entry;
-    }
-
-    return result.join("");
-  }
-
-  // URL-safe base64 encoding (replace + with -, / with _, remove = padding)
-  function base64UrlEncode(data) {
-    var bytes = new Uint8Array(data);
+  // ── URL encoding and share ─────────────────────────────────────────
+  // Use TextEncoder for proper UTF-8 support (handles Chinese characters)
+  function encodeCode(code) {
+    var bytes = new TextEncoder().encode(code);
     var binary = Array.from(bytes).map(function(b) { return String.fromCharCode(b); }).join('');
     return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
 
-  function base64UrlDecode(encoded) {
-    // Add back padding if needed
+  function decodeCode(encoded) {
     encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
-    while (encoded.length % 4 !== 0) {
-      encoded += '=';
-    }
-
+    while (encoded.length % 4 !== 0) encoded += '=';
     var binary = atob(encoded);
     var bytes = new Uint8Array(binary.length);
-    for (var i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return bytes;
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
   }
 
   function getQueryCode() {
     try {
       var param = new URLSearchParams(location.search).get('code');
       if (!param) return null;
-
-      var compressed = base64UrlDecode(param);
-      return decompressFromUint8Array(compressed);
-    } catch (e) {
-      // Fallback to old base64 decoding if compression fails
-      try {
-        return new TextDecoder().decode(Uint8Array.from(atob(param), function(c) { return c.charCodeAt(0); }));
-      } catch (e2) {
-        return null;
-      }
-    }
+      return decodeCode(param);
+    } catch (e) { return null; }
   }
 
   function getHashCode() {
     try {
       var hash = location.hash.slice(1);
       if (!hash) return null;
-
-      var compressed = base64UrlDecode(hash);
-      return decompressFromUint8Array(compressed);
-    } catch (e) {
-      // Fallback to old base64 decoding if compression fails
-      try {
-        return new TextDecoder().decode(Uint8Array.from(atob(hash), function(c) { return c.charCodeAt(0); }));
-      } catch (e2) {
-        return null;
-      }
-    }
+      return decodeCode(hash);
+    } catch (e) { return null; }
   }
 
   function updateHash(code) {
-    var compressed = compressToUint8Array(code);
-    var encoded = base64UrlEncode(compressed);
+    var encoded = encodeCode(code);
     window.history.replaceState(null, '', '#' + encoded);
     try { localStorage.setItem('mermaid-editor-code', code); } catch(e) {}
   }
@@ -1152,6 +1141,60 @@ import { oneDark } from "@codemirror/theme-one-dark";
     e.stopPropagation();
     showShareMenu();
   });
+
+  // ── Preview right-click context menu ───────────────────────────────
+  var ctxMenu = null;
+
+  function hideCtxMenu() {
+    if (ctxMenu) { ctxMenu.remove(); ctxMenu = null; }
+  }
+
+  function showCtxMenu(x, y) {
+    hideCtxMenu();
+    var svgEl = preview.querySelector('svg');
+    ctxMenu = document.createElement('div');
+    ctxMenu.className = 'context-menu';
+
+    function item(icon, label, action) {
+      var btn = document.createElement('button');
+      btn.className = 'context-menu__item';
+      btn.innerHTML = icon + '<span>' + label + '</span>';
+      btn.addEventListener('click', function() { hideCtxMenu(); action(); });
+      return btn;
+    }
+    function sep() { var d = document.createElement('div'); d.className = 'context-menu__sep'; return d; }
+
+    var iconDl = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+    var iconCopy = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
+    if (svgEl) {
+      ctxMenu.appendChild(item(iconDl, '下载 PNG', function() { downloadPng().catch(function(e) { showToast('失败: ' + e.message); }); }));
+      ctxMenu.appendChild(item(iconDl, '下载 SVG', function() { downloadSvg().catch(function(e) { showToast('失败: ' + e.message); }); }));
+      ctxMenu.appendChild(sep());
+      ctxMenu.appendChild(item(iconCopy, '复制 PNG', function() { copyPng().catch(function(e) { showToast('失败: ' + e.message); }); }));
+    } else {
+      var empty = document.createElement('div');
+      empty.className = 'context-menu__label';
+      empty.textContent = '暂无图表';
+      ctxMenu.appendChild(empty);
+    }
+
+    document.body.appendChild(ctxMenu);
+
+    // Position: keep within viewport
+    var mw = ctxMenu.offsetWidth, mh = ctxMenu.offsetHeight;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    ctxMenu.style.left = Math.min(x, vw - mw - 8) + 'px';
+    ctxMenu.style.top  = Math.min(y, vh - mh - 8) + 'px';
+  }
+
+  previewViewport.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    showCtxMenu(e.clientX, e.clientY);
+  });
+
+  document.addEventListener('click', function() { hideCtxMenu(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideCtxMenu(); });
 
   // ── Bootstrap ──────────────────────────────────────────────────────
   function bootstrap() {

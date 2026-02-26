@@ -21,7 +21,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;600&family=Long+Cang&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=LXGW+WenKai+TC&display=swap">
   <link rel="stylesheet" href="style.css">
   <script type="importmap">
   {
@@ -50,65 +50,90 @@
       Mermaid Editor
     </h1>
     <div class="toolbar__controls">
-      <label class="control-label">
-        <span class="control-label__text" data-i18n="theme">主题 Theme</span>
-        <select id="theme-select">
-          <option value="default">Default</option>
-          <option value="dark">Dark</option>
-          <option value="forest">Forest</option>
-          <option value="neutral">Neutral</option>
-          <option value="base">Base</option>
-        </select>
-      </label>
-      <label class="toggle" title="手绘风格 Hand-drawn style">
-        <input type="checkbox" id="hand-drawn-toggle">
-        <span class="toggle__track"><span class="toggle__thumb"></span></span>
-        <span data-i18n="handdrawn">手绘 Hand-drawn</span>
-      </label>
-      <div class="toolbar__sep"></div>
-      <label class="control-label" title="导出背景色 · Export background">
-        <span class="control-label__text" data-i18n="exportbg">背景</span>
-        <select id="export-bg-select">
-          <option value="white">白色</option>
-          <option value="transparent">透明</option>
-          <option value="black">黑色</option>
-          <option value="custom">自定义</option>
-        </select>
-        <input type="color" id="export-bg-custom" value="#ffffff" style="display:none;width:28px;height:24px;padding:1px 2px;border-radius:4px;cursor:pointer;">
-      </label>
-      <div class="toolbar__sep"></div>
-      <div class="btn-group">
-        <button id="btn-copy-svg" title="复制 SVG 代码 · Copy SVG code (Ctrl+Shift+C)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span data-i18n="copysvg">复制 SVG</span>
-        </button>
-        <button id="btn-copy-png" title="复制 PNG 图片 · Copy PNG image (Ctrl+Shift+P)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span data-i18n="copypng">复制 PNG</span>
-        </button>
-        <button id="btn-download-svg" title="下载 SVG 文件 · Download SVG (Ctrl+S)">
+      <!-- Export dropdown (primary action) -->
+      <div class="export-dropdown" id="export-dropdown">
+        <button class="btn-export-main" id="btn-download-png" title="下载 PNG (Ctrl+Shift+S)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          SVG
+          导出 PNG
         </button>
-        <button id="btn-download-png" title="下载 PNG 文件 · Download PNG (Ctrl+Shift+S)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          PNG
+        <button class="btn-export-arrow" id="export-dropdown-toggle" title="更多导出选项">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
+        <div class="export-dropdown__menu" id="export-dropdown-menu">
+          <button id="btn-download-svg" title="下载 SVG (Ctrl+S)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            下载 SVG
+          </button>
+          <button id="btn-copy-png" title="复制 PNG (Ctrl+Shift+P)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            复制 PNG
+          </button>
+          <div class="export-dropdown__sep"></div>
+          <div class="export-dropdown__bg">
+            <span class="export-dropdown__bg-label">导出背景</span>
+            <select id="export-bg-select">
+              <option value="white">白色</option>
+              <option value="transparent">透明</option>
+              <option value="black">黑色</option>
+              <option value="custom">自定义</option>
+            </select>
+            <input type="color" id="export-bg-custom" value="#ffffff" style="display:none;width:28px;height:24px;padding:1px 2px;border-radius:4px;cursor:pointer;">
+          </div>
+        </div>
       </div>
-        <button id="btn-share" title="复制分享链接 · Copy share link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          <span data-i18n="share">分享 Share</span>
-        </button>
-        <button id="btn-copy-ai-prompt" title="复制 AI 提示词，粘贴给 AI 即可让它学会使用本工具 · Copy AI prompt">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v1h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h3V4a2 2 0 0 1 2-2z"/><path d="M9 12h6M9 16h4"/></svg>
-          <span data-i18n="copyaiprompt">AI 提示词</span>
-        </button>
-      </div>
+
       <div class="toolbar__sep"></div>
-      <button id="btn-help" class="btn-icon" title="使用教程 · Help">
+
+      <!-- Share -->
+      <button id="btn-share" title="复制分享链接 (Copy share link)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        分享
+      </button>
+
+      <div class="toolbar__sep"></div>
+
+      <!-- Settings popover -->
+      <div class="settings-popover" id="settings-popover">
+        <button class="btn-icon" id="settings-toggle" title="图表设置">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <div class="settings-popover__menu" id="settings-menu">
+          <div class="settings-row">
+            <span class="settings-label">图表主题</span>
+            <select id="theme-select">
+              <option value="default">Default</option>
+              <option value="dark">Dark</option>
+              <option value="forest">Forest</option>
+              <option value="neutral">Neutral</option>
+              <option value="base">Base</option>
+            </select>
+          </div>
+          <div class="settings-sep"></div>
+          <button id="btn-copy-ai-prompt" class="settings-action-btn" title="复制 AI 提示词">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v1h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h3V4a2 2 0 0 1 2-2z"/><path d="M9 12h6M9 16h4"/></svg>
+            复制 AI 提示词
+          </button>
+        </div>
+      </div>
+
+      <!-- Hand-drawn toggle -->
+      <button id="hand-drawn-btn" class="btn-icon btn-hand-drawn active" title="手绘风格 (Hand-drawn style)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3-3 6-5 9-5s6 2 9 5"/><path d="M3 7c3 3 6 5 9 5s6-2 9-5"/></svg>
+        手绘
+      </button>
+
+      <!-- GitHub -->
+      <a href="https://github.com/caoergou/mermaid-pic" target="_blank" rel="noopener" class="btn-icon toolbar-link" title="GitHub 项目">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+
+      <!-- Help -->
+      <button id="btn-help" class="btn-icon" title="示例与快捷键">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </button>
-      <button id="ui-theme-toggle" class="btn-icon" title="切换深色/浅色模式 · Toggle dark/light mode">
+
+      <!-- Dark mode toggle -->
+      <button id="ui-theme-toggle" class="btn-icon" title="切换深色/浅色模式">
         <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg id="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
@@ -123,7 +148,7 @@
     </div>
     <div class="panel panel--editor">
       <div class="panel__header">
-        <span data-i18n="editor">编辑器 Editor</span>
+        <span>编辑器</span>
         <span id="editor-status" class="panel__status"></span>
       </div>
       <div class="examples-strip" id="examples-strip"></div>
@@ -132,20 +157,22 @@
     <div id="divider" title="拖拽调整面板大小 · Drag to resize"></div>
     <div class="panel panel--preview">
       <div class="panel__header">
-        <span data-i18n="preview">预览 Preview</span>
+        <span>预览</span>
         <div class="panel__actions">
-          <button id="btn-zoom-out" class="btn-tiny" title="缩小 · Zoom out">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </button>
-          <span id="zoom-label" class="zoom-label">100%</span>
-          <button id="btn-zoom-in" class="btn-tiny" title="放大 · Zoom in">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </button>
-          <button id="btn-zoom-reset" class="btn-tiny" title="重置视图 · Reset view">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          </button>
+          <div class="zoom-controls">
+            <button id="btn-zoom-out" class="btn-tiny" title="缩小">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <span id="zoom-label" class="zoom-label">100%</span>
+            <button id="btn-zoom-in" class="btn-tiny" title="放大">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button id="btn-zoom-reset" class="btn-tiny" title="重置视图">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+          </div>
           <div class="panel__sep-v"></div>
-          <button id="btn-bg-toggle" class="btn-tiny" title="切换棋盘格背景 · Toggle checker background">
+          <button id="btn-bg-toggle" class="btn-tiny" title="切换棋盘格背景">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           </button>
           <span id="render-status" class="render-status"></span>
@@ -259,7 +286,6 @@
           <h3>快捷键 · Shortcuts</h3>
           <table class="help-table">
             <tr><td>立即渲染 · Force render</td><td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td></tr>
-            <tr><td>复制 SVG · Copy SVG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td></tr>
             <tr><td>复制 PNG · Copy PNG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td></tr>
             <tr><td>下载 SVG · Download SVG</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td></tr>
             <tr><td>下载 PNG · Download PNG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td></tr>

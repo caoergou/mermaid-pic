@@ -93,6 +93,9 @@ body {
   border-bottom: 1px solid var(--toolbar-border);
   flex-shrink: 0;
   gap: 8px;
+  overflow: visible;
+  position: relative;
+  z-index: 100;
 }
 
 .toolbar__title {
@@ -111,11 +114,212 @@ body {
 .toolbar__controls {
   display: flex;
   align-items: center;
-  gap: 6px;
-  overflow-x: auto;
+  gap: 4px;
+  overflow: visible;
   scrollbar-width: none;
 }
 .toolbar__controls::-webkit-scrollbar { display: none; }
+
+/* ── Toolbar link (GitHub) ───────────────────────────────────────── */
+.toolbar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.toolbar-link:hover { background: var(--btn-hover); }
+
+/* ── Export dropdown ─────────────────────────────────────────────── */
+.export-dropdown {
+  position: relative;
+  display: flex;
+}
+
+.btn-export-main {
+  border-radius: 6px 0 0 6px;
+  border-right: none;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  gap: 6px;
+}
+.btn-export-main:hover { opacity: 0.88; background: var(--accent); }
+
+.btn-export-arrow {
+  border-radius: 0 6px 6px 0;
+  padding: 5px 7px;
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  border-left: 1px solid rgba(255,255,255,0.25);
+}
+.btn-export-arrow:hover { opacity: 0.88; background: var(--accent); }
+
+.export-dropdown__menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--modal-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  min-width: 160px;
+  z-index: 1000;
+  padding: 4px;
+  flex-direction: column;
+  gap: 2px;
+}
+.export-dropdown__menu.open { display: flex; }
+
+.export-dropdown__menu button {
+  width: 100%;
+  justify-content: flex-start;
+  border: none;
+  background: transparent;
+  border-radius: 5px;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  gap: 8px;
+}
+.export-dropdown__menu button:hover { background: var(--btn-hover); }
+
+.export-dropdown__sep {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
+.export-dropdown__bg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+}
+.export-dropdown__bg-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* ── Settings popover ────────────────────────────────────────────── */
+.settings-popover {
+  position: relative;
+}
+
+.settings-popover__menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--modal-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  min-width: 200px;
+  z-index: 1000;
+  padding: 8px;
+  flex-direction: column;
+  gap: 4px;
+}
+.settings-popover__menu.open { display: flex; }
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px;
+  gap: 12px;
+}
+
+.settings-label {
+  font-size: 13px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.settings-sep {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
+.settings-action-btn {
+  width: 100%;
+  justify-content: flex-start;
+  border: none;
+  background: transparent;
+  border-radius: 5px;
+  padding: 7px 4px;
+  font-size: 13px;
+  color: var(--text-primary);
+  gap: 8px;
+}
+.settings-action-btn:hover { background: var(--btn-hover); }
+
+/* ── Context menu (right-click on preview) ───────────────────────── */
+.context-menu {
+  position: fixed;
+  background: var(--modal-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  padding: 4px;
+  z-index: 2000;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.context-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-primary);
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+}
+.context-menu__item:hover { background: var(--btn-hover); }
+.context-menu__item svg { flex-shrink: 0; color: var(--text-secondary); }
+
+.context-menu__sep {
+  height: 1px;
+  background: var(--border-color);
+  margin: 3px 0;
+}
+
+.context-menu__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  padding: 4px 12px 2px;
+}
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
 
 .toolbar__sep {
   width: 1px;
@@ -157,6 +361,9 @@ button.success { border-color: #4caf50; color: #4caf50; }
 
 .btn-group { display: flex; gap: 3px; }
 .btn-icon { padding: 5px 7px; }
+.btn-hand-drawn { display: flex; align-items: center; gap: 4px; font-size: 12px; padding: 5px 9px; }
+.btn-hand-drawn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-hand-drawn.active:hover { opacity: 0.88; background: var(--accent); }
 .btn-primary {
   background: var(--accent);
   color: #fff;
