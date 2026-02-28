@@ -21,7 +21,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=LXGW+WenKai+TC&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=LXGW+WenKai+TC&family=Caveat:wght@400;700&family=Kalam:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@chinese-fonts/xiaolai@3.0.0/dist/Xiaolai/result.css">
   <style>
     @font-face {
       font-family: 'Virgil';
@@ -68,40 +69,52 @@
     <!-- VS Code–style menu bar -->
     <nav class="menubar" id="menubar">
       <div class="menubar__item" data-menu="file">
-        <button class="menubar__trigger">文件</button>
+        <button class="menubar__trigger">文件<span class="menubar__hotkey">F</span></button>
         <div class="menubar__dropdown">
-          <button id="btn-download-png" data-menu-action><span>下载 PNG</span><kbd>⌘⇧S</kbd></button>
-          <button id="btn-download-svg" data-menu-action><span>下载 SVG</span><kbd>⌘S</kbd></button>
-          <button id="btn-copy-png" data-menu-action><span>复制 PNG</span><kbd>⌘⇧C</kbd></button>
+          <button id="btn-download-png" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>下载 PNG</span><kbd>⌘⇧S</kbd></button>
+          <button id="btn-download-svg" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>下载 SVG</span><kbd>⌘S</kbd></button>
+          <button id="btn-copy-png" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>复制 PNG</span><kbd>⌘⇧C</kbd></button>
           <div class="menubar__sep"></div>
-          <button id="btn-share" data-menu-action><span>分享链接</span></button>
-          <button id="btn-embed-code" data-menu-action><span>嵌入代码</span></button>
-          <button id="btn-copy-ai-prompt" data-menu-action><span>AI 提示词</span></button>
-          <div class="menubar__sep"></div>
-          <div class="menubar__label">导出背景</div>
-          <button data-menu-action data-bg-pick="white" class="has-check active"><span>白色</span></button>
-          <button data-menu-action data-bg-pick="transparent" class="has-check"><span>透明</span></button>
-          <button data-menu-action data-bg-pick="black" class="has-check"><span>黑色</span></button>
-          <button data-menu-action data-bg-pick="custom" class="has-check"><span>自定义颜色</span><input type="color" id="export-bg-custom" value="#ffffff" class="menubar__color-input"></button>
+          <button id="btn-share" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>分享链接</span></button>
+          <button id="btn-embed-code" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>嵌入代码</span></button>
+          <button id="btn-copy-ai-prompt" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>AI 提示词</span></button>
         </div>
       </div>
 
       <div class="menubar__item" data-menu="edit">
-        <button class="menubar__trigger">编辑</button>
+        <button class="menubar__trigger">编辑<span class="menubar__hotkey">E</span></button>
         <div class="menubar__dropdown">
-          <button id="hand-drawn-btn" data-menu-action class="has-check active"><span>手绘风格</span></button>
+          <button id="hand-drawn-btn" data-menu-action class="has-check active"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>手绘风格</span></button>
+          <div class="menubar__sep"></div>
+          <div class="menubar__label">手绘字体 (英文)</div>
+          <button data-menu-action data-hd-font="virgil" class="has-check active"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9.5" y1="4" x2="9.5" y2="20"/><line x1="14.5" y1="4" x2="14.5" y2="20"/><line x1="7" y1="20" x2="17" y2="20"/></svg>Virgil</span></button>
+          <button data-menu-action data-hd-font="caveat" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9.5" y1="4" x2="9.5" y2="20"/><line x1="14.5" y1="4" x2="14.5" y2="20"/><line x1="7" y1="20" x2="17" y2="20"/></svg>Caveat</span></button>
+          <button data-menu-action data-hd-font="kalam" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9.5" y1="4" x2="9.5" y2="20"/><line x1="14.5" y1="4" x2="14.5" y2="20"/><line x1="7" y1="20" x2="17" y2="20"/></svg>Kalam</span></button>
+          <div class="menubar__hint">中文默认使用小赖字体</div>
+          <div class="menubar__sep"></div>
+          <div class="menubar__label">手绘字号</div>
+          <button data-menu-action data-hd-size="small" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16"/><path d="M8 16V4l8 16"/><path d="M6 12h8"/></svg>小 (15px)</span></button>
+          <button data-menu-action data-hd-size="medium" class="has-check active"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16"/><path d="M8 16V4l8 16"/><path d="M6 12h8"/></svg>中 (17px)</span></button>
+          <button data-menu-action data-hd-size="large" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16"/><path d="M8 16V4l8 16"/><path d="M6 12h8"/></svg>大 (20px)</span></button>
+          <div class="menubar__sep"></div>
+          <div class="menubar__label">手绘随机</div>
+          <button data-menu-action data-hd-seed="fixed" class="has-check active"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>固定线条</span></button>
+          <button data-menu-action data-hd-seed="random" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>随机线条</span></button>
+          <button id="btn-reshuffle-seed" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>刷新手绘</span></button>
+          <div class="menubar__sep"></div>
+          <button id="btn-format-code" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/></svg>格式化代码</span><kbd>⇧⌘F</kbd></button>
         </div>
       </div>
 
       <div class="menubar__item" data-menu="view">
-        <button class="menubar__trigger">视图</button>
+        <button class="menubar__trigger">视图<span class="menubar__hotkey">V</span></button>
         <div class="menubar__dropdown">
           <div class="menubar__label">图表主题</div>
-          <button data-menu-action data-theme-pick="default" class="has-check active"><span>Default</span></button>
-          <button data-menu-action data-theme-pick="dark" class="has-check"><span>Dark</span></button>
-          <button data-menu-action data-theme-pick="forest" class="has-check"><span>Forest</span></button>
-          <button data-menu-action data-theme-pick="neutral" class="has-check"><span>Neutral</span></button>
-          <button data-menu-action data-theme-pick="base" class="has-check"><span>Base</span></button>
+          <button data-menu-action data-theme-pick="default" class="has-check active"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/><path d="M2 12h20"/></svg>Default</span></button>
+          <button data-menu-action data-theme-pick="dark" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Dark</span></button>
+          <button data-menu-action data-theme-pick="forest" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20H7l5-16 5 16z"/><line x1="12" y1="20" x2="12" y2="24"/></svg>Forest</span></button>
+          <button data-menu-action data-theme-pick="neutral" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Neutral</span></button>
+          <button data-menu-action data-theme-pick="base" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>Base</span></button>
           <div class="menubar__sep"></div>
           <button id="ui-theme-toggle" data-menu-action>
             <span>
@@ -110,19 +123,24 @@
               深色/浅色模式
             </span>
           </button>
-          <button id="menu-zoom-reset" data-menu-action><span>重置缩放</span></button>
-          <button id="btn-bg-toggle" data-menu-action class="has-check"><span>棋盘格背景</span></button>
+          <button id="menu-zoom-reset" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>重置缩放</span></button>
+          <div class="menubar__sep"></div>
+          <div class="menubar__label">预览背景</div>
+          <button data-menu-action data-bg-menu="white" class="has-check active"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" fill="white"/></svg>白色</span><kbd>Alt+1</kbd></button>
+          <button data-menu-action data-bg-menu="black" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" fill="#333"/></svg>黑色</span><kbd>Alt+2</kbd></button>
+          <button data-menu-action data-bg-menu="checker" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="3" y="3" width="9" height="9" fill="#ccc"/><rect x="12" y="12" width="9" height="9" fill="#ccc"/></svg>透明</span><kbd>Alt+3</kbd></button>
+          <button data-menu-action data-bg-menu="grid" class="has-check"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>网格</span><kbd>Alt+4</kbd></button>
         </div>
       </div>
 
       <div class="menubar__item" data-menu="help">
-        <button class="menubar__trigger">帮助</button>
+        <button class="menubar__trigger">帮助<span class="menubar__hotkey">H</span></button>
         <div class="menubar__dropdown">
-          <button id="btn-help" data-menu-action><span>示例与快捷键</span></button>
-          <button id="btn-cmd-palette" data-menu-action><span>命令面板</span><kbd>⌘K</kbd></button>
+          <button id="btn-help" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="6" y1="16" x2="18" y2="16"/></svg>快捷键</span></button>
+          <button id="btn-cmd-palette" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>命令面板</span><kbd>⌘K</kbd></button>
           <div class="menubar__sep"></div>
-          <button id="menu-github" data-menu-action><span>GitHub</span></button>
-          <button id="btn-restart-tour-menu" data-menu-action><span>重新引导</span></button>
+          <button id="menu-github" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</span></button>
+          <button id="btn-restart-tour-menu" data-menu-action><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>重新引导</span></button>
         </div>
       </div>
     </nav>
@@ -154,6 +172,14 @@
         </div>
         <div class="panel__tab-spacer"></div>
         <span id="editor-status" class="panel__status"></span>
+        <div class="example-dropdown" id="example-dropdown">
+          <button class="example-dropdown__trigger" id="example-dropdown-trigger" title="加载示例模板">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>示例</span>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="example-dropdown__panel" id="example-dropdown-panel"></div>
+        </div>
       </div>
       <div id="editor-container"></div>
     </div>
@@ -173,15 +199,18 @@
           <button class="theme-pill" data-theme="base" role="radio" aria-checked="false">Base</button>
         </div>
         <div class="tab-bar__sep"></div>
-        <div class="bg-pills" id="bg-pills" role="radiogroup" aria-label="导出背景">
-          <button class="bg-pill active" data-bg="white" role="radio" aria-checked="true" title="白色背景">
+        <div class="bg-pills" id="bg-pills" role="radiogroup" aria-label="预览背景">
+          <button class="bg-pill active" data-bg="white" role="radio" aria-checked="true" title="白色背景 (Alt+1)">
             <span class="bg-pill__swatch bg-pill__swatch--white"></span>
           </button>
-          <button class="bg-pill" data-bg="transparent" role="radio" aria-checked="false" title="透明背景">
-            <span class="bg-pill__swatch bg-pill__swatch--transparent"></span>
-          </button>
-          <button class="bg-pill" data-bg="black" role="radio" aria-checked="false" title="黑色背景">
+          <button class="bg-pill" data-bg="black" role="radio" aria-checked="false" title="黑色背景 (Alt+2)">
             <span class="bg-pill__swatch bg-pill__swatch--black"></span>
+          </button>
+          <button class="bg-pill" data-bg="checker" role="radio" aria-checked="false" title="透明背景 (Alt+3)">
+            <span class="bg-pill__swatch bg-pill__swatch--checker"></span>
+          </button>
+          <button class="bg-pill" data-bg="grid" role="radio" aria-checked="false" title="网格背景 (Alt+4)">
+            <span class="bg-pill__swatch bg-pill__swatch--grid"></span>
           </button>
         </div>
         <span id="render-status" class="render-status"></span>
@@ -198,10 +227,6 @@
           </button>
           <button id="btn-zoom-reset" class="btn-tiny" title="重置缩放">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          </button>
-          <div class="floating-zoom__sep"></div>
-          <button id="btn-bg-toggle" class="btn-tiny" title="切换棋盘格背景">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           </button>
         </div>
       </div>
@@ -246,7 +271,7 @@
       <div class="mobile-overflow-menu__sep"></div>
       <button class="mobile-overflow-menu__item" id="mob-btn-help">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        示例与快捷键
+        快捷键
       </button>
     </div>
   </div>
@@ -272,27 +297,47 @@
     </div>
   </div>
 
-  <!-- Example picker modal (triggered from help button) -->
+  <!-- Shortcuts modal -->
   <div id="help-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
       <div class="modal__header">
-        <h2 id="modal-title">示例模板 · Examples</h2>
+        <h2 id="modal-title">快捷键 · Shortcuts</h2>
         <button id="modal-close" class="btn-icon" title="关闭 Close">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       <div class="modal__body">
         <div class="help-section">
-          <h3>选择一个示例开始 · Pick an example to start</h3>
-          <div class="example-grid" id="modal-example-grid"></div>
-        </div>
-        <div class="help-section">
-          <h3>快捷键 · Shortcuts</h3>
+          <h3>文件操作 · File</h3>
           <table class="help-table">
             <tr><td>复制 PNG · Copy PNG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td></tr>
             <tr><td>下载 SVG · Download SVG</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td></tr>
             <tr><td>下载 PNG · Download PNG</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td></tr>
+          </table>
+        </div>
+        <div class="help-section">
+          <h3>编辑 · Edit</h3>
+          <table class="help-table">
+            <tr><td>格式化代码 · Format Code</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td></tr>
             <tr><td>命令面板 · Command Palette</td><td><kbd>Ctrl</kbd>+<kbd>K</kbd></td></tr>
+          </table>
+        </div>
+        <div class="help-section">
+          <h3>菜单 · Menu</h3>
+          <table class="help-table">
+            <tr><td>文件 · File</td><td><kbd>Alt</kbd>+<kbd>F</kbd></td></tr>
+            <tr><td>编辑 · Edit</td><td><kbd>Alt</kbd>+<kbd>E</kbd></td></tr>
+            <tr><td>视图 · View</td><td><kbd>Alt</kbd>+<kbd>V</kbd></td></tr>
+            <tr><td>帮助 · Help</td><td><kbd>Alt</kbd>+<kbd>H</kbd></td></tr>
+          </table>
+        </div>
+        <div class="help-section">
+          <h3>预览背景 · Background</h3>
+          <table class="help-table">
+            <tr><td>白色 · White</td><td><kbd>Alt</kbd>+<kbd>1</kbd></td></tr>
+            <tr><td>黑色 · Black</td><td><kbd>Alt</kbd>+<kbd>2</kbd></td></tr>
+            <tr><td>透明 · Transparent</td><td><kbd>Alt</kbd>+<kbd>3</kbd></td></tr>
+            <tr><td>网格 · Grid</td><td><kbd>Alt</kbd>+<kbd>4</kbd></td></tr>
           </table>
         </div>
       </div>

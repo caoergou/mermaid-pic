@@ -2,10 +2,11 @@ import { state, dom, updateEditorStatus } from './core.js';
 import { STRINGS, applyI18n } from './i18n.js';
 
 const TOUR_TARGETS = [
-  { target: '.panel--editor',  placement: 'right'  },
-  { target: '.panel--preview', placement: 'left'   },
-  { target: '.menubar',        placement: 'bottom' },
-  { target: '.btn-cmdk',       placement: 'bottom' },
+  { target: '.panel--editor',      placement: 'right'  },
+  { target: '.example-dropdown',   placement: 'bottom' },
+  { target: '.panel--preview',     placement: 'left'   },
+  { target: '.menubar',            placement: 'bottom' },
+  { target: '.btn-cmdk',           placement: 'bottom' },
 ];
 
 let tourStep = 0;

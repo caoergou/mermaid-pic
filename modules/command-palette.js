@@ -1,11 +1,12 @@
 import {
   state, dom, showToast, closeAllMenus, resetView,
-  applyUiTheme, switchTheme, openHelp,
+  applyUiTheme, switchTheme, switchPreviewBg, openHelp, saveHandDrawnPrefs, HAND_FONTS,
 } from './core.js';
 import { STRINGS } from './i18n.js';
 import { EXAMPLES } from './examples.js';
 import { initMermaid, renderDiagram } from './render.js';
 import { downloadPng, downloadSvg, copyPng, copyShareLink, copyEmbedCode } from './export.js';
+import { formatCode } from './editor.js';
 
 const cmdOverlay = document.getElementById('cmd-palette-overlay');
 const cmdInput   = document.getElementById('cmd-palette-input');
@@ -62,6 +63,47 @@ function getCmdCommands() {
       label: (isZh ? '主题: ' : 'Theme: ') + t.charAt(0).toUpperCase() + t.slice(1),
       icon: 'theme',
       action() { switchTheme(t); initMermaid(); renderDiagram(); },
+    });
+  });
+
+  Object.keys(HAND_FONTS).forEach(key => {
+    cmds.push({
+      group: isZh ? '手绘' : 'Hand-drawn',
+      label: (isZh ? '手绘字体: ' : 'Hand font: ') + HAND_FONTS[key].label,
+      icon: 'pencil',
+      action() { state.handDrawnFont = key; saveHandDrawnPrefs(); initMermaid(); renderDiagram(); },
+    });
+  });
+
+  cmds.push({
+    group: isZh ? '手绘' : 'Hand-drawn',
+    label: isZh ? '刷新手绘线条' : 'Reshuffle hand-drawn',
+    icon: 'pencil',
+    action() { state.handDrawnSeed = Math.floor(Math.random() * 10000); initMermaid(); renderDiagram(); },
+  });
+
+  cmds.push({
+    group: isZh ? '编辑' : 'Edit',
+    label: isZh ? '格式化代码' : 'Format Code',
+    icon: 'example',
+    kbd: 'Ctrl+Shift+F',
+    action() { formatCode(); },
+  });
+
+  const bgLabels = {
+    white: isZh ? '白色背景' : 'White background',
+    black: isZh ? '黑色背景' : 'Black background',
+    checker: isZh ? '透明背景' : 'Transparent background',
+    grid: isZh ? '网格背景' : 'Grid background',
+  };
+  const bgKeys = { white: 'Alt+1', black: 'Alt+2', checker: 'Alt+3', grid: 'Alt+4' };
+  Object.keys(bgLabels).forEach(key => {
+    cmds.push({
+      group: isZh ? '背景' : 'Background',
+      label: bgLabels[key],
+      icon: 'example',
+      kbd: bgKeys[key],
+      action() { switchPreviewBg(key); },
     });
   });
 

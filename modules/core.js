@@ -1,12 +1,31 @@
 // ── Shared application state ────────────────────────────────────────
+// ── Hand-drawn font presets ──────────────────────────────────────────
+export const HAND_FONTS = {
+  virgil:  { label: 'Virgil',  family: "'Virgil', cursive",  url: 'https://cdn.jsdelivr.net/gh/excalidraw/virgil/Virgil.woff2' },
+  caveat:  { label: 'Caveat',  family: "'Caveat', cursive",  url: null },
+  kalam:   { label: 'Kalam',   family: "'Kalam', cursive",   url: null },
+};
+
+function loadHandDrawnPrefs() {
+  try {
+    const raw = localStorage.getItem('mermaid-editor-handdrawn');
+    if (raw) return JSON.parse(raw);
+  } catch (e) { /* ignore */ }
+  return {};
+}
+const _hdPrefs = loadHandDrawnPrefs();
+
 export const state = {
   currentTheme: 'default',
   handDrawn: true,
+  handDrawnSeedMode: _hdPrefs.seedMode || 'fixed',
+  handDrawnSeed: 42,
+  handDrawnFont: (_hdPrefs.font && _hdPrefs.font !== 'xiaolai' && HAND_FONTS[_hdPrefs.font]) ? _hdPrefs.font : 'virgil',
+  handDrawnFontSize: _hdPrefs.fontSize || 'medium',
   renderTimeout: null,
   renderCounter: 0,
-  checkerBg: false,
+  previewBg: 'white',
   editorView: null,
-  exportBg: 'white',
   menubarOpen: false,
   toastTimeout: null,
   currentLang: (() => {
@@ -16,6 +35,33 @@ export const state = {
     return browser.startsWith('zh') ? 'zh' : 'en';
   })(),
 };
+
+export function saveHandDrawnPrefs() {
+  try {
+    localStorage.setItem('mermaid-editor-handdrawn', JSON.stringify({
+      seedMode: state.handDrawnSeedMode,
+      font: state.handDrawnFont,
+      fontSize: state.handDrawnFontSize,
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+export function getHandDrawnFontFamily() {
+  const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.virgil;
+  return preset.family + ", 'Xiaolai SC', 'LXGW WenKai TC', 'KaiTi', 'STKaiti', cursive";
+}
+
+export function getHandDrawnFontSizePx() {
+  return state.handDrawnFontSize === 'small' ? '15px'
+    : state.handDrawnFontSize === 'large' ? '20px' : '17px';
+}
+
+export function resolveHandDrawnSeed() {
+  if (state.handDrawnSeedMode === 'random') {
+    state.handDrawnSeed = Math.floor(Math.random() * 10000);
+  }
+  return state.handDrawnSeed;
+}
 
 export const pz = {
   scale: 1, tx: 0, ty: 0,
@@ -43,7 +89,6 @@ export const dom = {
   btnShare: document.getElementById('btn-share'),
   btnEmbedCode: document.getElementById('btn-embed-code'),
   btnCopyAiPrompt: document.getElementById('btn-copy-ai-prompt'),
-  btnBgToggle: document.getElementById('btn-bg-toggle'),
   menubar: document.getElementById('menubar'),
   btnHelp: document.getElementById('btn-help'),
   divider: document.getElementById('divider'),
@@ -69,8 +114,6 @@ export const dom = {
   tourDotsEl: document.getElementById('tour-dots'),
   tourSkip: document.getElementById('tour-skip'),
   tourNext: document.getElementById('tour-next'),
-  exportBgCustom: document.getElementById('export-bg-custom'),
-  modalExampleGrid: document.getElementById('modal-example-grid'),
 };
 
 // ── Utility functions ───────────────────────────────────────────────
@@ -146,16 +189,27 @@ export function switchTheme(t) {
   });
 }
 
-export function syncBgUI(value) {
-  state.exportBg = value;
-  dom.menubar.querySelectorAll('[data-bg-pick]').forEach(b => {
-    b.classList.toggle('active', b.getAttribute('data-bg-pick') === value);
-  });
+export function switchPreviewBg(value) {
+  state.previewBg = value;
+  dom.previewViewport.classList.remove('bg-white', 'bg-black', 'bg-checker', 'bg-grid');
+  dom.previewViewport.classList.add('bg-' + value);
   document.querySelectorAll('.bg-pill').forEach(b => {
     const v = b.getAttribute('data-bg');
     b.classList.toggle('active', v === value);
     b.setAttribute('aria-checked', v === value ? 'true' : 'false');
   });
+  dom.menubar.querySelectorAll('[data-bg-menu]').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-bg-menu') === value);
+  });
+}
+
+export function getExportBgColor() {
+  switch (state.previewBg) {
+    case 'black': return '#1a1a1a';
+    case 'checker': return 'transparent';
+    case 'grid': return '#ffffff';
+    default: return '#ffffff';
+  }
 }
 
 // ── Zoom / Pan ──────────────────────────────────────────────────────
