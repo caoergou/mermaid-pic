@@ -48,7 +48,7 @@ export function saveHandDrawnPrefs() {
 
 export function getHandDrawnFontFamily() {
   const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.virgil;
-  return preset.family + ", 'Xiaolai SC', 'LXGW WenKai TC', 'KaiTi', 'STKaiti', cursive";
+  return preset.family + ", 'Xiaolai SC', cursive";
 }
 
 export function getHandDrawnFontSizePx() {

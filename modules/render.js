@@ -59,7 +59,7 @@ export async function renderDiagram() {
 
   if (state.handDrawn && !noHandDrawn) {
     const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.virgil;
-    try { await document.fonts.load('16px ' + preset.label); } catch (e) {}
+    try { await document.fonts.load('16px ' + (preset.label === 'Virgil' ? 'Virgil' : preset.label)); } catch (e) {}
     try { await document.fonts.load('16px "Xiaolai SC"'); } catch (e) {}
   }
 
