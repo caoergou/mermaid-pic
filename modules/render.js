@@ -20,6 +20,11 @@ export function initMermaid() {
     },
   });
   dom.preview.style.fontFamily = state.handDrawn ? hdFont : '';
+  if (state.handDrawn) {
+    document.documentElement.style.setProperty('--mermaid-font', hdFont);
+  } else {
+    document.documentElement.style.removeProperty('--mermaid-font');
+  }
 }
 
 export async function renderDiagram() {
@@ -58,9 +63,12 @@ export async function renderDiagram() {
   });
 
   if (state.handDrawn && !noHandDrawn) {
+    document.documentElement.style.setProperty('--mermaid-font', hdFont);
     const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.virgil;
     try { await document.fonts.load('16px ' + (preset.label === 'Virgil' ? 'Virgil' : preset.label)); } catch (e) {}
     try { await document.fonts.load('16px "Xiaolai SC"'); } catch (e) {}
+  } else {
+    document.documentElement.style.removeProperty('--mermaid-font');
   }
 
   try {

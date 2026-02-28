@@ -505,6 +505,12 @@ button.success { border-color: #4caf50; color: #4caf50; }
 }
 .preview-container svg { display: block; max-width: none; height: auto; }
 
+/* Force hand-drawn font for Mermaid */
+.mermaid-handDrawn, 
+.mermaid-handDrawn * {
+  font-family: var(--mermaid-font, inherit) !important;
+}
+
 .zoom-label {
   font-size: 11px; color: var(--text-secondary);
   min-width: 32px; text-align: center; font-variant-numeric: tabular-nums;
