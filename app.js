@@ -45,16 +45,30 @@ document.querySelectorAll('.theme-pill').forEach(pill => {
 });
 
 // ── Hand-drawn toggle ───────────────────────────────────────────────
+function toggleHandDrawn() {
+  state.handDrawn = !state.handDrawn;
+  if (dom.handDrawnBtn) {
+    dom.handDrawnBtn.classList.toggle('active', state.handDrawn);
+    dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
+  }
+  if (dom.handDrawnToggleQuick) {
+    dom.handDrawnToggleQuick.classList.toggle('active', state.handDrawn);
+  }
+  initMermaid();
+  renderDiagram();
+}
+
 if (dom.handDrawnBtn) {
   dom.handDrawnBtn.classList.add('active');
   dom.handDrawnBtn.addEventListener('click', () => {
-    state.handDrawn = !state.handDrawn;
-    dom.handDrawnBtn.classList.toggle('active', state.handDrawn);
-    dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
-    initMermaid();
-    renderDiagram();
+    toggleHandDrawn();
     closeAllMenus();
   });
+}
+
+if (dom.handDrawnToggleQuick) {
+  dom.handDrawnToggleQuick.classList.add('active');
+  dom.handDrawnToggleQuick.addEventListener('click', toggleHandDrawn);
 }
 
 // ── Hand-drawn font selection ────────────────────────────────────────

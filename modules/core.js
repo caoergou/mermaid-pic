@@ -100,6 +100,7 @@ export const dom = {
   iconSunQuick: document.getElementById('icon-sun-quick'),
   iconMoonQuick: document.getElementById('icon-moon-quick'),
   uiThemeToggleQuick: document.getElementById('ui-theme-toggle-quick'),
+  handDrawnToggleQuick: document.getElementById('hand-drawn-toggle-quick'),
   helpModal: document.getElementById('help-modal'),
   modalClose: document.getElementById('modal-close'),
   modalOk: document.getElementById('modal-ok'),
