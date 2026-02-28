@@ -3,7 +3,7 @@ import {
   applyUiTheme, switchTheme, switchPreviewBg, openHelp, saveHandDrawnPrefs, HAND_FONTS,
 } from './core.js';
 import { STRINGS } from './i18n.js';
-import { EXAMPLES } from './examples.js';
+import { EXAMPLES_ZH, EXAMPLES_EN } from './examples.js';
 import { initMermaid, renderDiagram } from './render.js';
 import { downloadPng, downloadSvg, copyPng, copyShareLink, copyEmbedCode } from './export.js';
 import { formatCode } from './editor.js';
@@ -48,7 +48,8 @@ function getCmdCommands() {
     { group: isZh ? '帮助' : 'Help', label: 'GitHub', icon: 'github', action() { window.open('https://github.com/caoergou/mermaid-pic', '_blank'); } },
   ];
 
-  EXAMPLES.forEach(ex => {
+  const examples = isZh ? EXAMPLES_ZH : EXAMPLES_EN;
+  examples.forEach(ex => {
     cmds.push({
       group: isZh ? '示例' : 'Examples',
       label: ex.label,

@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |------|------|
 | `core.js` | 共享状态（`state`）、DOM 引用（`dom`）、常量、工具函数（toast、zoom、theme 切换等） |
 | `i18n.js` | 国际化字符串（`STRINGS`）、`applyI18n()` |
-| `examples.js` | 示例图表数据（`EXAMPLES`）、默认代码（`DEFAULT_CODE`） |
+| `examples.js` | 示例图表数据（`EXAMPLES_ZH`, `EXAMPLES_EN`）、默认代码（`DEFAULT_CODE`） |
 | `editor.js` | CodeMirror 6 编辑器初始化、`getCode()`、lint 诊断管理 |
 | `render.js` | Mermaid 初始化/渲染（`initMermaid`、`renderDiagram`）、字体内联、SVG→PNG 转换 |
 | `export.js` | 复制/下载 SVG/PNG、URL 编码（pako 压缩）、分享链接、嵌入代码 |
