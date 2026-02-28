@@ -28,6 +28,13 @@ dom.uiThemeToggle.addEventListener('click', () => {
   closeAllMenus();
 });
 
+if (dom.uiThemeToggleQuick) {
+  dom.uiThemeToggleQuick.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    applyUiTheme(!isDark);
+  });
+}
+
 // ── Theme pills ─────────────────────────────────────────────────────
 document.querySelectorAll('.theme-pill').forEach(pill => {
   pill.addEventListener('click', () => {

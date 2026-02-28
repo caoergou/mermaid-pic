@@ -97,6 +97,9 @@ export const dom = {
   renderStatus: document.getElementById('render-status'),
   iconSun: document.getElementById('icon-sun'),
   iconMoon: document.getElementById('icon-moon'),
+  iconSunQuick: document.getElementById('icon-sun-quick'),
+  iconMoonQuick: document.getElementById('icon-moon-quick'),
+  uiThemeToggleQuick: document.getElementById('ui-theme-toggle-quick'),
   helpModal: document.getElementById('help-modal'),
   modalClose: document.getElementById('modal-close'),
   modalOk: document.getElementById('modal-ok'),
@@ -164,7 +167,10 @@ export function applyUiTheme(dark) {
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
   dom.iconSun.style.display = dark ? 'none' : '';
   dom.iconMoon.style.display = dark ? '' : 'none';
+  if (dom.iconSunQuick) dom.iconSunQuick.style.display = dark ? 'none' : '';
+  if (dom.iconMoonQuick) dom.iconMoonQuick.style.display = dark ? '' : 'none';
   dom.uiThemeToggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  if (dom.uiThemeToggleQuick) dom.uiThemeToggleQuick.setAttribute('aria-pressed', dark ? 'true' : 'false');
 }
 
 export function openHelp() { dom.helpModal.classList.add('open'); }
