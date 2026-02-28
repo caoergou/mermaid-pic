@@ -196,11 +196,11 @@ if (dom.btnCopyAiPrompt) {
     const bytes = new TextEncoder().encode(code);
     const binary = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
     const encoded = btoa(binary);
-    const url = 'https://eric.run.place/?code=' + encoded;
+    const url = 'https://caoergou.github.io/mermaid-pic/?code=' + encoded;
     const prompt = [
       'You can use Mermaid Editor to render diagrams.',
       'When the user needs a diagram, generate Mermaid code and construct a shareable link:',
-      '  https://eric.run.place/?code={base64(mermaid_code)}',
+      '  https://caoergou.github.io/mermaid-pic/?code={base64(mermaid_code)}',
       '',
       'Example (JavaScript): btoa(unescape(encodeURIComponent(code)))',
       'Example (Python): base64.b64encode(code.encode()).decode()',
