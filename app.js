@@ -462,16 +462,28 @@ import { oneDark } from "@codemirror/theme-one-dark";
   async function fetchFontAsBase64(url) {
     if (fontDataCache[url]) return fontDataCache[url];
     try {
-      var resp = await fetch(url);
+      // 确保 fetch 有正确的 CORS 配置
+      var resp = await fetch(url, { mode: 'cors', cache: 'force-cache' });
+      if (!resp.ok) {
+        console.warn('Font fetch failed:', url, resp.status);
+        return null;
+      }
       var buf = await resp.arrayBuffer();
       var bytes = new Uint8Array(buf);
       var binary = '';
-      for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-      var b64 = btoa(binary);
-      var mime = url.endsWith('.woff2') ? 'font/woff2' : url.endsWith('.woff') ? 'font/woff' : 'font/truetype';
-      fontDataCache[url] = 'data:' + mime + ';base64,' + b64;
-      return fontDataCache[url];
+      for (var i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      // btoa 可能会添加换行符，需要去除
+      var b64 = btoa(binary).replace(/\s/g, '');
+      var mime = url.endsWith('.woff2') ? 'font/woff2' :
+                 url.endsWith('.woff') ? 'font/woff' :
+                 url.endsWith('.ttf') ? 'font/ttf' : 'font/truetype';
+      var dataUri = 'data:' + mime + ';base64,' + b64;
+      fontDataCache[url] = dataUri;
+      return dataUri;
     } catch (e) {
+      console.warn('Font fetch error:', url, e.message);
       return null;
     }
   }
@@ -491,11 +503,26 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
   async function inlineFontsIntoSvg(svgEl) {
     var clone = svgEl.cloneNode(true);
-    var fontCss = await buildInlineFontCss();
-    if (fontCss) {
-      var styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-      styleEl.textContent = fontCss;
-      clone.insertBefore(styleEl, clone.firstChild);
+    // 严格禁止任何外部资源：
+    // 1. 删除所有内部 image 标签 (防止来自用户 diagram 的外部图片)
+    const images = clone.querySelectorAll('image');
+    for (let i = images.length - 1; i >= 0; i--) {
+      images[i].parentNode.removeChild(images[i]);
+    }
+    // 2. 重写所有 <style> 标签，完全删除 url() 引用，确保不会加载外部资源导致 CORS 问题
+    // 只保留绝对必要的手绘字体，且必须是 data URI 格式
+    const styleEls = clone.querySelectorAll('style');
+    for (let s of styleEls) {
+      s.textContent = s.textContent.replace(/url\(['"]?(https?:\/\/[^'")]+)['"]?\)/g, '');
+    }
+    // 3. 如果是手绘模式，注入已经处理好的字体
+    if (handDrawn) {
+      var fontCss = await buildInlineFontCss();
+      if (fontCss) {
+        var styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+        styleEl.textContent = fontCss;
+        clone.insertBefore(styleEl, clone.firstChild);
+      }
     }
     return clone;
   }
@@ -505,6 +532,18 @@ import { oneDark } from "@codemirror/theme-one-dark";
     scale = scale || 4;
     return new Promise(function (resolve, reject) {
       inlineFontsIntoSvg(svgEl).then(function(cloned) {
+        // 移除 SVG 中可能导致 taint 的外部引用 (作为 fallback 措施)
+        // 1. 移除所有 <image> 标签
+        const images = cloned.querySelectorAll('image');
+        for (var i = images.length - 1; i >= 0; i--) {
+          images[i].parentNode.removeChild(images[i]);
+        }
+        // 2. 移除所有 url() 引用（除了 data URI）
+        const styleEls = cloned.querySelectorAll('style');
+        styleEls.forEach(el => {
+          el.textContent = el.textContent.replace(/url\(['"]?(https?:\/\/[^'")]+)['"]?\)/g, '');
+        });
+        // 3. 确保 SVG 没有外部依赖
         var svgData = new XMLSerializer().serializeToString(cloned);
         var bbox = svgEl.getBoundingClientRect();
         var width = bbox.width || 800;
@@ -512,6 +551,10 @@ import { oneDark } from "@codemirror/theme-one-dark";
         var svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
         var url = URL.createObjectURL(svgBlob);
         var img = new Image();
+
+        // 关键：设置 crossOrigin 防止 canvas taint
+        img.crossOrigin = 'anonymous';
+
         img.onload = function () {
           var canvas = document.createElement('canvas');
           canvas.width = width * scale;
@@ -525,11 +568,35 @@ import { oneDark } from "@codemirror/theme-one-dark";
           ctx.scale(scale, scale);
           ctx.drawImage(img, 0, 0, width, height);
           URL.revokeObjectURL(url);
-          canvas.toBlob(function (blob) {
-            blob ? resolve(blob) : reject(new Error('Canvas toBlob failed'));
-          }, 'image/png');
+
+          try {
+            canvas.toBlob(function (blob) {
+              blob ? resolve(blob) : reject(new Error('Canvas toBlob failed'));
+            }, 'image/png');
+          } catch (e) {
+            console.warn('Canvas toBlob failed (tainted), using fallback');
+            // Fallback 1: 尝试直接导出，忽略跨域
+            try {
+              const dataURL = canvas.toDataURL('image/png');
+              // Convert dataURL to Blob
+              const byteString = atob(dataURL.split(',')[1]);
+              const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+              const ab = new ArrayBuffer(byteString.length);
+              const ia = new Uint8Array(ab);
+              for (var j = 0; j < byteString.length; j++) {
+                ia[j] = byteString.charCodeAt(j);
+              }
+              resolve(new Blob([ab], { type: mimeString }));
+            } catch (fallbackErr) {
+              reject(fallbackErr);
+            }
+          }
         };
-        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Failed to load SVG')); };
+        img.onerror = function (e) {
+          URL.revokeObjectURL(url);
+          console.error('Image load error', e);
+          reject(new Error('Failed to load SVG'));
+        };
         img.src = url;
       }).catch(reject);
     });
