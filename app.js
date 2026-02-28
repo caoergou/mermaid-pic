@@ -179,6 +179,16 @@ import { oneDark } from "@codemirror/theme-one-dark";
     setRenderStatus('rendering', STRINGS[currentLang].renderingStatus);
     // some diagram types have known issues with handDrawn look; fall back to classic
     var noHandDrawn = /^\s*(classDiagram|stateDiagram|erDiagram|gantt|pie|mindmap|timeline|xychart)/i.test(code);
+    // Show visual hint on hand-drawn button when current diagram type doesn't support it
+    if (handDrawnBtn) {
+      if (handDrawn && noHandDrawn) {
+        handDrawnBtn.title = '此图类型不支持手绘风格 / Not supported for this diagram type';
+        handDrawnBtn.style.opacity = '0.5';
+      } else {
+        handDrawnBtn.title = '手绘风格 (Hand-drawn style)';
+        handDrawnBtn.style.opacity = '';
+      }
+    }
     var handwritingFont = "'Virgil', 'LXGW WenKai TC', 'KaiTi', 'STKaiti', cursive";
     var normalFont = "system-ui, -apple-system, sans-serif";
     mermaid.initialize({
@@ -330,6 +340,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
     iconMoon.style.display = dark ? '' : 'none';
     var label = document.getElementById('theme-toggle-label');
     if (label) label.textContent = dark ? '深色' : '浅色';
+    uiThemeToggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
   }
 
   var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -344,8 +355,12 @@ import { oneDark } from "@codemirror/theme-one-dark";
   document.querySelectorAll('.theme-pill').forEach(function (pill) {
     pill.addEventListener('click', function () {
       currentTheme = pill.getAttribute('data-theme');
-      document.querySelectorAll('.theme-pill').forEach(function (p) { p.classList.remove('active'); });
+      document.querySelectorAll('.theme-pill').forEach(function (p) {
+        p.classList.remove('active');
+        p.setAttribute('aria-checked', 'false');
+      });
       pill.classList.add('active');
+      pill.setAttribute('aria-checked', 'true');
       themeSelect.value = currentTheme;
       initMermaid();
       renderDiagram();
@@ -359,6 +374,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
     handDrawnBtn.addEventListener('click', function () {
       handDrawn = !handDrawn;
       handDrawnBtn.classList.toggle('active', handDrawn);
+      handDrawnBtn.setAttribute('aria-pressed', handDrawn ? 'true' : 'false');
       initMermaid();
       renderDiagram();
     });
@@ -641,14 +657,8 @@ import { oneDark } from "@codemirror/theme-one-dark";
     var ctrl = e.ctrlKey || e.metaKey;
     if (!ctrl) return;
     if (e.key === 'Enter') { e.preventDefault(); clearTimeout(renderTimeout); renderDiagram(); }
-    else if (e.key === 's') {
-      e.preventDefault();
-      // Open export dropdown so user can pick format
-      if (exportDropdownMenu) {
-        exportDropdownMenu.classList.toggle('open');
-        if (settingsMenu) settingsMenu.classList.remove('open');
-      }
-    }
+    else if (e.key === 's' && !e.shiftKey) { e.preventDefault(); downloadSvg().catch(function(err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
+    else if (e.key === 'S' && e.shiftKey) { e.preventDefault(); downloadPng().catch(function(err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
     else if (e.key === 'p' && e.shiftKey) { e.preventDefault(); copyPng().catch(function (err) { showToast(STRINGS[currentLang].toastFailed + ': ' + err.message); }); }
   });
 
@@ -1238,6 +1248,43 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
   document.addEventListener('click', function() { hideCtxMenu(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideCtxMenu(); });
+
+  // ── Mobile overflow menu ───────────────────────────────────────────
+  var btnMobileMore = document.getElementById('btn-mobile-more');
+  var mobileOverflowMenu = document.getElementById('mobile-overflow-menu');
+  var mobileOverflowBackdrop = document.getElementById('mobile-overflow-backdrop');
+
+  if (btnMobileMore && mobileOverflowMenu) {
+    btnMobileMore.addEventListener('click', function (e) {
+      e.stopPropagation();
+      mobileOverflowMenu.classList.toggle('open');
+    });
+    mobileOverflowBackdrop.addEventListener('click', function () {
+      mobileOverflowMenu.classList.remove('open');
+    });
+
+    var mobBtnShare = document.getElementById('mob-btn-share');
+    var mobBtnDownloadPng = document.getElementById('mob-btn-download-png');
+    var mobBtnDownloadSvg = document.getElementById('mob-btn-download-svg');
+    var mobBtnHelp = document.getElementById('mob-btn-help');
+
+    if (mobBtnShare) mobBtnShare.addEventListener('click', function () {
+      mobileOverflowMenu.classList.remove('open');
+      copyShareLink().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+    });
+    if (mobBtnDownloadPng) mobBtnDownloadPng.addEventListener('click', function () {
+      mobileOverflowMenu.classList.remove('open');
+      downloadPng().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+    });
+    if (mobBtnDownloadSvg) mobBtnDownloadSvg.addEventListener('click', function () {
+      mobileOverflowMenu.classList.remove('open');
+      downloadSvg().catch(function (e) { showToast(STRINGS[currentLang].toastFailed + ': ' + e.message); });
+    });
+    if (mobBtnHelp) mobBtnHelp.addEventListener('click', function () {
+      mobileOverflowMenu.classList.remove('open');
+      openHelp();
+    });
+  }
 
   // ── Bootstrap ──────────────────────────────────────────────────────
   function bootstrap() {

@@ -323,9 +323,41 @@ body {
 
 .toolbar__sep {
   width: 1px;
-  height: 20px;
+  height: 24px;
   background: var(--border-color);
   flex-shrink: 0;
+  margin: 0 4px;
+  align-self: center;
+}
+
+/* Toolbar button groups */
+.toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.toolbar__group--actions {
+  background: var(--btn-bg);
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+}
+
+/* Inside the actions group, share/export buttons lose their outer border */
+.toolbar__group--actions .btn-share-main,
+.toolbar__group--actions .btn-share-arrow,
+.toolbar__group--actions .btn-export-main,
+.toolbar__group--actions .btn-export-arrow {
+  border-color: transparent;
+}
+.toolbar__group--actions .btn-share-main,
+.toolbar__group--actions .btn-export-main {
+  border-radius: 4px 0 0 4px;
+}
+.toolbar__group--actions .btn-share-arrow,
+.toolbar__group--actions .btn-export-arrow {
+  border-radius: 0 4px 4px 0;
 }
 
 .control-label {
@@ -446,17 +478,38 @@ button.success { border-color: #4caf50; color: #4caf50; }
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  min-height: 36px;
+  min-height: 40px;
   gap: 8px;
+}
+
+.panel--editor .panel__header {
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
 }
 
 .panel--preview .panel__header {
   flex-wrap: nowrap;
 }
 
+/* Fade mask wrapper for theme pills overflow */
+.theme-pills-wrap {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+}
+.theme-pills-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 24px;
+  background: linear-gradient(to right, transparent, var(--panel-header-bg));
+  pointer-events: none;
+}
+
 .panel--preview .theme-pills {
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -1056,6 +1109,57 @@ kbd {
   display: none;
 }
 
+/* Mobile overflow menu */
+.toolbar__mobile-more { display: none; }
+
+.mobile-overflow-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 2000;
+}
+.mobile-overflow-menu__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--modal-overlay);
+}
+.mobile-overflow-menu__panel {
+  position: absolute;
+  top: 52px; right: 8px;
+  background: var(--modal-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  min-width: 200px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mobile-overflow-menu.open { display: block; }
+
+.mobile-overflow-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  border-radius: 7px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+.mobile-overflow-menu__item:hover { background: var(--btn-hover); }
+.mobile-overflow-menu__item svg { flex-shrink: 0; color: var(--text-secondary); }
+.mobile-overflow-menu__sep {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
 @media (max-width: 768px) {
   .mobile-tabs {
     display: flex;
@@ -1090,12 +1194,17 @@ kbd {
   }
   /* hide divider on mobile */
   #divider { display: none; }
-}
 
+  /* Mobile toolbar: compact single row */
+  .toolbar { height: 48px; padding: 0 12px; flex-wrap: nowrap; }
+  .toolbar__controls { gap: 4px; flex-wrap: nowrap; overflow: visible; }
 
-@media (max-width: 768px) {
-  .toolbar { height: auto; padding: 8px 12px; flex-wrap: wrap; }
-  .toolbar__controls { width: 100%; flex-wrap: wrap; overflow-x: visible; }
+  /* Hide secondary items on mobile, show overflow button */
+  .toolbar__group--actions { display: none; }
+  .toolbar__sep { display: none; }
+  .toolbar-link { display: none; }
+  .toolbar__mobile-more { display: inline-flex !important; }
+
   .editor-layout { flex-direction: column; }
   #divider { width: 100%; height: 5px; cursor: row-resize; }
   #divider::after { width: 32px; height: 3px; }
