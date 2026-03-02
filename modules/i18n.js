@@ -43,9 +43,8 @@ export const STRINGS = {
       { title: '菜单栏', body: '四大功能区：文件（导出/分享）、编辑（手绘风格/字体/字号）、视图（主题/背景/深色模式）、帮助（快捷键）。按 Alt+F/E/V/H 快速打开。' },
       { title: '命令面板', body: '按 Ctrl+K 打开命令面板，搜索并快速执行任意操作：导出图片、切换主题、加载示例、格式化代码等。' },
     ],
+    shortcutSave: '保存图表 (选择格式)',
     shortcutCopyPng: '复制 PNG',
-    shortcutDlSvg: '下载 SVG',
-    shortcutDlPng: '下载 PNG',
     shortcutCmdPalette: '命令面板',
     shortcutFormat: '格式化代码',
     errorSyntax: '语法错误',
@@ -96,9 +95,8 @@ export const STRINGS = {
       { title: 'Menu Bar', body: 'Four sections: File (export/share), Edit (hand-drawn style/fonts), View (themes/backgrounds/dark mode), Help (shortcuts). Press Alt+F/E/V/H to open.' },
       { title: 'Command Palette', body: 'Press Ctrl+K to open the command palette. Search and run any action: export, switch themes, load examples, format code, and more.' },
     ],
+    shortcutSave: 'Save Diagram (choose format)',
     shortcutCopyPng: 'Copy PNG',
-    shortcutDlSvg: 'Download SVG',
-    shortcutDlPng: 'Download PNG',
     shortcutCmdPalette: 'Command Palette',
     shortcutFormat: 'Format Code',
     errorSyntax: 'Syntax Error',
@@ -120,7 +118,7 @@ export function applyI18n() {
   document.getElementById('btn-restart-tour').textContent = s.modalRestartTour;
   document.getElementById('modal-ok').textContent = s.modalClose;
   const tds = document.querySelectorAll('.help-table td:first-child');
-  const keys = ['shortcutCopyPng', 'shortcutDlSvg', 'shortcutDlPng', 'shortcutFormat', 'shortcutCmdPalette'];
+  const keys = ['shortcutSave', 'shortcutCopyPng', 'shortcutFormat', 'shortcutCmdPalette'];
   tds.forEach((td, i) => { if (keys[i]) td.textContent = s[keys[i]]; });
   updateEditorStatus();
   if (typeof window.renderExampleDropdown === 'function') {

@@ -370,9 +370,37 @@ if (btnCmdPalette) btnCmdPalette.addEventListener('click', () => { closeAllMenus
 const btnCmdPaletteQuick = document.getElementById('btn-cmd-palette-quick');
 if (btnCmdPaletteQuick) btnCmdPaletteQuick.addEventListener('click', openCmdPalette);
 
+// ── Save dialog ─────────────────────────────────────────────────────
+const saveDialog = document.getElementById('save-dialog');
+const saveDialogClose = document.getElementById('save-dialog-close');
+const saveDialogPng = document.getElementById('save-dialog-png');
+const saveDialogSvg = document.getElementById('save-dialog-svg');
+
+function openSaveDialog() {
+  if (saveDialog) saveDialog.classList.add('open');
+}
+
+function closeSaveDialog() {
+  if (saveDialog) saveDialog.classList.remove('open');
+}
+
+if (saveDialogClose) saveDialogClose.addEventListener('click', closeSaveDialog);
+if (saveDialog) saveDialog.addEventListener('click', e => { if (e.target === saveDialog) closeSaveDialog(); });
+
+if (saveDialogPng) saveDialogPng.addEventListener('click', () => {
+  closeSaveDialog();
+  downloadPng().catch(err => { showToast(STRINGS[state.currentLang].toastFailed + ': ' + err.message); });
+});
+
+if (saveDialogSvg) saveDialogSvg.addEventListener('click', () => {
+  closeSaveDialog();
+  downloadSvg().catch(err => { showToast(STRINGS[state.currentLang].toastFailed + ': ' + err.message); });
+});
+
 // ── Keyboard shortcuts ──────────────────────────────────────────────
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    if (saveDialog && saveDialog.classList.contains('open')) { closeSaveDialog(); return; }
     if (state.menubarOpen) { closeAllMenus(); return; }
     closeHelp();
     closeTour();
@@ -399,8 +427,7 @@ document.addEventListener('keydown', e => {
   if (ctrl && e.key === 'k') { e.preventDefault(); openCmdPalette(); return; }
   if (!ctrl) return;
   if (e.shiftKey && (e.key === 'f' || e.key === 'F')) { e.preventDefault(); formatCode(); return; }
-  if (e.key === 's' && !e.shiftKey) { e.preventDefault(); downloadSvg().catch(err => { showToast(STRINGS[state.currentLang].toastFailed + ': ' + err.message); }); }
-  else if (e.key === 'S' && e.shiftKey) { e.preventDefault(); downloadPng().catch(err => { showToast(STRINGS[state.currentLang].toastFailed + ': ' + err.message); }); }
+  if ((e.key === 's' || e.key === 'S') && !e.shiftKey) { e.preventDefault(); openSaveDialog(); }
   else if (e.key === 'c' && e.shiftKey) { e.preventDefault(); copyPng().catch(err => { showToast(STRINGS[state.currentLang].toastFailed + ': ' + err.message); }); }
 });
 

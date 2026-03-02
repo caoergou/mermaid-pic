@@ -31,8 +31,8 @@ function getCmdCommands() {
   const s = STRINGS[state.currentLang];
   const isZh = state.currentLang === 'zh';
   const cmds = [
-    { group: isZh ? '导出' : 'Export', label: isZh ? '下载 PNG' : 'Download PNG', icon: 'download', kbd: 'Ctrl+Shift+S', action() { downloadPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
-    { group: isZh ? '导出' : 'Export', label: isZh ? '下载 SVG' : 'Download SVG', icon: 'download', kbd: 'Ctrl+S', action() { downloadSvg().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: isZh ? '导出' : 'Export', label: isZh ? '下载 PNG' : 'Download PNG', icon: 'download', action() { downloadPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: isZh ? '导出' : 'Export', label: isZh ? '下载 SVG' : 'Download SVG', icon: 'download', action() { downloadSvg().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
     { group: isZh ? '导出' : 'Export', label: isZh ? '复制 PNG' : 'Copy PNG', icon: 'copy', kbd: 'Ctrl+Shift+C', action() { copyPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
     { group: isZh ? '分享' : 'Share', label: isZh ? '复制分享链接' : 'Copy share link', icon: 'share', action() { copyShareLink().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
     { group: isZh ? '视图' : 'View', label: isZh ? '切换深色/浅色模式' : 'Toggle dark/light mode', icon: 'theme', action() { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; applyUiTheme(!isDark); } },
