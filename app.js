@@ -53,13 +53,16 @@ function toggleHandDrawn() {
   }
   if (dom.handDrawnToggleQuick) {
     dom.handDrawnToggleQuick.classList.toggle('active', state.handDrawn);
+    dom.handDrawnToggleQuick.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
   }
+  saveHandDrawnPrefs();
   initMermaid();
   renderDiagram();
 }
 
 if (dom.handDrawnBtn) {
-  dom.handDrawnBtn.classList.add('active');
+  dom.handDrawnBtn.classList.toggle('active', state.handDrawn);
+  dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
   dom.handDrawnBtn.addEventListener('click', () => {
     toggleHandDrawn();
     closeAllMenus();
@@ -67,7 +70,8 @@ if (dom.handDrawnBtn) {
 }
 
 if (dom.handDrawnToggleQuick) {
-  dom.handDrawnToggleQuick.classList.add('active');
+  dom.handDrawnToggleQuick.classList.toggle('active', state.handDrawn);
+  dom.handDrawnToggleQuick.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
   dom.handDrawnToggleQuick.addEventListener('click', toggleHandDrawn);
 }
 

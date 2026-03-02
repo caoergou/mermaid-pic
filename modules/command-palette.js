@@ -38,8 +38,9 @@ function getCmdCommands() {
     { group: isZh ? '视图' : 'View', label: isZh ? '切换深色/浅色模式' : 'Toggle dark/light mode', icon: 'theme', action() { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; applyUiTheme(!isDark); } },
     { group: isZh ? '视图' : 'View', label: isZh ? '切换手绘风格' : 'Toggle hand-drawn style', icon: 'pencil', action() {
       state.handDrawn = !state.handDrawn;
-      dom.handDrawnBtn.classList.toggle('active', state.handDrawn);
-      dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
+      if (dom.handDrawnBtn) { dom.handDrawnBtn.classList.toggle('active', state.handDrawn); dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false'); }
+      if (dom.handDrawnToggleQuick) { dom.handDrawnToggleQuick.classList.toggle('active', state.handDrawn); dom.handDrawnToggleQuick.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false'); }
+      saveHandDrawnPrefs();
       initMermaid(); renderDiagram();
     }},
     { group: isZh ? '视图' : 'View', label: isZh ? '重置缩放' : 'Reset zoom', icon: 'zoom', action: resetView },

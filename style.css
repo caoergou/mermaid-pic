@@ -130,6 +130,7 @@ body {
   -webkit-app-region: no-drag;
 }
 .toolbar-btn:hover { background: var(--btn-hover); color: var(--text-primary); }
+.toolbar-btn.active { color: var(--accent); }
 
 /* ── Ctrl+K search trigger ───────────────────────────────────────── */
 .btn-cmdk {

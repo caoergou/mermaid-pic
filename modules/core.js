@@ -17,7 +17,7 @@ const _hdPrefs = loadHandDrawnPrefs();
 
 export const state = {
   currentTheme: 'default',
-  handDrawn: true,
+  handDrawn: _hdPrefs.enabled !== false,
   handDrawnSeedMode: _hdPrefs.seedMode || 'fixed',
   handDrawnSeed: 42,
   handDrawnFont: (_hdPrefs.font && _hdPrefs.font !== 'xiaolai' && HAND_FONTS[_hdPrefs.font]) ? _hdPrefs.font : 'virgil',
@@ -39,6 +39,7 @@ export const state = {
 export function saveHandDrawnPrefs() {
   try {
     localStorage.setItem('mermaid-editor-handdrawn', JSON.stringify({
+      enabled: state.handDrawn,
       seedMode: state.handDrawnSeedMode,
       font: state.handDrawnFont,
       fontSize: state.handDrawnFontSize,
