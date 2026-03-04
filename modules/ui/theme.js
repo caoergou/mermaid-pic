@@ -4,6 +4,7 @@ import { initMermaid, renderDiagram } from '../render.js';
 import { openHelp as openHelpUtil } from '../utils.js';
 import { updateHash } from '../export.js';
 import { getCode } from '../editor.js';
+import { STRINGS } from '../i18n.js';
 
 // ── UI 主题管理 ───────────────────────────────────────────────
 
@@ -62,7 +63,10 @@ export function syncHandDrawnUI() {
 export function switchTheme(t) {
   state.currentTheme = t;
   const label = document.getElementById('theme-dropdown-label');
-  if (label) label.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+  if (label) {
+    const s = STRINGS[state.currentLang];
+    label.textContent = s['theme' + t.charAt(0).toUpperCase() + t.slice(1)];
+  }
   document.querySelectorAll('.theme-dropdown__panel button').forEach(b => {
     b.classList.toggle('active', b.getAttribute('data-theme') === t);
   });

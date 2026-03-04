@@ -12,6 +12,15 @@ export const STRINGS = {
     share: '分享',
     toastEmbedCopied: '嵌入代码已复制',
     exportbg: '背景',
+    bgWhite: '白色',
+    bgBlack: '黑色',
+    bgChecker: '透明',
+    bgGrid: '网格',
+    themeDefault: 'Default',
+    themeDark: 'Dark',
+    themeForest: 'Forest',
+    themeNeutral: 'Neutral',
+    themeBase: 'Base',
     renderingStatus: '渲染中...',
     renderOk: '✓ 完成',
     renderError: '✗ 错误',
@@ -62,6 +71,15 @@ export const STRINGS = {
     share: 'Share',
     toastEmbedCopied: 'Embed code copied',
     exportbg: 'BG',
+    bgWhite: 'White',
+    bgBlack: 'Black',
+    bgChecker: 'Transparent',
+    bgGrid: 'Grid',
+    themeDefault: 'Default',
+    themeDark: 'Dark',
+    themeForest: 'Forest',
+    themeNeutral: 'Neutral',
+    themeBase: 'Base',
     renderingStatus: 'Rendering...',
     renderOk: '✓ OK',
     renderError: '✗ Error',
@@ -108,6 +126,19 @@ export function applyI18n() {
   const s = STRINGS[state.currentLang];
   document.querySelectorAll('[data-i18n="editor"]').forEach(el => { el.textContent = s.editorPanel; });
   document.querySelectorAll('[data-i18n="preview"]').forEach(el => { el.textContent = s.previewPanel; });
+
+  // 主题下拉框
+  document.querySelectorAll('[data-i18n-theme]').forEach(el => {
+    const theme = el.getAttribute('data-i18n-theme');
+    el.textContent = s['theme' + theme.charAt(0).toUpperCase() + theme.slice(1)];
+  });
+
+  // 背景下拉框
+  document.querySelectorAll('[data-i18n-bg]').forEach(el => {
+    const bg = el.getAttribute('data-i18n-bg');
+    el.textContent = s['bg' + bg.charAt(0).toUpperCase() + bg.slice(1)];
+  });
+
   document.getElementById('modal-title').textContent = s.modalTitle;
   const sectionH3s = document.querySelectorAll('.help-section h3');
   const sectionKeys = ['modalSectionFile', 'modalSectionEdit', 'modalSectionMenu', 'modalSectionBg'];
