@@ -6,13 +6,17 @@
   <title>Mermaid Diagram</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: transparent; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    #diagram { max-width: 100%; }
+    body { background: transparent; overflow: hidden; min-height: 100vh; }
+    #container { width: 100%; height: 100vh; overflow: hidden; position: relative; }
+    #diagram { transform-origin: 0 0; cursor: grab; }
+    #diagram:active { cursor: grabbing; }
     #error { color: #c0392b; font-family: monospace; font-size: 13px; padding: 16px; white-space: pre-wrap; }
   </style>
 </head>
 <body>
-  <div id="diagram"></div>
+  <div id="container">
+    <div id="diagram"></div>
+  </div>
   <div id="error" style="display:none"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
@@ -48,6 +52,9 @@
         var code = decoded;
         var theme = params.get('theme') || 'default';
         var look = params.get('look') || 'handDrawn';
+        var fontFamily = 'Kalam';
+        var fontSize = 16;
+        var bg = 'transparent';
 
         // 尝试解析 v2 JSON 格式
         try {
@@ -56,10 +63,19 @@
             code = obj.c;
             if (obj.t) theme = obj.t;
             if (obj.hd === false) look = 'classic';
+            if (obj.hdf) {
+              var fonts = { kalam: 'Kalam', caveat: 'Caveat', patrick: 'Patrick Hand', architects: 'Architects Daughter', indie: 'Indie Flower' };
+              fontFamily = fonts[obj.hdf] || 'Kalam';
+            }
+            if (obj.hds) {
+              var sizes = { small: 14, medium: 16, large: 18 };
+              fontSize = sizes[obj.hds] || 16;
+            }
+            if (obj.bg) bg = obj.bg;
           }
-        } catch (e) {
-          // 保持旧格式 fallback
-        }
+        } catch (e) {}
+
+        if (bg !== 'transparent') document.body.style.background = bg;
 
         mermaid.initialize({
           startOnLoad: false,
@@ -67,11 +83,45 @@
           look: look,
           handDrawnSeed: 42,
           securityLevel: 'loose',
+          fontFamily: fontFamily,
+          fontSize: fontSize,
         });
 
         var el = document.getElementById('diagram');
         mermaid.render('mermaid-svg', code).then(function(result) {
           el.innerHTML = result.svg;
+
+          // 添加缩放拖动功能
+          var scale = 1, posX = 0, posY = 0, isDragging = false, startX, startY;
+
+          function updateTransform() {
+            el.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale + ')';
+          }
+
+          document.getElementById('container').addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.9 : 1.1;
+            scale *= delta;
+            scale = Math.max(0.1, Math.min(scale, 10));
+            updateTransform();
+          });
+
+          el.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            startX = e.clientX - posX;
+            startY = e.clientY - posY;
+          });
+
+          document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            posX = e.clientX - startX;
+            posY = e.clientY - startY;
+            updateTransform();
+          });
+
+          document.addEventListener('mouseup', function() {
+            isDragging = false;
+          });
         }).catch(function(err) {
           document.getElementById('error').style.display = '';
           document.getElementById('error').textContent = 'Render error: ' + err.message;
