@@ -36,3 +36,54 @@ export function resetView() {
   pz.scale = 1; pz.tx = 0; pz.ty = 0;
   applyTransform();
 }
+
+const ZOOM_STEP = 1.25;
+
+/**
+ * 绑定预览区缩放按钮、拖拽平移与滚轮缩放
+ */
+export function initZoom() {
+  applyTransform();
+
+  if (dom.btnZoomIn) dom.btnZoomIn.addEventListener('click', () => zoomTo(pz.scale * ZOOM_STEP));
+  if (dom.btnZoomOut) dom.btnZoomOut.addEventListener('click', () => zoomTo(pz.scale / ZOOM_STEP));
+  if (dom.btnZoomReset) dom.btnZoomReset.addEventListener('click', resetView);
+
+  const vp = dom.previewViewport;
+  if (!vp) return;
+
+  vp.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.target.closest('.floating-zoom')) return;
+    pz.dragging = true;
+    pz.startX = e.clientX;
+    pz.startY = e.clientY;
+    pz.startTx = pz.tx;
+    pz.startTy = pz.ty;
+    vp.setPointerCapture(e.pointerId);
+  });
+
+  vp.addEventListener('pointermove', e => {
+    if (!pz.dragging) return;
+    pz.tx = pz.startTx + (e.clientX - pz.startX);
+    pz.ty = pz.startTy + (e.clientY - pz.startY);
+    applyTransform();
+  });
+
+  vp.addEventListener('pointerup', e => {
+    if (e.button !== 0) return;
+    pz.dragging = false;
+    vp.releasePointerCapture(e.pointerId);
+  });
+  vp.addEventListener('pointercancel', () => {
+    pz.dragging = false;
+  });
+
+  vp.addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect = vp.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const factor = e.deltaY > 0 ? 1 / ZOOM_STEP : ZOOM_STEP;
+    zoomTo(pz.scale * factor, cx, cy);
+  }, { passive: false });
+}
