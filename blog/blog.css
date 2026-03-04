@@ -1,0 +1,195 @@
+/* Blog-specific styles — 复用 style.css 的 CSS 变量 */
+
+body {
+  background-color: var(--bg-primary, #ffffff);
+  color: var(--text-primary, #333333);
+  font-family: 'Outfit', 'LXGW WenKai TC', system-ui, -apple-system, sans-serif;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── 顶部导航 ─────────────────────────────── */
+.blog-header {
+  background: var(--toolbar-bg, #f8f8f8);
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+  padding: 0 24px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.blog-header a {
+  color: var(--text-secondary, #717171);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.blog-header a:hover { color: var(--accent, #007acc); }
+
+.blog-header .blog-logo {
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  font-size: 14px;
+}
+
+/* ── 文章正文 ─────────────────────────────── */
+.blog-post {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.blog-post h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  color: var(--text-primary, #333);
+}
+
+.blog-post .post-meta {
+  color: var(--text-secondary, #717171);
+  font-size: 13px;
+  margin-bottom: 32px;
+}
+
+.blog-post h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+
+.blog-post h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.blog-post p { margin: 0 0 16px; }
+
+/* ── 代码块 ───────────────────────────────── */
+.blog-post pre {
+  background: var(--bg-editor, #1e1e2e);
+  color: var(--text-editor, #cdd6f4);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 16px 0;
+}
+
+.blog-post code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+}
+
+.blog-post p code,
+.blog-post li code {
+  background: var(--bg-secondary, #f3f3f3);
+  color: var(--accent, #007acc);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ── "在编辑器中试试" 按钮 ─────────────────── */
+.try-in-editor {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: var(--accent, #007acc);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.try-in-editor:hover { opacity: 0.85; }
+
+/* ── 速查表 ───────────────────────────────── */
+.blog-post table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.blog-post th {
+  background: var(--bg-secondary, #f3f3f3);
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #e5e5e5);
+  font-weight: 600;
+}
+
+.blog-post td {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #e5e5e5);
+}
+
+/* ── 文章列表页 ───────────────────────────── */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-list li {
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+  padding: 20px 0;
+}
+
+.post-list li:last-child { border-bottom: none; }
+
+.post-list a {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent, #007acc);
+  text-decoration: none;
+}
+
+.post-list a:hover { text-decoration: underline; }
+
+.post-list .post-date {
+  font-size: 12px;
+  color: var(--text-secondary, #717171);
+  margin-left: 8px;
+}
+
+.post-list p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--text-secondary, #717171);
+}
+
+/* ── 页脚 ─────────────────────────────────── */
+.blog-footer {
+  border-top: 1px solid var(--border-color, #e5e5e5);
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: var(--text-secondary, #717171);
+}
+
+.blog-footer a {
+  color: var(--accent, #007acc);
+  text-decoration: none;
+}
+
+/* ── 响应式 ───────────────────────────────── */
+@media (max-width: 600px) {
+  .blog-post { padding: 24px 16px 60px; }
+  .blog-post h1 { font-size: 1.5rem; }
+  .blog-header { padding: 0 16px; }
+}

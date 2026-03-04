@@ -24,6 +24,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install pandoc
+        run: sudo apt-get install -y pandoc
+
+      - name: Build blog posts
+        run: |
+          for f in blog/posts/*.md; do
+            [ -f "$f" ] || continue
+            slug=$(basename "$f" .md)
+            pandoc "$f" \
+              --template blog/_template.html \
+              -f markdown+yaml_metadata_block \
+              --metadata slug="$slug" \
+              -o "blog/${slug}.html"
+            echo "Generated: blog/${slug}.html"
+          done
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
