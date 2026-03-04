@@ -1,4 +1,4 @@
-import { state } from '../store.js';
+import { state, saveHandDrawnPrefs } from '../store.js';
 import { dom } from '../dom.js';
 import { EXAMPLES_ZH, EXAMPLES_EN } from '../examples.js';
 import { copyPng, downloadSvg, downloadPng, copyShareLink, copyEmbedCode } from '../export.js';
@@ -6,7 +6,7 @@ import { showToast, btnSuccess } from '../utils.js';
 import { getCode, formatCode } from '../editor.js';
 import { initMermaid, renderDiagram } from '../render.js';
 import { STRINGS } from '../i18n.js';
-import { openHelp, switchTheme } from './theme.js';
+import { openHelp, switchTheme, switchPreviewBg, toggleHandDrawn, toggleUiTheme } from './theme.js';
 import { resetView as zoomResetView } from './zoom.js';
 import { openCmdPalette } from '../command-palette.js';
 import { startTour } from '../tour.js';
@@ -150,6 +150,72 @@ export function initMenu() {
     });
   });
 
+  dom.menubar.querySelectorAll('[data-bg-menu]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchPreviewBg(btn.getAttribute('data-bg-menu'));
+      closeAllMenus();
+    });
+  });
+
+  if (dom.handDrawnBtn) {
+    dom.handDrawnBtn.addEventListener('click', () => { toggleHandDrawn(); closeAllMenus(); });
+  }
+  if (dom.uiThemeToggle) {
+    dom.uiThemeToggle.addEventListener('click', () => { toggleUiTheme(); closeAllMenus(); });
+  }
+
+  dom.menubar.querySelectorAll('[data-hd-font]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const font = btn.getAttribute('data-hd-font');
+      if (font) {
+        state.handDrawnFont = font;
+        dom.menubar.querySelectorAll('[data-hd-font]').forEach(b => b.classList.toggle('active', b.getAttribute('data-hd-font') === font));
+        saveHandDrawnPrefs();
+        initMermaid();
+        renderDiagram();
+        closeAllMenus();
+      }
+    });
+  });
+
+  dom.menubar.querySelectorAll('[data-hd-size]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const size = btn.getAttribute('data-hd-size');
+      if (size) {
+        state.handDrawnFontSize = size;
+        dom.menubar.querySelectorAll('[data-hd-size]').forEach(b => b.classList.toggle('active', b.getAttribute('data-hd-size') === size));
+        saveHandDrawnPrefs();
+        initMermaid();
+        renderDiagram();
+        closeAllMenus();
+      }
+    });
+  });
+
+  dom.menubar.querySelectorAll('[data-hd-seed]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const seed = btn.getAttribute('data-hd-seed');
+      if (seed) {
+        state.handDrawnSeedMode = seed;
+        dom.menubar.querySelectorAll('[data-hd-seed]').forEach(b => b.classList.toggle('active', b.getAttribute('data-hd-seed') === seed));
+        saveHandDrawnPrefs();
+        initMermaid();
+        renderDiagram();
+        closeAllMenus();
+      }
+    });
+  });
+
+  const btnReshuffleSeed = document.getElementById('btn-reshuffle-seed');
+  if (btnReshuffleSeed) {
+    btnReshuffleSeed.addEventListener('click', () => {
+      state.handDrawnSeed = Math.floor(Math.random() * 10000);
+      initMermaid();
+      renderDiagram();
+      closeAllMenus();
+    });
+  }
+
   // 分享和嵌入
   dom.btnShare.addEventListener('click', () => {
     closeAllMenus();
@@ -160,6 +226,10 @@ export function initMenu() {
     closeAllMenus();
     copyEmbedCode().catch(e => { showToast(STRINGS[state.currentLang].toastFailed + ': ' + e.message); });
   });
+
+  if (dom.btnHelp) {
+    dom.btnHelp.addEventListener('click', () => { openHelp(); closeAllMenus(); });
+  }
 
   // 命令面板按钮
   const btnCmdPalette = document.getElementById('btn-cmd-palette');
