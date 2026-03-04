@@ -13,3 +13,7 @@ blog/en/*.html
 !blog/en/index.html
 !blog/_template-zh.html
 !blog/_template-en.html
+
+# SEO: generated at deploy time (see scripts/generate-sitemap.sh)
+/sitemap.xml
+/robots.txt

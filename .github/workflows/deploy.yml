@@ -53,6 +53,13 @@ jobs:
             echo "Generated: blog/en/${slug}.html"
           done
 
+      - name: Generate sitemap and robots.txt
+        run: |
+          chmod +x scripts/generate-sitemap.sh
+          # 使用站点正式域名，与 index.html / blog 中的 canonical 一致
+          BASE_URL="https://eric.run.place/MermZen"
+          ./scripts/generate-sitemap.sh "$BASE_URL"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
