@@ -27,17 +27,30 @@ jobs:
       - name: Install pandoc
         run: sudo apt-get install -y pandoc
 
-      - name: Build blog posts
+      - name: Build Chinese blog posts
         run: |
-          for f in blog/posts/*.md; do
+          for f in blog/zh/posts/*.md; do
             [ -f "$f" ] || continue
             slug=$(basename "$f" .md)
             pandoc "$f" \
-              --template blog/_template.html \
+              --template blog/_template-zh.html \
               -f markdown+yaml_metadata_block \
               --metadata slug="$slug" \
-              -o "blog/${slug}.html"
-            echo "Generated: blog/${slug}.html"
+              -o "blog/zh/${slug}.html"
+            echo "Generated: blog/zh/${slug}.html"
+          done
+
+      - name: Build English blog posts
+        run: |
+          for f in blog/en/posts/*.md; do
+            [ -f "$f" ] || continue
+            slug=$(basename "$f" .md)
+            pandoc "$f" \
+              --template blog/_template-en.html \
+              -f markdown+yaml_metadata_block \
+              --metadata slug="$slug" \
+              -o "blog/en/${slug}.html"
+            echo "Generated: blog/en/${slug}.html"
           done
 
       - name: Setup Pages

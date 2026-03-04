@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>$title$ - MermZen</title>
+  <meta name="description" content="$description$">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://caoergou.github.io/mermzen/blog/zh/$slug$.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="$title$ - MermZen">
+  <meta property="og:description" content="$description$">
+  <meta property="og:url" content="https://caoergou.github.io/mermzen/blog/zh/$slug$.html">
+  <meta property="og:site_name" content="MermZen">
+  <meta property="og:locale" content="zh_CN">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "$title$",
+    "description": "$description$",
+    "datePublished": "$date$",
+    "publisher": { "@type": "Organization", "name": "MermZen" }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23333'/><circle cx='16' cy='7' r='3' fill='%2300b4d8'/><circle cx='7' cy='25' r='3' fill='%2300b4d8'/><circle cx='25' cy='25' r='3' fill='%2300b4d8'/><line x1='16' y1='10' x2='7' y2='22' stroke='%2300b4d8' stroke-width='2'/><line x1='16' y1='10' x2='25' y2='22' stroke='%2300b4d8' stroke-width='2'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=LXGW+WenKai+TC&display=swap">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+  <header class="blog-header">
+    <a href="../../index.html">← 返回编辑器</a>
+    <span class="blog-logo">MermZen 教程</span>
+    <a href="index.html">所有教程</a>
+    <div class="blog-header__spacer"></div>
+    <a href="../en/$slug$.html" class="lang-toggle-btn" title="查看英文版本">EN</a>
+  </header>
+
+  <main class="blog-post">
+    $body$
+  </main>
+
+  <footer class="blog-footer">
+    <p>用 <a href="../../index.html">MermZen</a> 在线编辑 Mermaid 图表 · 无广告 · 无需登录</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+  <script>
+    const EDITOR_BASE = 'https://caoergou.github.io/mermzen/';
+
+    function encodeCode(code) {
+      const bytes = new TextEncoder().encode(code);
+      const compressed = pako.deflate(bytes);
+      let binary = '';
+      for (let i = 0; i < compressed.length; i++) binary += String.fromCharCode(compressed[i]);
+      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const MERMAID_TYPES = new Set(['graph','flowchart','sequenceDiagram','gantt','classDiagram','pie','erDiagram','stateDiagram','stateDiagram-v2','gitGraph','mindmap','timeline']);
+      document.querySelectorAll('.blog-post pre code').forEach(code => {
+        const text = code.textContent.trim();
+        const firstWord = text.split(/[\s{]/)[0];
+        if (!MERMAID_TYPES.has(firstWord)) return;
+
+        const encoded = encodeCode(text);
+        const a = document.createElement('a');
+        a.href = EDITOR_BASE + '#' + encoded;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'try-in-editor';
+        a.textContent = '在 MermZen 中试试 →';
+        code.closest('pre').insertAdjacentElement('afterend', a);
+      });
+    });
+  </script>
+</body>
+</html>
