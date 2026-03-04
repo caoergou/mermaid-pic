@@ -602,10 +602,10 @@ button.success { border-color: #4caf50; color: #4caf50; }
 }
 
 /* ── Save Dialog ─────────────────────────────────────────────────── */
-.save-dialog__modal { width: 380px; }
+.save-dialog__modal { width: 380px; overflow-x: hidden; }
 
 .save-dialog__body {
-  display: flex; gap: 12px; padding: 20px 16px;
+  display: flex; gap: 12px; padding: 20px 16px; overflow-x: hidden;
 }
 
 .save-dialog__option {
