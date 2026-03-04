@@ -18,7 +18,7 @@ slug: flowchart
 ```
 graph TD
 ```
-<a href="https://eric.run.place/mermzen/#Sy9KLMhQCHEBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHEBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 方向参数 | 含义 | 效果 |
 |---------|------|------|
@@ -42,7 +42,7 @@ graph TD
     G[(数据库)]
     H>标注旗帜]
 ```
-<a href="https://eric.run.place/mermzen/#Sy9KLMhQCHHhUgACx-hn03Y-W9gWC-Y5aTyd0_Zi-SSImCZYzLn6Rf_Gp3sX1YJ5LhogJUCuJkTWVSP62ZK1QKFYCN8tOvrp2gnPV3Q_3dUPMhZirnu0xrOpG571rnu6a7ImRMjD7tmC9mebVzybPv3pjjmxAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgACx-hn03Y-W9gWC-Y5aTyd0_Zi-SSImCZYzLn6Rf_Gp3sX1YJ5LhogJUCuJkTWVSP62ZK1QKFYCN8tOvrp2gnPV3Q_3dUPMhZirnu0xrOpG571rnu6a7ImRMjD7tmC9mebVzybPv3pjjmxAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 语法 | 形状 | 典型用途 |
 |------|------|---------|
@@ -67,7 +67,7 @@ graph LR
     A --文字--> F
     A -->|标签| G
 ```
-<a href="https://eric.run.place/mermzen/#Sy9KLMhQ8AniUgACRwVdXTsFJzhbV8EZxtYDSrhAOba2dgqucEXPprU_XTsdpNENYUjNswXtz9fuq1FwBwA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#Sy9KLMhQ8AniUgACRwVdXTsFJzhbV8EZxtYDSrhAOba2dgqucEXPprU_XTsdpNENYUjNswXtz9fuq1FwBwA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 语法 | 含义 |
 |------|------|
@@ -94,7 +94,7 @@ graph TD
     end
     B --> C
 ```
-<a href="https://eric.run.place/mermzen/#Sy9KLMhQCHHhUgCC4tKkdDD_aWfv89XrwWIg4Bj9fMqKZx3bn0_teTl3UayCrq6dglP0i4UrnvZOfbmq58X6xliw2tS8FDRzJvQhm-Mc7RjgqfB878SnrZshprhEP5u64Vnvuqe7JqMa4QSWdgYA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgCC4tKkdDD_aWfv89XrwWIg4Bj9fMqKZx3bn0_teTl3UayCrq6dglP0i4UrnvZOfbmq58X6xliw2tS8FDRzJvQhm-Mc7RjgqfB878SnrZshprhEP5u64Vnvuqe7JqMa4QSWdgYA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 完整示例：用户登录流程
 
@@ -113,7 +113,7 @@ graph TD
     I --> J[跳转首页]
     J --> K([结束])
 ```
-<a href="https://eric.run.place/mermzen/#Sy9KLMhQCHHhUgACR43op3sani7vjtVU0NW1U3CKfj5lxbOO7S_2TX7auvTFlmVP-7cr6Cs8Xd_2fEFjLFiLE1ihczVE8tmM9U8nLHu6dsbTOSvsa8EKnEEKaoCiNQou0c_6Jzxfsgui9smOXohCiEEuEBuR9AANq1FwrYbYBjH52drFzxeug5rsijDZLfrFug1P9059umTjiy1Ln61Z-GzqBoixbmBj3auRZRQedS5VMIaa4o6wyyP65ZTGp-tmQT1qbKDwtKPt5aT5sUgKwdY5IdkP1ukJDKj5zzomKASnFhdn5ucphORnp-ZB9HmCXeAV_WL75hd717xcNu3lwq0QGS-wjLdG9PPdk5_NnR-rCQA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgACR43op3sani7vjtVU0NW1U3CKfj5lxbOO7S_2TX7auvTFlmVP-7cr6Cs8Xd_2fEFjLFiLE1ihczVE8tmM9U8nLHu6dsbTOSvsa8EKnEEKaoCiNQou0c_6Jzxfsgui9smOXohCiEEuEBuR9AANq1FwrYbYBjH52drFzxeug5rsijDZLfrFug1P9059umTjiy1Ln61Z-GzqBoixbmBj3auRZRQedS5VMIaa4o6wyyP65ZTGp-tmQT1qbKDwtKPt5aT5sUgKwdY5IdkP1ukJDKj5zzomKASnFhdn5ucphORnp-ZB9HmCXeAV_WL75hd717xcNu3lwq0QGS-wjLdG9PPdk5_NnR-rCQA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 速查表
 
@@ -136,4 +136,4 @@ graph TD
 
 ---
 
-如果您想在 MermZen 中尝试上述代码，可以点击 [在线编辑器](https://eric.run.place/mermzen/)，然后将代码粘贴进去。
+如果您想在 MermZen 中尝试上述代码，可以点击 [在线编辑器](https://eric.run.place/MermZen/)，然后将代码粘贴进去。

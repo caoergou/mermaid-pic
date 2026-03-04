@@ -20,7 +20,7 @@ gantt
     section Phase 1
     Task name : 2026-03-01, 5d
 ```
-<a href="https://eric.run.place/mermzen/#HYo7DoAgEAV7T_EOIAlitLA2diQUNpYb3fiHBLbx9hKmnJmdvEiFjJzyMOwHF8PFq8A95EvZSHgK8SXBklHWqnEsJeXvDB7uoMRoipsp3fD0MgYYbXqlW6WbGt32Aw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#HYo7DoAgEAV7T_EOIAlitLA2diQUNpYb3fiHBLbx9hKmnJmdvEiFjJzyMOwHF8PFq8A95EvZSHgK8SXBklHWqnEsJeXvDB7uoMRoipsp3fD0MgYYbXqlW6WbGt32Aw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `title` - Optional
 - `dateFormat` - Required (YYYY-MM-DD recommended)
@@ -37,7 +37,7 @@ gantt
     Frontend : after be, 5d
     QA       : after Frontend, 3d
 ```
-<a href="https://eric.run.place/mermzen/#NYvBDoIwEAXvfsX7gDYpECXhhmm4ceDocaWLMcrW1I3fD7ZhrjPzIFE9YSeQ8hDTSorbjh1H6302X571GQWef_yOn5WlHFeaXywB6HBng9rVF-sa6yqDNuRiSFH0n3SgRTnl7lzc1KNwuCM2aMIG" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#NYvBDoIwEAXvfsX7gDYpECXhhmm4ceDocaWLMcrW1I3fD7ZhrjPzIFE9YSeQ8hDTSorbjh1H6302X571GQWef_yOn5WlHFeaXywB6HBng9rVF-sa6yqDNuRiSFH0n3SgRTnl7lzc1KNwuCM2aMIG" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 `after id` starts a task after another completes.
 
@@ -51,7 +51,7 @@ gantt
     Pending     :         2026-03-09, 4d
     Critical    : crit,   2026-03-09, 3d
 ```
-<a href="https://eric.run.place/mermzen/#XcrBCoMwDMbx-54iD9BCZ91guyrCDsKuO5YmlIK2UsOe32iZh32nf8gvuMR8ARk6piGX2TF8ZHocdd8fny7Py0RMKP0EzImUVGOauzZWm6sCiwd8JVhKDoXWVaDzHL9CT9gquFX4poQxhT0F_nbCh4K2wq5Ejt5NFXq51B-0uAE" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#XcrBCoMwDMbx-54iD9BCZ91guyrCDsKuO5YmlIK2UsOe32iZh32nf8gvuMR8ARk6piGX2TF8ZHocdd8fny7Py0RMKP0EzImUVGOauzZWm6sCiwd8JVhKDoXWVaDzHL9CT9gquFX4poQxhT0F_nbCh4K2wq5Ejt5NFXq51B-0uAE" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## Full Example: Product Iteration
 
@@ -74,8 +74,8 @@ gantt
     QA testing      : crit,   test,   after ci,   3d
     Launch          : milestone,      after test, 0d
 ```
-<a href="https://eric.run.place/mermzen/#ZZDNTsMwEITvfYp9gASlCeqht0JUqRI5gOAANytegoVju_Y6hbfHP2kDZS-JJzvfTDwwRbSCMCRIInRoxzdUcCf1AHtk5C3CtL6p0g5nhHttR0bwGqbsurJt0xf86qXn6OCE-ImKu1WSHfYktIIWnRhUkp7w6IXFERW5eN4C1wqL8GbxGB9QV_WmrJqyWhdQ82R6OYCxmjR9G6GG3yYvkgfYO6GdEQ2_Tp9QahMjk_6Mo5HhV4DjlCuwsDgFHhlZLLTMvs0VdpZEH27oZAXFDls4D7P0z7TJpvtDKEHenFcXU_-nd86tr3o_MK_6jyQ97oDQpeAZ1IceERHl4gLK2CanZ_8lMphGIcP6fHVLekJU_Ac" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#ZZDNTsMwEITvfYp9gASlCeqht0JUqRI5gOAANytegoVju_Y6hbfHP2kDZS-JJzvfTDwwRbSCMCRIInRoxzdUcCf1AHtk5C3CtL6p0g5nhHttR0bwGqbsurJt0xf86qXn6OCE-ImKu1WSHfYktIIWnRhUkp7w6IXFERW5eN4C1wqL8GbxGB9QV_WmrJqyWhdQ82R6OYCxmjR9G6GG3yYvkgfYO6GdEQ2_Tp9QahMjk_6Mo5HhV4DjlCuwsDgFHhlZLLTMvs0VdpZEH27oZAXFDls4D7P0z7TJpvtDKEHenFcXU_-nd86tr3o_MK_6jyQ97oDQpeAZ1IceERHl4gLK2CanZ_8lMphGIcP6fHVLekJU_Ac" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ---
 
-To try the above code in MermZen, click [Open Editor](https://eric.run.place/mermzen/) and paste the code there.
+To try the above code in MermZen, click [Open Editor](https://eric.run.place/MermZen/) and paste the code there.

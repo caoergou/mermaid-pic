@@ -17,7 +17,7 @@ pie title 标题
     "类别B" : 数值
     "类别C" : 数值
 ```
-<a href="https://eric.run.place/mermzen/#K8hMVSjJLMlJVXi2oP3lohlcCkCg9Hzj7qcdqx2VFKwUnk3d8LRhD7KwE3ZhZ4QwAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXi2oP3lohlcCkCg9Hzj7qcdqx2VFKwUnk3d8LRhD7KwE3ZhZ4QwAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `pie` — 声明饼图
 - `title 标题` — 可选，图表标题
@@ -34,9 +34,9 @@ pie title 本月开发时间分配
     "测试调试" : 15
     "文档撰写" : 10
 ```
-<a href="https://eric.run.place/mermzen/#K8hMVSjJLMlJVXg2Z82zOR1P9zQ87Z_4bPq2l9O3PO1oe9nay6UABEov5zQ829gEFHk2b4KSgpWCoSlE_Gln7_PV6yG6QOLGMPEJfSjiRlDxZ1u7X6yf-mJDM5BENufZtPZnCxc_m7ThadtMsLgBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXg2Z82zOR1P9zQ87Z_4bPq2l9O3PO1oe9nay6UABEov5zQ829gEFHk2b4KSgpWCoSlE_Gln7_PV6yG6QOLGMPEJfSjiRlDxZ1u7X6yf-mJDM5BENufZtPZnCxc_m7ThadtMsLgBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
-<a href="https://eric.run.place/mermzen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 再来一个示例：网站流量来源
 
@@ -47,9 +47,9 @@ pie title 网站月度流量来源
     "社交媒体" : 18
     "外链引用" : 12
 ```
-<a href="https://eric.run.place/mermzen/#K8hMVSjJLMlJVXi-d-Lz1TOfzel4umvZs62NL9v7n81d-mzXBC4FIFB6NmHO8y2Lnu6Z-mxyn5KClYKJEUT8-ewtz_qWvli3_-X0dSBxIwuo-JJ9T3Ytebpq0pO9k0HihlDxp0umvZy8D2jO8ykrwOJGAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXi-d-Lz1TOfzel4umvZs62NL9v7n81d-mzXBC4FIFB6NmHO8y2Lnu6Z-mxyn5KClYKJEUT8-ewtz_qWvli3_-X0dSBxIwuo-JJ9T3Ytebpq0pO9k0HihlDxp0umvZy8D2jO8ykrwOJGAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
-<a href="https://eric.run.place/mermzen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 常用语法速查
 
@@ -65,4 +65,4 @@ pie title 网站月度流量来源
 
 ---
 
-如果您想在 MermZen 中尝试上述代码，可以点击 [在线编辑器](https://eric.run.place/mermzen/)，然后将代码粘贴进去。
+如果您想在 MermZen 中尝试上述代码，可以点击 [在线编辑器](https://eric.run.place/MermZen/)，然后将代码粘贴进去。
