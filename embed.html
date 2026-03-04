@@ -26,8 +26,12 @@
       for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
       try {
         return new TextDecoder().decode(pako.inflate(bytes));
-      } catch (e) {
-        return new TextDecoder().decode(bytes);
+      } catch (e1) {
+        try {
+          return new TextDecoder().decode(pako.inflateRaw(bytes));
+        } catch (e2) {
+          return new TextDecoder().decode(bytes);
+        }
       }
     }
 
