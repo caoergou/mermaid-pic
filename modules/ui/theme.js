@@ -2,6 +2,8 @@ import { dom } from '../dom.js';
 import { state, saveHandDrawnPrefs } from '../store.js';
 import { initMermaid, renderDiagram } from '../render.js';
 import { openHelp as openHelpUtil } from '../utils.js';
+import { updateHash } from '../export.js';
+import { getCode } from '../editor.js';
 
 // ── UI 主题管理 ───────────────────────────────────────────────
 
@@ -43,6 +45,7 @@ export function toggleHandDrawn() {
   saveHandDrawnPrefs();
   initMermaid();
   renderDiagram();
+  updateHash(getCode());
 }
 
 /**
@@ -109,14 +112,22 @@ export function initPreviewPills() {
   document.querySelectorAll('.theme-pill').forEach(p => {
     p.addEventListener('click', () => {
       const t = p.getAttribute('data-theme');
-      if (t) { switchTheme(t); initMermaid(); renderDiagram(); }
+      if (t) {
+        switchTheme(t);
+        initMermaid();
+        renderDiagram();
+        updateHash(getCode());
+      }
     });
   });
 
   document.querySelectorAll('.bg-pill').forEach(b => {
     b.addEventListener('click', () => {
       const v = b.getAttribute('data-bg');
-      if (v) switchPreviewBg(v);
+      if (v) {
+        switchPreviewBg(v);
+        updateHash(getCode());
+      }
     });
   });
 

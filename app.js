@@ -1,11 +1,11 @@
 import { state } from './modules/store.js';
 import { updateEditorStatus, setRenderStatus, closeHelp, showToast } from './modules/utils.js';
-import { applyUiTheme, initPreviewPills, switchPreviewBg } from './modules/ui/theme.js';
+import { applyUiTheme, initPreviewPills, switchPreviewBg, switchTheme } from './modules/ui/theme.js';
 import { applyI18n } from './modules/i18n.js';
 import { DEFAULT_CODE } from './modules/examples.js';
 import { createEditor, scheduleLint, formatCode } from './modules/editor.js';
 import { initMermaid, renderDiagram } from './modules/render.js';
-import { getQueryCode, getHashCode, updateHash, downloadPng, downloadSvg, copyPng } from './modules/export.js';
+import { getQueryCode, getHashCode, getHashState, getQueryState, updateHash, downloadPng, downloadSvg, copyPng } from './modules/export.js';
 import { startTour } from './modules/tour.js';
 import { initMenu } from './modules/ui/menu.js';
 import { initContextMenu } from './modules/ui/context-menu.js';
@@ -89,11 +89,30 @@ function bootstrap() {
     setTimeout(bootstrap, 50);
     return;
   }
+
+  const urlState = getHashState() || getQueryState();
+  if (urlState && urlState.settings) {
+    const s = urlState.settings;
+    if (s.t) state.currentTheme = s.t;
+    if (s.hd === false) state.handDrawn = false;
+    if (s.hdf) state.handDrawnFont = s.hdf;
+    if (s.hds) state.handDrawnFontSize = s.hds;
+    if (s.hdm) state.handDrawnSeedMode = s.hdm;
+    if (s.bg) state.previewBg = s.bg;
+  }
+
   initMermaid();
   applyI18n();
 
+  // 同步 UI 状态（如果从 URL 恢复了设置）
+  if (urlState && urlState.settings) {
+    const s = urlState.settings;
+    if (s.t) switchTheme(s.t);
+    if (s.bg) switchPreviewBg(s.bg);
+  }
+
   const savedCode = (() => { try { return localStorage.getItem('mermzen-code'); } catch (e) { return null; } })();
-  const initialCode = getQueryCode() || getHashCode() || savedCode || DEFAULT_CODE;
+  const initialCode = urlState?.code || savedCode || DEFAULT_CODE;
 
   createEditor(initialCode, doc => {
     updateEditorStatus();

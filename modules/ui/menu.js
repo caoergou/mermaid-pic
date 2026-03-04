@@ -1,7 +1,7 @@
 import { state, saveHandDrawnPrefs } from '../store.js';
 import { dom } from '../dom.js';
 import { EXAMPLES_ZH, EXAMPLES_EN } from '../examples.js';
-import { copyPng, downloadSvg, downloadPng, copyShareLink, copyEmbedCode } from '../export.js';
+import { copyPng, downloadSvg, downloadPng, copyShareLink, copyEmbedCode, updateHash } from '../export.js';
 import { showToast, btnSuccess } from '../utils.js';
 import { getCode, formatCode } from '../editor.js';
 import { initMermaid, renderDiagram } from '../render.js';
@@ -149,6 +149,7 @@ export function initMenu() {
       switchTheme(btn.getAttribute('data-theme-pick'));
       initMermaid();
       renderDiagram();
+      updateHash(getCode());
       closeAllMenus();
     });
   });
@@ -156,12 +157,17 @@ export function initMenu() {
   dom.menubar.querySelectorAll('[data-bg-menu]').forEach(btn => {
     btn.addEventListener('click', () => {
       switchPreviewBg(btn.getAttribute('data-bg-menu'));
+      updateHash(getCode());
       closeAllMenus();
     });
   });
 
   if (dom.handDrawnBtn) {
-    dom.handDrawnBtn.addEventListener('click', () => { toggleHandDrawn(); closeAllMenus(); });
+    dom.handDrawnBtn.addEventListener('click', () => {
+      toggleHandDrawn();
+      updateHash(getCode());
+      closeAllMenus();
+    });
   }
   if (dom.uiThemeToggle) {
     dom.uiThemeToggle.addEventListener('click', () => { toggleUiTheme(); closeAllMenus(); });
@@ -190,6 +196,7 @@ export function initMenu() {
         saveHandDrawnPrefs();
         initMermaid();
         renderDiagram();
+        updateHash(getCode());
         closeAllMenus();
       }
     });
@@ -204,6 +211,7 @@ export function initMenu() {
         saveHandDrawnPrefs();
         initMermaid();
         renderDiagram();
+        updateHash(getCode());
         closeAllMenus();
       }
     });
@@ -215,6 +223,7 @@ export function initMenu() {
       state.handDrawnSeed = Math.floor(Math.random() * 10000);
       initMermaid();
       renderDiagram();
+      updateHash(getCode());
       closeAllMenus();
     });
   }

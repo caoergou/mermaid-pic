@@ -114,10 +114,26 @@ export async function downloadPng() {
 // ── URL 编码 (pako 压缩 + base64) ────────────────────────
 
 /**
- * 编码代码字符串
+ * 构建状态 Payload 对象 (v2)
+ * 仅包含非默认值以减小体积
  */
-export function encodeCode(code) {
-  const bytes = new TextEncoder().encode(code);
+export function buildPayload(code) {
+  const p = { v: 2, c: code };
+  if (state.currentTheme !== 'default') p.t = state.currentTheme;
+  if (state.handDrawn === false) p.hd = false;
+  if (state.handDrawnFont !== 'kalam') p.hdf = state.handDrawnFont;
+  if (state.handDrawnFontSize !== 'medium') p.hds = state.handDrawnFontSize;
+  if (state.handDrawnSeedMode !== 'fixed') p.hdm = state.handDrawnSeedMode;
+  if (state.previewBg !== 'white') p.bg = state.previewBg;
+  return p;
+}
+
+/**
+ * 编码 Payload 对象
+ */
+export function encodePayload(payload) {
+  const json = JSON.stringify(payload);
+  const bytes = new TextEncoder().encode(json);
   const compressed = pako.deflate(bytes);
   let binary = '';
   for (let i = 0; i < compressed.length; i++) binary += String.fromCharCode(compressed[i]);
@@ -125,33 +141,90 @@ export function encodeCode(code) {
 }
 
 /**
- * 解码代码字符串
+ * 编码代码字符串 (兼容旧逻辑，但内部改用 encodePayload)
  */
-export function decodeCode(encoded) {
+export function encodeCode(code) {
+  return encodePayload(buildPayload(code));
+}
+
+/**
+ * 解码 Payload
+ * 返回 { code, settings }，兼容旧格式
+ */
+export function decodePayload(encoded) {
+  if (!encoded) return null;
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
   while (encoded.length % 4 !== 0) encoded += '=';
   const binary = atob(encoded);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  
+  let decoded;
   try {
-    return new TextDecoder().decode(pako.inflate(bytes));
+    decoded = new TextDecoder().decode(pako.inflate(bytes));
   } catch (e1) {
     try {
-      return new TextDecoder().decode(pako.inflateRaw(bytes));
+      decoded = new TextDecoder().decode(pako.inflateRaw(bytes));
     } catch (e2) {
-      return new TextDecoder().decode(bytes);
+      decoded = new TextDecoder().decode(bytes);
     }
   }
+
+  try {
+    const obj = JSON.parse(decoded);
+    if (obj && obj.v === 2) {
+      return {
+        code: obj.c,
+        settings: {
+          t: obj.t,
+          hd: obj.hd,
+          hdf: obj.hdf,
+          hds: obj.hds,
+          hdm: obj.hdm,
+          bg: obj.bg
+        }
+      };
+    }
+  } catch (e) {
+    // 解析 JSON 失败，说明是旧格式（纯代码）
+  }
+  
+  return { code: decoded, settings: {} };
+}
+
+/**
+ * 解码代码字符串 (保持签名不变，仅返回 code)
+ */
+export function decodeCode(encoded) {
+  const res = decodePayload(encoded);
+  return res ? res.code : null;
+}
+
+/**
+ * 获取 URL 查询参数中的状态
+ */
+export function getQueryState() {
+  try {
+    const param = new URLSearchParams(location.search).get('code');
+    return decodePayload(param);
+  } catch (e) { return null; }
 }
 
 /**
  * 获取 URL 查询参数中的代码
  */
 export function getQueryCode() {
+  const res = getQueryState();
+  return res ? res.code : null;
+}
+
+/**
+ * 获取 URL Hash 中的状态
+ */
+export function getHashState() {
   try {
-    const param = new URLSearchParams(location.search).get('code');
-    if (!param) return null;
-    return decodeCode(param);
+    const hash = location.hash.slice(1);
+    return decodePayload(hash);
   } catch (e) { return null; }
 }
 
@@ -159,11 +232,8 @@ export function getQueryCode() {
  * 获取 URL Hash 中的代码
  */
 export function getHashCode() {
-  try {
-    const hash = location.hash.slice(1);
-    if (!hash) return null;
-    return decodeCode(hash);
-  } catch (e) { return null; }
+  const res = getHashState();
+  return res ? res.code : null;
 }
 
 /**

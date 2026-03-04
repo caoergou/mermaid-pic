@@ -44,9 +44,22 @@
       document.getElementById('error').textContent = 'No diagram code found in URL.';
     } else {
       try {
-        var code = decodeCode(encoded);
+        var decoded = decodeCode(encoded);
+        var code = decoded;
         var theme = params.get('theme') || 'default';
         var look = params.get('look') || 'handDrawn';
+
+        // 尝试解析 v2 JSON 格式
+        try {
+          var obj = JSON.parse(decoded);
+          if (obj && obj.v === 2) {
+            code = obj.c;
+            if (obj.t) theme = obj.t;
+            if (obj.hd === false) look = 'classic';
+          }
+        } catch (e) {
+          // 保持旧格式 fallback
+        }
 
         mermaid.initialize({
           startOnLoad: false,
