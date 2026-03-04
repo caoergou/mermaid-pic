@@ -72,7 +72,7 @@ export async function renderDiagram() {
 
   if (state.handDrawn && !noHandDrawn) {
     document.documentElement.style.setProperty('--mermaid-font', hdFont);
-    const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.virgil;
+    const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.kalam;
     try { await document.fonts.load('16px ' + (preset.label === 'Virgil' ? 'Virgil' : preset.label)); } catch (e) {}
     try { await document.fonts.load('16px "Xiaolai SC"'); } catch (e) {}
   } else {
@@ -91,9 +91,8 @@ export async function renderDiagram() {
     const id = 'mermaid-diagram-' + state.renderCounter;
     const result = await mermaid.render(id, code);
     dom.preview.innerHTML = result.svg;
-    setRenderStatus('ok', STRINGS[state.currentLang].renderOk);
     clearDiagnostics();
-    setTimeout(() => { setRenderStatus('', ''); }, 1500);
+    setRenderStatus('', '');
   } catch (err) {
     handleRenderError(err, code);
   }
