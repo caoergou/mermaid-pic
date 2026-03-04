@@ -1,5 +1,5 @@
 import { dom } from '../dom.js';
-import { state } from '../store.js';
+import { state, saveHandDrawnPrefs } from '../store.js';
 import { initMermaid, renderDiagram } from '../render.js';
 import { openHelp as openHelpUtil } from '../utils.js';
 
@@ -11,12 +11,38 @@ import { openHelp as openHelpUtil } from '../utils.js';
  */
 export function applyUiTheme(dark) {
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  dom.iconSun.style.display = dark ? 'none' : '';
-  dom.iconMoon.style.display = dark ? '' : 'none';
+  if (dom.iconSun) dom.iconSun.style.display = dark ? 'none' : '';
+  if (dom.iconMoon) dom.iconMoon.style.display = dark ? '' : 'none';
   if (dom.iconSunQuick) dom.iconSunQuick.style.display = dark ? 'none' : '';
   if (dom.iconMoonQuick) dom.iconMoonQuick.style.display = dark ? '' : 'none';
-  dom.uiThemeToggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  if (dom.uiThemeToggle) dom.uiThemeToggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
   if (dom.uiThemeToggleQuick) dom.uiThemeToggleQuick.setAttribute('aria-pressed', dark ? 'true' : 'false');
+}
+
+/**
+ * 切换深色/浅色 UI 模式
+ */
+export function toggleUiTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  applyUiTheme(!isDark);
+}
+
+/**
+ * 切换手绘风格开关，并更新 UI、保存偏好、重新渲染
+ */
+export function toggleHandDrawn() {
+  state.handDrawn = !state.handDrawn;
+  if (dom.handDrawnBtn) {
+    dom.handDrawnBtn.classList.toggle('active', state.handDrawn);
+    dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
+  }
+  if (dom.handDrawnToggleQuick) {
+    dom.handDrawnToggleQuick.classList.toggle('active', state.handDrawn);
+    dom.handDrawnToggleQuick.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false');
+  }
+  saveHandDrawnPrefs();
+  initMermaid();
+  renderDiagram();
 }
 
 /**
@@ -31,7 +57,7 @@ export function switchTheme(t) {
   });
   const pill = document.querySelector('.theme-pill[data-theme="' + t + '"]');
   if (pill) { pill.classList.add('active'); pill.setAttribute('aria-checked', 'true'); }
-  dom.themeSelect.value = t;
+  if (dom.themeSelect) dom.themeSelect.value = t;
   dom.menubar.querySelectorAll('[data-theme-pick]').forEach(b => {
     b.classList.toggle('active', b.getAttribute('data-theme-pick') === t);
   });
@@ -72,4 +98,32 @@ export function getExportBgColor() {
  */
 export function openHelp() {
   openHelpUtil();
+}
+
+/**
+ * 绑定预览区上方的 Mermaid 主题丸与背景色丸、以及工具栏快捷切换按钮
+ */
+export function initPreviewPills() {
+  switchPreviewBg(state.previewBg);
+
+  document.querySelectorAll('.theme-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      const t = p.getAttribute('data-theme');
+      if (t) { switchTheme(t); initMermaid(); renderDiagram(); }
+    });
+  });
+
+  document.querySelectorAll('.bg-pill').forEach(b => {
+    b.addEventListener('click', () => {
+      const v = b.getAttribute('data-bg');
+      if (v) switchPreviewBg(v);
+    });
+  });
+
+  if (dom.handDrawnToggleQuick) {
+    dom.handDrawnToggleQuick.addEventListener('click', toggleHandDrawn);
+  }
+  if (dom.uiThemeToggleQuick) {
+    dom.uiThemeToggleQuick.addEventListener('click', toggleUiTheme);
+  }
 }
