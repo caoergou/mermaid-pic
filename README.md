@@ -36,11 +36,9 @@ The diagrams below were exported directly from MermZen in hand-drawn style. The 
 
 ## Why MermZen
 
-Mermaid's official live editor has grown bloated: AI upsells, membership prompts, redundant panels competing for your attention. You just want to draw a diagram — instead you get a product pushing you to do other things first.
+Mermaid's official live editor is cluttered and overcomplicated: AI upsells, membership prompts, and redundant panels crowd the screen. The interface keeps growing heavier — you just want to write syntax and see a diagram, but instead you're navigating a product that has lost sight of that.
 
 MermZen fills that gap: a CodeMirror 6 editor with Mermaid-aware syntax highlighting, inline error hints with line numbers, and a full keyboard shortcut system. Diagrams are encoded directly in the URL hash, so sharing requires no backend, no account, and no expiring links — just copy the URL.
-
-The entire application is plain HTML + CSS + JS, served as static files. No build pipeline, no framework, no deployment complexity. Fork it, host it anywhere, or run it locally with a single command.
 
 ---
 
@@ -85,20 +83,8 @@ The entire application is plain HTML + CSS + JS, served as static files. No buil
 | File / Edit / View / Help menu | `Alt+F/E/V/H` |
 | Switch preview background | `Alt+1/2/3/4` |
 
-## Run Locally
-
-No build step or package manager needed. Just serve the static files:
-
-```bash
-python3 -m http.server
-# open http://localhost:8000
-```
-
-Or open `index.html` directly in a browser.
-
 ## Tech Stack
 
 - [Mermaid 11](https://mermaid.js.org/) — diagram rendering
 - [CodeMirror 6](https://codemirror.net/) — code editor
-- No build tools, no framework, no package manager — all dependencies loaded via CDN
 
