@@ -36,7 +36,7 @@ The diagrams below were exported directly from MermZen in hand-drawn style. The 
 
 ## Why MermZen
 
-Mermaid's official live editor handles quick sketches, but falls short when you need a real editing environment — proper syntax feedback, keyboard-driven workflow, theme control, or a way to share diagrams without hosting anything.
+Mermaid's official live editor has grown bloated: AI upsells, membership prompts, redundant panels competing for your attention. You just want to draw a diagram — instead you get a product pushing you to do other things first.
 
 MermZen fills that gap: a CodeMirror 6 editor with Mermaid-aware syntax highlighting, inline error hints with line numbers, and a full keyboard shortcut system. Diagrams are encoded directly in the URL hash, so sharing requires no backend, no account, and no expiring links — just copy the URL.
 
