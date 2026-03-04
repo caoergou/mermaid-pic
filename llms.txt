@@ -1,28 +1,28 @@
-# Mermaid Editor
+# MermZen
 
-Online Mermaid diagram editor with live preview and SVG/PNG export. No backend, no login required.
+Clean, ad-free online Mermaid diagram editor. No backend, no login, no ads.
 
-URL: https://caoergou.github.io/mermaid-pic/
+URL: https://caoergou.github.io/mermzen/
 
 ## Opening a diagram via URL
 
 Base64-encode the Mermaid code and pass it as a `?code=` query parameter:
 
 ```
-https://caoergou.github.io/mermaid-pic/?code={base64(mermaid_code)}
+https://caoergou.github.io/mermzen/?code={base64(mermaid_code)}
 ```
 
 ### Encoding examples
 
 JavaScript:
 ```js
-const url = `https://caoergou.github.io/mermaid-pic/?code=${btoa(unescape(encodeURIComponent(code)))}`;
+const url = `https://caoergou.github.io/mermzen/?code=${btoa(unescape(encodeURIComponent(code)))}`;
 ```
 
 Python:
 ```python
 import base64
-url = "https://caoergou.github.io/mermaid-pic/?code=" + base64.b64encode(code.encode()).decode()
+url = "https://caoergou.github.io/mermzen/?code=" + base64.b64encode(code.encode()).decode()
 ```
 
 ## Supported diagram types

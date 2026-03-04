@@ -1,12 +1,12 @@
-# Mermaid Editor
+# MermZen
 
-[![Deploy to GitHub Pages](https://github.com/caoergou/mermaid-pic/actions/workflows/deploy.yml/badge.svg)](https://github.com/caoergou/mermaid-pic/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/caoergou/mermzen/actions/workflows/deploy.yml/badge.svg)](https://github.com/caoergou/mermzen/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/caoergou/mermaid-pic)](https://github.com/caoergou/mermaid-pic/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/caoergou/mermzen)](https://github.com/caoergou/mermzen/stargazers)
 
-一个轻量级的在线 Mermaid 图表编辑器，无需安装任何依赖，打开即用。
+无广告、界面简洁的在线 Mermaid 图表编辑器，无需安装，打开即用。
 
-**在线体验：[caoergou.github.io/mermaid-pic](https://caoergou.github.io/mermaid-pic/)**
+**在线体验：[caoergou.github.io/mermzen](https://caoergou.github.io/mermzen/)**
 
 [English](README.md)
 

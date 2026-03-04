@@ -1,12 +1,12 @@
-# Mermaid Editor
+# MermZen
 
-[![Deploy to GitHub Pages](https://github.com/caoergou/mermaid-pic/actions/workflows/deploy.yml/badge.svg)](https://github.com/caoergou/mermaid-pic/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/caoergou/mermzen/actions/workflows/deploy.yml/badge.svg)](https://github.com/caoergou/mermzen/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/caoergou/mermaid-pic)](https://github.com/caoergou/mermaid-pic/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/caoergou/mermzen)](https://github.com/caoergou/mermzen/stargazers)
 
-A lightweight, zero-dependency online Mermaid diagram editor with live preview and one-click export.
+A clean, ad-free Mermaid diagram editor — no login, no build, no distractions.
 
-**Live demo: [caoergou.github.io/mermaid-pic](https://caoergou.github.io/mermaid-pic/)**
+**Live demo: [caoergou.github.io/mermzen](https://caoergou.github.io/mermzen/)**
 
 [中文文档](README.zh.md)
 
