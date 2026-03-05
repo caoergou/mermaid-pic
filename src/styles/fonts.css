@@ -1,0 +1,10 @@
+@import '@fontsource-variable/outfit';
+@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource/kalam/400.css';
+@import '@fontsource/caveat/400.css';
+
+@font-face {
+  font-family: 'Virgil';
+  src: url('/fonts/Virgil.woff2') format('woff2');
+  font-display: swap;
+}
