@@ -259,13 +259,13 @@ export function svgToPngBlob(svgEl, scale) {
       img.crossOrigin = 'anonymous';
 
       img.onload = () => {
+        const bg = getExportBgColor();
         const canvas = document.createElement('canvas');
         canvas.width = width * scale;
         canvas.height = height * scale;
         const ctx = canvas.getContext('2d', { willReadFrequently: false, alpha: bg === 'transparent' });
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        const bg = getExportBgColor();
         if (bg !== 'transparent') {
           ctx.fillStyle = bg;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
