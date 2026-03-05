@@ -33,27 +33,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Chromium
-        run: npx playwright install chromium --with-deps
-
-      - name: Install CJK font tools
-        run: |
-          pip3 install fonttools brotli
-          sudo apt-get install -y fonts-noto-cjk
-
       - name: Build app (Vite)
         run: npm run build
-
-      - name: Start Vite preview server
-        run: |
-          npx vite preview --port 8766 &
-          for i in $(seq 1 15); do
-            curl -s http://localhost:8766/ > /dev/null && echo "Preview server ready on :8766" && break
-            sleep 1
-          done
-
-      - name: Generate preview SVGs
-        run: npx tsx scripts/generate-preview-svgs.ts
 
       - name: Build blog posts (zh + en)
         run: npx tsx scripts/build-blog.ts
