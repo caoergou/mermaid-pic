@@ -11,6 +11,9 @@ const NORMAL_FONT = "system-ui, -apple-system, sans-serif";
 // 所有字体已通过 src/styles/fonts.css 全局预加载，无需动态注入
 const _injectedFonts = new Set(['kalam', 'virgil', 'caveat']);
 
+// 跟踪上一次的 Mermaid 配置，避免不必要的重新初始化
+let _lastMermaidConfig = null;
+
 /**
  * 按需懒加载手绘字体（Caveat / Virgil）。
  * Kalam 和小赖在页面初始化时已全局预加载，无需处理。
@@ -86,15 +89,30 @@ export async function renderDiagram() {
 
   const hdFont = getHandDrawnFontFamily();
   const hdSize = getHandDrawnFontSizePx();
+  const currentLook = (state.handDrawn && !noHandDrawn) ? 'handDrawn' : 'classic';
+
+  // 构建当前配置
+  const currentConfig = {
+    theme: state.currentTheme,
+    look: currentLook,
+    fontFamily: state.handDrawn ? hdFont : NORMAL_FONT,
+    fontSize: state.handDrawn ? hdSize : '14px',
+  };
 
   // 仅在配置发生变化时重新初始化 Mermaid
-  const currentLook = (state.handDrawn && !noHandDrawn) ? 'handDrawn' : 'classic';
-  if (
-    mermaid.config.theme !== state.currentTheme ||
-    mermaid.config.look !== currentLook ||
-    mermaid.config.themeVariables.fontFamily !== (state.handDrawn ? hdFont : NORMAL_FONT) ||
-    mermaid.config.themeVariables.fontSize !== (state.handDrawn ? hdSize : '14px')
-  ) {
+  let needsReinit = !_lastMermaidConfig;
+  if (_lastMermaidConfig) {
+    if (
+      _lastMermaidConfig.theme !== currentConfig.theme ||
+      _lastMermaidConfig.look !== currentConfig.look ||
+      _lastMermaidConfig.fontFamily !== currentConfig.fontFamily ||
+      _lastMermaidConfig.fontSize !== currentConfig.fontSize
+    ) {
+      needsReinit = true;
+    }
+  }
+
+  if (needsReinit) {
     mermaid.initialize({
       startOnLoad: false,
       theme: state.currentTheme as any,
@@ -106,6 +124,7 @@ export async function renderDiagram() {
         fontSize: state.handDrawn ? hdSize : '14px',
       },
     });
+    _lastMermaidConfig = currentConfig;
   }
 
   dom.preview.style.fontFamily = state.handDrawn ? hdFont : '';
