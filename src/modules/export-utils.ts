@@ -285,7 +285,7 @@ export function svgToPngBlob(svgEl: SVGElement, scale?: number) {
           // 如果是网格背景，在纯色背景上绘制网格
           if (state.previewBg === 'grid') {
             const gridSize = 20 * scale;
-            const gridColor = document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+            const gridColor = document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
 
             ctx.strokeStyle = gridColor;
             ctx.lineWidth = 1;
