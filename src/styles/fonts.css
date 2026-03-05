@@ -1,8 +1,8 @@
-/* 优化字体加载策略 */
-@import '@fontsource-variable/outfit?display=swap';
-@import '@fontsource-variable/jetbrains-mono?display=swap';
-@import '@fontsource/kalam/400.css?display=swap';
-@import '@fontsource/caveat/400.css?display=swap';
+/* 字体加载 - @import 不支持查询参数，使用 Vite 插件配置 font-display */
+@import '@fontsource-variable/outfit';
+@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource/kalam/400.css';
+@import '@fontsource/caveat/400.css';
 
 @font-face {
   font-family: 'Virgil';
