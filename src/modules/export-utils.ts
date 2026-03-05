@@ -226,7 +226,7 @@ export async function inlineFontsIntoSvg(svgEl, applyBg = true) {
  * @param {SVGElement} svgEl - SVG 元素
  * @param {number} scale - 缩放比例
  */
-export function svgToPngBlob(svgEl: SVGElement, scale?: number) {
+export function svgToPngBlob(svgEl: SVGElement, scale?: number): Promise<Blob> {
   if (!scale) {
     // 动态计算缩放比例：目标最小边 1200-2400px，最大边不超过 4800px
     const bbox = svgEl.getBoundingClientRect();
@@ -236,7 +236,7 @@ export function svgToPngBlob(svgEl: SVGElement, scale?: number) {
     const scaleForMax = Math.min(4800 / maxSide, 10);
     scale = Math.min(scaleForMin, scaleForMax);
   }
-  return new Promise((resolve, reject) => {
+  return new Promise<Blob>((resolve, reject) => {
     inlineFontsIntoSvg(svgEl).then(cloned => {
       const images = cloned.querySelectorAll('image');
       for (let i = images.length - 1; i >= 0; i--) images[i].parentNode.removeChild(images[i]);
