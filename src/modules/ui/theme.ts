@@ -116,6 +116,29 @@ export function openHelp() {
 }
 
 /**
+ * 动态定位下拉框，确保不超出视口
+ */
+function positionDropdown(trigger: HTMLElement, panel: HTMLElement) {
+  const rect = trigger.getBoundingClientRect();
+  // 计算下拉框的位置，确保不超出视口
+  const top = rect.bottom + 4;
+  let left = rect.left;
+
+  // 检查右侧是否超出视口
+  if (left + panel.offsetWidth > window.innerWidth - 8) {
+    left = Math.max(8, window.innerWidth - panel.offsetWidth - 8);
+  }
+
+  // 检查左侧是否超出视口
+  if (left < 8) {
+    left = 8;
+  }
+
+  panel.style.top = top + 'px';
+  panel.style.left = left + 'px';
+}
+
+/**
  * 绑定预览区上方的 Mermaid 主题与背景色下拉框、以及工具栏快捷切换按钮
  */
 export function initPreviewPills() {
@@ -126,7 +149,14 @@ export function initPreviewPills() {
   const themeTrigger = document.getElementById('theme-dropdown-trigger');
   const themePanel = document.getElementById('theme-dropdown-panel');
   if (themeTrigger && themePanel) {
-    themeTrigger.addEventListener('click', () => themeDropdown.classList.toggle('open'));
+    themeTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasOpen = themeDropdown.classList.contains('open');
+      themeDropdown.classList.toggle('open');
+      if (!wasOpen) {
+        positionDropdown(themeTrigger, themePanel);
+      }
+    });
     themePanel.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', () => {
         const t = btn.getAttribute('data-theme');
@@ -146,7 +176,14 @@ export function initPreviewPills() {
   const bgTrigger = document.getElementById('bg-dropdown-trigger');
   const bgPanel = document.getElementById('bg-dropdown-panel');
   if (bgTrigger && bgPanel) {
-    bgTrigger.addEventListener('click', () => bgDropdown.classList.toggle('open'));
+    bgTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasOpen = bgDropdown.classList.contains('open');
+      bgDropdown.classList.toggle('open');
+      if (!wasOpen) {
+        positionDropdown(bgTrigger, bgPanel);
+      }
+    });
     bgPanel.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', () => {
         const v = btn.getAttribute('data-bg');
