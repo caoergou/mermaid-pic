@@ -270,3 +270,6 @@ export async function copyEmbedCode() {
   showToast(STRINGS[state.currentLang].toastEmbedCopied);
   btnSuccess(dom.btnShare);
 }
+
+// 暴露函数到 window 上
+window.downloadPng = downloadPng;

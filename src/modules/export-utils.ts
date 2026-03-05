@@ -321,3 +321,6 @@ export function svgToPngBlob(svgEl: SVGElement, scale?: number) {
     }).catch(reject);
   });
 }
+
+// 暴露到 window 上
+window.svgToPngBlob = svgToPngBlob;
