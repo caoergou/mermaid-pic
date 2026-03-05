@@ -277,36 +277,37 @@ export function svgToPngBlob(svgEl: SVGElement, scale?: number): Promise<Blob> {
         ctx.imageSmoothingQuality = 'high';
 
         // 根据背景类型绘制背景
-        if (bgColor !== 'transparent') {
-          // 绘制纯色背景（黑色或白色）
-          ctx.fillStyle = bgColor;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-          // 如果是网格背景，在纯色背景上绘制网格
-          if (state.previewBg === 'grid') {
-            const gridSize = 20 * scale;
-            const gridColor = document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
-
-            ctx.strokeStyle = gridColor;
-            ctx.lineWidth = 1;
-
-            for (let x = 0; x <= canvas.width; x += gridSize) {
-              ctx.beginPath();
-              ctx.moveTo(x, 0);
-              ctx.lineTo(x, canvas.height);
-              ctx.stroke();
-            }
-
-            for (let y = 0; y <= canvas.height; y += gridSize) {
-              ctx.beginPath();
-              ctx.moveTo(0, y);
-              ctx.lineTo(canvas.width, y);
-              ctx.stroke();
-            }
-          }
-        } else {
+        if (bgColor === 'transparent') {
           // 透明背景：不绘制任何背景，保持透明
           // 棋盘格背景在预览时用于视觉效果，但导出时应该保持透明
+        } else if (bgColor === 'grid') {
+          // 网格背景：先绘制白色背景，再绘制网格线
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          const gridSize = 20 * scale;
+          const gridColor = document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
+
+          ctx.strokeStyle = gridColor;
+          ctx.lineWidth = 1;
+
+          for (let x = 0; x <= canvas.width; x += gridSize) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+          }
+
+          for (let y = 0; y <= canvas.height; y += gridSize) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+          }
+        } else {
+          // 纯色背景（黑色或白色）
+          ctx.fillStyle = bgColor;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
         ctx.scale(scale, scale);

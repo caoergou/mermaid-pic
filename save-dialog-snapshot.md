@@ -1,0 +1,219 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "MermZen" [level=1] [ref=e3]:
+      - generic [ref=e4]: MermZen
+    - navigation [ref=e5]:
+      - button "文件 F" [ref=e7] [cursor=pointer]:
+        - text: 文件
+        - generic [ref=e8]: F
+      - generic [ref=e9]:
+        - button "编辑 E" [ref=e10] [cursor=pointer]:
+          - text: 编辑
+          - generic [ref=e11]: E
+        - text: ✓ ✓ ✓ ✓
+      - generic [ref=e12]:
+        - button "视图 V" [ref=e13] [cursor=pointer]:
+          - text: 视图
+          - generic [ref=e14]: V
+        - text: ✓ ✓
+      - button "帮助 H" [ref=e16] [cursor=pointer]:
+        - text: 帮助
+        - generic [ref=e17]: H
+    - button "切换手绘风格" [pressed] [ref=e18] [cursor=pointer]:
+      - img [ref=e19]
+    - button "切换深色/浅色模式" [ref=e23] [cursor=pointer]:
+      - img [ref=e24]
+    - button "命令面板 ⌘K" [ref=e30] [cursor=pointer]:
+      - img [ref=e31]
+      - generic [ref=e34]: 命令面板
+      - generic [ref=e35]: ⌘K
+  - main [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - img [ref=e40]
+          - generic [ref=e43]: mermaid
+        - generic [ref=e44]: 6 行 · 128 字符
+        - button "示例" [ref=e46] [cursor=pointer]:
+          - img [ref=e47]
+          - generic [ref=e50]: 示例
+          - img [ref=e51]
+      - generic [ref=e55]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: "1"
+          - generic [ref=e59]: "2"
+          - generic [ref=e60]: "3"
+          - generic [ref=e61]: "4"
+          - generic [ref=e62]: "5"
+          - generic [ref=e63]: "6"
+        - textbox [ref=e68]:
+          - generic [ref=e69]: graph TD
+          - generic [ref=e70]: "A[开始 Start] --> B{判断 Decision}"
+          - generic [ref=e71]: B -->|是 Yes| C[成功 OK]
+          - generic [ref=e72]: B -->|否 No| D[失败 Fail]
+          - generic [ref=e73]: C --> E[结束 End]
+          - generic [ref=e74]: D --> E
+    - generic "拖拽调整面板大小 · Drag to resize" [ref=e75]
+    - generic [ref=e76]:
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - img [ref=e79]
+          - generic [ref=e83]: Preview
+        - button "默认" [ref=e85] [cursor=pointer]:
+          - img [ref=e86]
+          - generic [ref=e89]: 默认
+          - img [ref=e90]
+        - button [ref=e94] [cursor=pointer]:
+          - img [ref=e96]
+      - generic [ref=e99]:
+        - document [ref=e113]:
+          - generic [ref=e115]:
+            - generic [ref=e122]:
+              - paragraph [ref=e128]: 是 Yes
+              - paragraph [ref=e134]: 否 No
+            - generic [ref=e135]:
+              - paragraph [ref=e144]: 开始 Start
+              - paragraph [ref=e153]: 判断 Decision
+              - paragraph [ref=e162]: 成功 OK
+              - paragraph [ref=e171]: 失败 Fail
+              - paragraph [ref=e180]: 结束 End
+        - generic [ref=e101]:
+          - button "缩小" [ref=e102] [cursor=pointer]:
+            - img [ref=e103]
+          - generic [ref=e104]: 100%
+          - button "放大" [ref=e105] [cursor=pointer]:
+            - img [ref=e106]
+          - button "重置缩放" [ref=e107] [cursor=pointer]:
+            - img [ref=e108]
+  - generic:
+    - generic:
+      - generic:
+        - img
+        - textbox "输入命令或搜索..."
+      - generic:
+        - generic:
+          - generic: ↑↓
+          - text: 导航
+        - generic:
+          - generic: Enter
+          - text: 执行
+        - generic:
+          - generic: Esc
+          - text: 关闭
+  - dialog "保存图表 · Save Diagram" [ref=e206]:
+    - generic [ref=e207]:
+      - generic [ref=e208]:
+        - heading "保存图表 · Save Diagram" [level=2] [ref=e209]
+        - button "关闭 Close" [ref=e210] [cursor=pointer]:
+          - img [ref=e211]
+      - generic [ref=e214]:
+        - button "PNG 位图，适合嵌入文档或分享" [ref=e215] [cursor=pointer]:
+          - img [ref=e216]
+          - generic [ref=e220]: PNG
+          - generic [ref=e221]: 位图，适合嵌入文档或分享
+        - button "SVG 矢量图，无损缩放，适合编辑" [ref=e222] [cursor=pointer]:
+          - img [ref=e223]
+          - generic [ref=e226]: SVG
+          - generic [ref=e227]: 矢量图，无损缩放，适合编辑
+  - dialog "快捷键":
+    - generic:
+      - generic:
+        - heading "快捷键" [level=2]
+        - button "关闭 Close":
+          - img
+      - generic:
+        - generic:
+          - heading "文件操作" [level=3]
+          - table:
+            - rowgroup:
+              - row "保存图表 (选择格式) Ctrl + S":
+                - cell "保存图表 (选择格式)"
+                - cell "Ctrl + S":
+                  - generic: Ctrl
+                  - text: +
+                  - generic: S
+              - row "复制 PNG Ctrl + Shift + C":
+                - cell "复制 PNG"
+                - cell "Ctrl + Shift + C":
+                  - generic: Ctrl
+                  - text: +
+                  - generic: Shift
+                  - text: +
+                  - generic: C
+        - generic:
+          - heading "编辑" [level=3]
+          - table:
+            - rowgroup:
+              - row "格式化代码 Ctrl + Shift + F":
+                - cell "格式化代码"
+                - cell "Ctrl + Shift + F":
+                  - generic: Ctrl
+                  - text: +
+                  - generic: Shift
+                  - text: +
+                  - generic: F
+              - row "命令面板 Ctrl + K":
+                - cell "命令面板"
+                - cell "Ctrl + K":
+                  - generic: Ctrl
+                  - text: +
+                  - generic: K
+        - generic:
+          - heading "菜单" [level=3]
+          - table:
+            - rowgroup:
+              - row "文件 · File Alt + F":
+                - cell "文件 · File"
+                - cell "Alt + F":
+                  - generic: Alt
+                  - text: +
+                  - generic: F
+              - row "编辑 · Edit Alt + E":
+                - cell "编辑 · Edit"
+                - cell "Alt + E":
+                  - generic: Alt
+                  - text: +
+                  - generic: E
+              - row "视图 · View Alt + V":
+                - cell "视图 · View"
+                - cell "Alt + V":
+                  - generic: Alt
+                  - text: +
+                  - generic: V
+              - row "帮助 · Help Alt + H":
+                - cell "帮助 · Help"
+                - cell "Alt + H":
+                  - generic: Alt
+                  - text: +
+                  - generic: H
+        - generic:
+          - heading "预览背景" [level=3]
+          - table:
+            - rowgroup:
+              - row "白色 · White Alt + 1":
+                - cell "白色 · White"
+                - cell "Alt + 1":
+                  - generic: Alt
+                  - text: +
+                  - generic: "1"
+              - row "黑色 · Black Alt + 2":
+                - cell "黑色 · Black"
+                - cell "Alt + 2":
+                  - generic: Alt
+                  - text: +
+                  - generic: "2"
+              - row "透明 · Transparent Alt + 3":
+                - cell "透明 · Transparent"
+                - cell "Alt + 3":
+                  - generic: Alt
+                  - text: +
+                  - generic: "3"
+              - row "网格 · Grid Alt + 4":
+                - cell "网格 · Grid"
+                - cell "Alt + 4":
+                  - generic: Alt
+                  - text: +
+                  - generic: "4"
+      - generic:
+        - button "重新引导"
+        - button "关闭"

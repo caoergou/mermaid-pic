@@ -60,6 +60,54 @@ export const STRINGS = {
     errorTip: '修复代码后将自动重新渲染',
     errorDismiss: '关闭',
     placeholderMain: '在左侧输入 Mermaid 代码，图表将实时显示在这里',
+
+    // 菜单翻译
+    menuFile: '文件',
+    menuEdit: '编辑',
+    menuView: '视图',
+    menuHelp: '帮助',
+    menuDownloadPng: '下载 PNG',
+    menuDownloadSvg: '下载 SVG',
+    menuCopyPng: '复制 PNG',
+    menuShareLink: '分享链接',
+    menuEmbedCode: '嵌入代码',
+    menuHanddrawn: '手绘风格',
+    menuHanddrawnFont: '手绘字体 (英文)',
+    menuHanddrawnSize: '手绘字号',
+    menuHanddrawnRandom: '手绘随机',
+    menuKalam: 'Kalam',
+    menuVirgil: 'Virgil',
+    menuCaveat: 'Caveat',
+    menuHanddrawnFontHint: '中文默认使用小赖字体',
+    menuSizeSmall: '小 (15px)',
+    menuSizeMedium: '中 (17px)',
+    menuSizeLarge: '大 (20px)',
+    menuFixedLines: '固定线条',
+    menuRandomLines: '随机线条',
+    menuReshuffle: '刷新手绘',
+    menuFormatCode: '格式化代码',
+    menuToggleDarkLight: '深色/浅色模式',
+    menuDiagramTheme: '图表主题',
+    menuResetZoom: '重置缩放',
+    menuPreviewBackground: '预览背景',
+    menuMermaidTutorial: 'Mermaid 教程',
+    menuShortcuts: '快捷键',
+    menuCommandPalette: '命令面板',
+    menuGithub: 'GitHub',
+    menuRestartTour: '重新引导',
+
+    // 命令面板翻译
+    cmdExport: '导出',
+    cmdShare: '分享',
+    cmdView: '视图',
+    cmdHelp: '帮助',
+    cmdExamples: '示例',
+    cmdTheme: '主题',
+    cmdHanddrawn: '手绘',
+    cmdEdit: '编辑',
+    cmdBackground: '背景',
+    cmdNoCommands: '无匹配命令',
+    cmdPlaceholder: '输入命令或搜索...',
   },
   en: {
     editorPanel: 'Editor',
@@ -119,6 +167,54 @@ export const STRINGS = {
     errorTip: 'Fix the code above and it will re-render automatically',
     errorDismiss: 'Dismiss',
     placeholderMain: 'Type Mermaid code on the left, the diagram renders here in real time',
+
+    // 菜单翻译
+    menuFile: 'File',
+    menuEdit: 'Edit',
+    menuView: 'View',
+    menuHelp: 'Help',
+    menuDownloadPng: 'Download PNG',
+    menuDownloadSvg: 'Download SVG',
+    menuCopyPng: 'Copy PNG',
+    menuShareLink: 'Copy share link',
+    menuEmbedCode: 'Copy embed code',
+    menuHanddrawn: 'Hand-drawn style',
+    menuHanddrawnFont: 'Hand-drawn font (English)',
+    menuHanddrawnSize: 'Hand-drawn size',
+    menuHanddrawnRandom: 'Hand-drawn random',
+    menuKalam: 'Kalam',
+    menuVirgil: 'Virgil',
+    menuCaveat: 'Caveat',
+    menuHanddrawnFontHint: 'Chinese uses Xiaolai font by default',
+    menuSizeSmall: 'Small (15px)',
+    menuSizeMedium: 'Medium (17px)',
+    menuSizeLarge: 'Large (20px)',
+    menuFixedLines: 'Fixed lines',
+    menuRandomLines: 'Random lines',
+    menuReshuffle: 'Reshuffle hand-drawn',
+    menuFormatCode: 'Format code',
+    menuToggleDarkLight: 'Toggle dark/light mode',
+    menuDiagramTheme: 'Diagram theme',
+    menuResetZoom: 'Reset zoom',
+    menuPreviewBackground: 'Preview background',
+    menuMermaidTutorial: 'Mermaid tutorial',
+    menuShortcuts: 'Shortcuts',
+    menuCommandPalette: 'Command palette',
+    menuGithub: 'GitHub',
+    menuRestartTour: 'Restart tour',
+
+    // 命令面板翻译
+    cmdExport: 'Export',
+    cmdShare: 'Share',
+    cmdView: 'View',
+    cmdHelp: 'Help',
+    cmdExamples: 'Examples',
+    cmdTheme: 'Theme',
+    cmdHanddrawn: 'Hand-drawn',
+    cmdEdit: 'Edit',
+    cmdBackground: 'Background',
+    cmdNoCommands: 'No matching commands',
+    cmdPlaceholder: 'Type a command or search...',
   },
 };
 
@@ -126,6 +222,7 @@ export function applyI18n() {
   const s = STRINGS[state.currentLang];
   document.querySelectorAll('[data-i18n="editor"]').forEach(el => { el.textContent = s.editorPanel; });
   document.querySelectorAll('[data-i18n="preview"]').forEach(el => { el.textContent = s.previewPanel; });
+  document.querySelectorAll('[data-i18n="previewPanel"]').forEach(el => { el.textContent = s.previewPanel; });
 
   // 主题下拉框
   document.querySelectorAll('[data-i18n-theme]').forEach(el => {
@@ -140,6 +237,29 @@ export function applyI18n() {
     const bg = el.getAttribute('data-i18n-bg');
     el.textContent = s['bg' + bg.charAt(0).toUpperCase() + bg.slice(1)];
   });
+
+  // 菜单内容翻译
+  const menuKeys = [
+    'menuFile', 'menuEdit', 'menuView', 'menuHelp', 'menuDownloadPng', 'menuDownloadSvg',
+    'menuCopyPng', 'menuShareLink', 'menuEmbedCode', 'menuHanddrawn', 'menuHanddrawnFont',
+    'menuHanddrawnSize', 'menuHanddrawnRandom', 'menuKalam', 'menuVirgil', 'menuCaveat',
+    'menuHanddrawnFontHint', 'menuSizeSmall', 'menuSizeMedium', 'menuSizeLarge',
+    'menuFixedLines', 'menuRandomLines', 'menuReshuffle', 'menuFormatCode',
+    'menuToggleDarkLight', 'menuDiagramTheme', 'menuResetZoom', 'menuPreviewBackground',
+    'menuMermaidTutorial', 'menuShortcuts', 'menuCommandPalette', 'menuGithub', 'menuRestartTour'
+  ];
+
+  menuKeys.forEach(key => {
+    document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => {
+      el.textContent = s[key];
+    });
+  });
+
+  // 命令面板占位符翻译
+  const cmdInput = document.getElementById('cmd-palette-input');
+  if (cmdInput) {
+    cmdInput.placeholder = s.cmdPlaceholder;
+  }
 
   document.getElementById('modal-title').textContent = s.modalTitle;
   const sectionH3s = document.querySelectorAll('.help-section h3');

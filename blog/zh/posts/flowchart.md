@@ -11,7 +11,7 @@ slug: flowchart
 
 流程图用于描述一个过程的步骤与决策路径，适合展示用户操作流程、业务审批逻辑、算法流程等场景。Mermaid 使用 `graph` 或 `flowchart` 关键字声明流程图，纯文本书写，无需绘图工具。
 
-<iframe src="https://eric.run.place/MermZen/embed.html#Sy9KLMhQCHHhUgACR43op3sani7vjtVU0NW1U3CKfj5lxbOO7S_2TX7auvTFlmVP-7cr6Cs8Xd_2fEFjLFiLE1ihczVE8tmM9U8nLHu6dsbTOSvsa8EKnEEKaoCiNQou0c_6Jzxfsgui9smOXohCiEEuEBuR9AANq1FwrYbYBjH52drFzxeug5rsijDZLfrFug1P9059umTjiy1Ln61Z-GzqBoixbmBj3auRZRQedS5VMIaa4o6wyyP65ZTGp-tmQT1qbKDwtKPt5aT5sUgKwdY5IdkP1ukJDKj5zzomKASnFhdn5ucphORnp-ZB9HmCXeAV_WL75hd717xcNu3lwq0QGS-wjLdG9PPdk5_NnR-rCQA" width="100%" height="600" frameborder="0"></iframe>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKL0osyFAIcVGqBQBEswY6" width="100%" height="600" frameborder="0"></iframe>
 
 ## 声明图表
 
@@ -20,7 +20,7 @@ slug: flowchart
 ```
 graph TD
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHEBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFAIcVGqBQBEswY6" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 方向参数 | 含义 | 效果 |
 |---------|------|------|
@@ -44,7 +44,7 @@ graph TD
     G[(数据库)]
     H>标注旗帜]
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgACx-hn03Y-W9gWC-Y5aTyd0_Zi-SSImCZYzLn6Rf_Gp3sX1YJ5LhogJUCuJkTWVSP62ZK1QKFYCN8tOvrp2gnPV3Q_3dUPMhZirnu0xrOpG571rnu6a7ImRMjD7tmC9mebVzybPv3pjjmxAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFAIcYnJU1BQUHCMfjZt57OFbbEQrpPG0zltL5ZPgghqQgSdq1_0b3y6d1EthOuiAVL0dO8iTai8q0b0syVrn85pi4UKuEVHP1074fmK7qe7-kFmQw13j9Z4NnXDs951T3dN1oSKedg9W9D-bPOKZ9OnP90xJ1apFgBJ3Uqf" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 语法 | 形状 | 典型用途 |
 |------|------|---------|
@@ -69,7 +69,7 @@ graph LR
     A --文字--> F
     A -->|标签| G
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQ8AniUgACRwVdXTsFJzhbV8EZxtYDSrhAOba2dgqucEXPprU_XTsdpNENYUjNswXtz9fuq1FwBwA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFDwCYrJU1BQUHBU0NW1U3BCcHQVnOEcPV07BRcYz9bWTsEVoe7ZtPana6eDNLshmVTzbEH787X7ahTclWoBp5wgRw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 语法 | 含义 |
 |------|------|
@@ -96,7 +96,7 @@ graph TD
     end
     B --> C
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgCC4tKkdDD_aWfv89XrwWIg4Bj9fMqKZx3bn0_teTl3UayCrq6dglP0i4UrnvZOfbmq58X6xliw2tS8FDRzJvQhm-Mc7RjgqfB878SnrZshprhEP5u64Vnvuqe7JqMa4QSWdgYA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFAIcYnJU1BQUCguTYIIPO3sfb56PUQQBByjn09Z8axj-_OpPS_nLopV0NW1U3CKfrFwxdPeqS9X9bxY3xgLUZyal4Ju1IQ-FKOcox0DPBWe7534tHUzxCCX6GdTNzzrXfd012R0U5zACpyVagHR3EXO" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 完整示例：用户登录流程
 
@@ -115,7 +115,7 @@ graph TD
     I --> J[跳转首页]
     J --> K([结束])
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgACR43op3sani7vjtVU0NW1U3CKfj5lxbOO7S_2TX7auvTFlmVP-7cr6Cs8Xd_2fEFjLFiLE1ihczVE8tmM9U8nLHu6dsbTOSvsa8EKnEEKaoCiNQou0c_6Jzxfsgui9smOXohCiEEuEBuR9AANq1FwrYbYBjH52drFzxeug5rsijDZLfrFug1P9059umTjiy1Ln61Z-GzqBoixbmBj3auRZRQedS5VMIaa4o6wyyP65ZTGp-tmQT1qbKDwtKPt5aT5sUgKwdY5IdkP1ukJDKj5zzomKASnFhdn5ucphORnp-ZB9HmCXeAV_WL75hd717xcNu3lwq0QGS-wjLdG9PPdk5_NnR-rCQA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJxNj0FLwmAYx7_Kw04KSZE3D0Vzatoxb287REhFMCOhyybkIVlEOHLGiMRGbnnQzchYVPZhoufd9i2ivRN3_v_-v__zyNw5l1tf4Q64HHd4tn96BFVhTwIA2EoR_LrA52sxDZnMBvDE10dU9YLvLl5awczGjgergG7bf2yJrMNHZF5mKTVc1GycGPgw2mwyIv9PKKjZCgiEdjR_-MHg3_cbRsYqgY0mW9RwFSjIbJHJ6eTJN52FvLCUF0ngTHHew-FLMLPo2KS9aWwuRuaSnIzg58qC7MJTWs5tk1BvoXMf_5tdA1Tb4e1ATJLRIp-8IeqWia8PqKrBbq3ROK5LUK2f1KS4WY6uqJDAew3m49C-C823OKpE0U6K-J9d2h-Iaa75B8UPvnA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 速查表
 

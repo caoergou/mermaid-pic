@@ -21,7 +21,7 @@ sequenceDiagram
     participant 服务器
     participant 数据库
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgoLEopLM5MyCxLwShedTVjzr2I4h_GxO79OuhU9nrsCUmbrhWe-6p7smAwA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFAoSCwqyUzOLEjMK1F4PmXFs47tmOLP5vQ-7Vr4dOYKLFJTNzzrXfd012SlWgB3_iyk" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `sequenceDiagram` 声明图表类型
 - `participant 名称` 显式声明参与者，**控制左右排列顺序**
@@ -36,7 +36,7 @@ sequenceDiagram
     participant S as 服务器
     U->>S: 发送请求
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgoLEopLM5MyCxLwShVCFxGKF51NWPOvYjiEXDJJ7Nqf3adfCpzNXgKVDde3sgq0UnvZPfNnQ-GL99mcbmwA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFAoSCwqyUzOLEjMK1EIVUgsVng-ZcWzju2YksEgyWdzep92LXw6cwVEPlTXzi7YSuFp_8SXDY0v1m9_trFJqRYAeNUuOA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 消息箭头类型
 
@@ -52,7 +52,7 @@ sequenceDiagram
     A-)B: 实线带异步箭头（非阻塞）
     A--)B: 虚线带异步箭头
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAAkddOzsnK4Wn6-Y937X_6Y5lT_c0PJuy7_m6tU-XbHm_p-PphJ5na5e-WL_92cam93s6wVqcdIF6HK0UXsychUfP08m9T3dNgekBWgO35dn0BRC1UBmwFMQwdKkKFKf1d4JMX7LxxZal-k92LHq6pxlhPFgpwkX9MHFNVM81AV0Gd-jLufNeztj9dOE8JGM0UYxBUg8A" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFBw1LWzc7JSeLpu3vNd-5_uWPZ0T8OzKfuer1v7dMmW93s6nk7oebZ26Yv1259tbHq_pxOix0lX187O0UrhxcxZeDQ9ndz7dNcUuCZHXYQ9z6YvgCiGSYHlIMZhyFWgOK-_E2TBko0vtizVf7Jj0dM9zUg2aKL6pOnZ2qVwR72cO-_ljN1PF85DUg_WgOQLhAalWgA8x6xp" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 语法 | 常见使用场景 |
 |------|------------|
@@ -73,7 +73,7 @@ sequenceDiagram
     Note over A,B: 横跨多个参与者的备注
     A->>B: 消息
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgoLEopLM5MyCxLwSBUcMESewiF9-SapCUWZ6RolCfpqCo5XCi_0zn81Yr-Co8HxWy9Ml7c82r0Coyy9LLVJw1HGyUni2YtWL7SueLpn1ZMeqp_1NT3b0vWhoRdXhqGtnB1K5reNZ43oA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFAoSCwqyUzOLEjMK1FwxBRyggj55ZekKhRlpmeUKOSnKThaKbzYP_PZjPUKjgrPZ7U8XdL-bPMKJIX5ZalFCo46TlYKz1aserF9xdMls57sWPW0v-nJjr4XDa1oWhx17exASrd1PGtcr1QLADkLSl8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 控制结构
 
@@ -86,7 +86,7 @@ sequenceDiagram
         服务器-->>客户端: pong
     end
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgpz8_AKFZ-v7X86aomBsoPB8-SSwMAg8XbfoWcf256vX69rZPZvT-7Rr4dOZK6wUnu5vfrF987PFDc-2dsPVwuV1gYrhGq0UCvLz0sGKUvNSAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFDIyc8vUHi2vv_lrCkKxgYKz5dPgoiDwNN1i551bH--er2und2zOb1PuxY-nbnCSuHp_uYX2zc_W9zwbGs3QjFcga6unR1cp5VCQX5eOkRVal6KUi0APURABA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ### 条件分支（alt / else）
 
@@ -101,7 +101,7 @@ sequenceDiagram
         服务器-->>客户端: 403 Forbidden
     end
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgqfrFj3r2P589XpdO7tnc3qfdi18OnOFlUKAf3CIgn5OfnpmHlhZYk6JwstVPS_WN75smPVifztYEATgenSBBsANs1IwMjBQ8PdW0FYIyc9OhZiRmlOcqvB0fdvzBY0vp8x8sX49QUNMDAwVQvMSS0sy8osyq1JTEMa82LLsaf_2F4tWv5zS-HTdLCJMMlZwyy9KykxJgbkmLwUA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFB4um7Rs47tz1ev17Wzezan92nXwqczV1gpBPgHhyjo5-SnZ-ZB1CXmlCi8XNXzYn3jy4ZZL_a3Q0RBAK5LV9fODm6clYKRgYGCv7eCtkJIfnYq1JTUnOJUhafr254vaHw5ZeaL9esJG2NiYKgQmpdYWpKRX5RZlZqCZNCLLcue9m9_sWj1yymNT9fNIsYsYwW3_KKkzJQUuIvyUpRqAVPWgJ8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ### 可选操作（opt）
 
@@ -112,7 +112,7 @@ sequenceDiagram
         服务器->>推送服务: 发送通知
     end
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgmdzep92LXw6c4Wund3TdYuedWx_vnq9lcKL_VOezp73bOqGZ73rwOryC0oUnu5peDph_ZNdbS8bZj2fvxQsjm7Gs74VLxsaISJWCk_7JwJ5SMpT81IA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFB4Nqf3adfCpzNX6NrZPV236FnH9uer11spvNg_5ensec-mbnjWuw6iML-gROHpnoanE9Y_2dX2smHW8_lLIRLopjzrW_GyoREiYqXwtH_iy4ZGZPWpeSlKtQA8ikp5" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ### 并行操作（par）
 
@@ -124,7 +124,7 @@ sequenceDiagram
         服务器->>短信服务: 发送短信
     end
 ```
-<a href="https://eric.run.place/MermZen/#K04tLE3NS051yUxML0rM5VIAgoLEIoWnE3qeTd_2rHP5i4U9YEEQeDan92nXwqczV-ja2b1sWvdk9zaIiJXC0_6JLxsaIWJg5Yl5KVi1PZ-_9sn-hajaIGJg5al5KQA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFAoSCxSeDqh59n0bc86l79Y2AMRBYFnc3qfdi18OnOFrp3dy6Z1T3Zvg4hYKTztn_iyoREiBlGfmJeCXePz-Wuf7F-IqhEiBlGfmpeiVAsAn4hNkg" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 完整示例：HTTP 登录接口调用链
 
@@ -157,7 +157,7 @@ sequenceDiagram
         浏览器-->>用户: 显示错误提示
     end
 ```
-<a href="https://eric.run.place/MermZen/#jZJtSxtBEMff-ykGX2lRTKVWOFARez5VjeYOfFmWZA1Hz7v09kQkHFRBDaJEUEtSChrwCR8aS9Wg1vbT7N3mW7jZxXA2p-29OnbmN_-Z_wzBn-awlcTvDJR20GwT8A8lXduBYPvYz1XEQwY5rpE0Mshywb_Ks6McLR43RPonR_xvG3StFBVM4JRBgl9b9LzQEBtf0KbGmsSzFG3v7a3LKEBLp3SlyC4Pab5CyyvB3iK9uQ6WbujqXVC8o_c7gqwDHA53osBkXNOhA2WMDtNOGxZk5wh2LDSL23gXhMzbTsqT6mGOlwn1rMCQqoPgP8wgw1TqRTxBhlLbGxqg-z_Y5YF_VvJ3LqAl1hopJkxQQFPH1AEdXsFgIj4ONREC08NqQoVHwZ4-gYv8Ri1pIPt-UfNFbtN0QdpWPVln5cXq56_sz6oIRbTxd7VdP7cJo9M66PZHbEHLsNbZ9bb1OfqJYxp3jGBCDNtSsm4N96A7FY0-3XhnLAbx9yChNjG5V-fCiw5fyXmBLh_wFSWRqfH7RWkcgXBGOqQAq_xk92fVwy_V0pXIxCbBj05tF1m5_F9TjkwMJF44jH9M-ib2GrLYcWxHgeawdrP3cvd-4Xewfytz_fwm_5czWKkH" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyNkm9r01AUxr_KIa82aVgt_oELRmRGN93sbAJ7U5BLei3B7KbemylSAk5wK6J04CatCFro5tDNTtws25x-mpuk30KWu9Z0bdW395zfec7znFtWHikok1IsBSmcPFwk1CLXbVxkeCFPAQCw5bkMwrWtoNKWLyXMPNuyS5h6EOxXo48VUd8aLF2bmw7evRIvGkOrOVKwefjjtdipDRZnnxh3Z_JUFqS0qmk9LQSi8Vks16O9TVFti9Zy-GFJHHwPnx2IlaOwfiSO1yXaI1RNS66DYC5rmDCBS_aE4xZtCuVFThjFCyQFJcz5Y5cV_O4CSVLVtMTmCG7qJsQT7t3HtoN6Y3yJJnrVgR1E82u0txFsN4L1XRhLj4_Qi8NAYOgz-qQJ5-BGLjsLJzoc5qf0nA5dzStXJR8Dg3Iyx-jLbhzP6XEdD2R-nU8vo9ZS5-nb6NeKrA1Z5ezA90FlFW7Nm2C6DwiFsSkjc_HS-Ei8LzlDN4ETzm2XorJ3wvtwuTCC7b9-Jp2G7G2QVCr27_8Bk0dPfpmdmni-AY5rYcfwXIaLZBijapoMCkHU_hYdb3c233Qa-7KVOJx081qrR63W_1mdvjOZ-9sv-YfdC-nzUCaMuQxBXumTV4b6TngIaj_D5qHsDqqrYfPw1AktKP5v_0LK5Q" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 速查表
 

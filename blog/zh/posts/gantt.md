@@ -22,7 +22,7 @@ gantt
     section 第一阶段
     任务名称 : 2026-03-01, 5d
 ```
-<a href="https://eric.run.place/MermZen/#S0_MKynhUgCCksySnFSFZx0Tn89qeblw5_PZ616sW_i0YxJYMiWxJNUtvyg3sUQhEgh0fX11XVzAMsWpySWZ-XkKz9esebKj4eWMbc_WbQVLPNm9-2nXwqcTep8v36BgpWBkYGSma2Csa2Coo2CaAgA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUCjJLMlJVXjWMfH5rJaXC3c-n73uxbqFTzsmQWRTEktS3fKLchNLFCIjIyN1fX11XVwgUsWpySWZ-XkKz9esebKj4eWMbc_WbYXIPNm9-2nXwqcTep8v36BgpWBkYGSma2Csa2Coo2CaolQLACOyOI0" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `title` — 图表标题（可选）
 - `dateFormat` — 日期格式，**必须与任务日期格式一致**
@@ -50,7 +50,7 @@ gantt
     需求分析 : 2026-03-01, 3d
     UI 设计  : 2026-03-04, 5d
 ```
-<a href="https://eric.run.place/MermZen/#S0_MKynhUgCClMSSVLf8otzEEoVIIND19dV1cQHLFKcml2Tm5yk83dPwtH8iWOjlnIZnG5uedrQ9mzdBwUrByMDITNfAWNfAUEfBOAWsItRT4cW6fS_WLVRAljfRUTBNAQA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIFacml2Tm5yk83dPwtH8iROzlnIZnG5uedrQ9mzdBwUrByMDITNfAWNfAUEfBOAWiJNRT4cW6fS_WLVRAVmCio2CaolQLAP3CLRU" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 持续时长单位：`d`（天）、`w`（周）、`h`（小时）
 
@@ -64,7 +64,7 @@ gantt
     前端开发  : after be, 5d
     联调测试  : after 前端开发, 3d
 ```
-<a href="https://eric.run.place/MermZen/#S0_MKynhUgCClMSSVLf8otzEEoVIIND19dV1cQHLFKcml2Tm5yk83dPwtH8iWOjphL7nq9dDBBQUrBSSUnUUjAyMzHQNjHUNDHUUzFMgyjp7UZQlppWkFoEVm0IUvGic8mJD87Ot3S_WT0UoQNamo2CcAgA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIFacml2Tm5yk83dPwtH8iROzphL7nq9dDRBQUrBSSUnUUjAyMzHQNjHUNDHUUzFOg6jp7UdQlppWkFoFVm0JVvGic8mJD87Ot3S_WT0WoQNano2CcolQLAA6XSH0" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 `after 任务名` 表示在指定任务完成后才开始，实现依赖链。给任务指定 ID（如 `be`），方便其他任务引用。
 
@@ -80,7 +80,7 @@ gantt
     关键路径    : crit,   2026-03-09, 3d
     关键且进行中: crit, active, 2026-03-09, 3d
 ```
-<a href="https://eric.run.place/MermZen/#S0_MKynhUgCClMSSVLf8otzEEoVIIND19dV1cQHLFKcml2Tm5ym82D_76a5lYKGn2zc9XdfzrGPCk927n3YtVFCwUkjJz0vVAUoZGRiZ6RoY6xoY6igYp4BVAzW-WNjzZMdahOpEoJFlQPVw1SY6CqYQ1c9mrnvZMOvpvtanXfNAfCsFGIArttRRMIEoftq6-eWUdS-2r3-6rwWiOLkos0QHTbExsuInO6bAHQRTjuEcsCYA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIFacml2Tm5ym82D_76a5lELGn2zc9XdfzrGPCk927n3YtVFCwUkjJz0vVUVBQMDIwMtM1MNY1MNRRME6BKH-xf_aLhT1PdqxFKE9MLsksS9VBKDfRUTCFKn82c93LhllP97U-7ZoH4lspwABctaWOgglU9dPWzS-nrHuxff3TfS0Q1clFmSU6aKqNUVQ_2TEF7iaYegwXgXUp1QIAKxFvpQ" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 状态标记 | 视觉效果 |
 |---------|---------|
@@ -99,7 +99,7 @@ gantt
     开发完成    : milestone, m1, 2026-03-15, 0d
     上线发布    : milestone, m2, 2026-03-20, 0d
 ```
-<a href="https://eric.run.place/MermZen/#S0_MKynhUgCClMSSVLf8otzEEoVIIND19dV1cQHLFKcml2Tm5yk87Z_4dEczWOjpngYQb13Ps44JIL6VQm5mTmpxSX5eqo5CrqGOgpGBkZmugbGuoamOgkEKWM-THV3Pd-2HGIKpxwihx8gApAcA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIFacml2Tm5yk87Z_4dEczROzpngYQd13Ps44JIL6VQm5mTmpxSX5eqo5CrqGOgpGBkZmugbGuoamOgkEKRNOTHV3Pd-2HGIOpyQihycgApEmpFgBDcTs8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 里程碑用 `0d` 持续时间表示一个时间点，而非时间段。
 
@@ -111,7 +111,7 @@ gantt
     excludes weekends
     excludes 2026-04-04, 2026-04-05
 ```
-<a href="https://eric.run.place/MermZen/#S0_MKynhUgCClMSSVLf8otzEEoVIIND19dV1cQHLpFYk55SmpBYrlKemZqfmpRSjihoZGJnpGpgAkQ6CbQoA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIpVYk55SmpBYrlKemZqfmpRSjCRsZGJnpGpjoGpjoINimSrUAvVge6A" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 `excludes weekends` 自动排除周六周日，也可以指定具体假期日期。
 
@@ -138,7 +138,7 @@ gantt
     性能检查        : crit,           after test, 1d
     正式上线        : milestone,      after 性能检查, 0d
 ```
-<a href="https://eric.run.place/MermZen/#hZHNTsJAEMfvPMU8QGtKMRy8GYkJB44e9NbQ1TSWou2CHhsVNBAgmkiiURGJ0cRY4sEEDcjLsG15C5ediggH57Kbmfn952tHsyiNATdqUJNAhti5LWIBq10z74FVWuHxAIrxJQVCr83OLkSqrlGynrdzGoVNbnImI6dSIkIOs2ZBJw4cELJLLN2JCbdDstTIWzC-cf23o1GvHnpfXE_E0Bd2T5jXhshWQM9bROI_m-xPHlAVNSkrCVmJS6DqAtxIA6u32F0VxebAgiE40LYpsSOZBIKYP18xZ5jEoRE9BVFG0f_Owfoua5wLFy7Kf277t0N0o5zGM4tci-6Z0rzcMvbhN0-Dl3tWLjHvI-g3WfkK0R_TbLqAJhFdFX04sJaGcakWDLwZLPtncqyvzg3gv1fD7iU_xKhXCT6HOIk4NkZ-15K1DdEF5cuRpqpYI9qn7z5NwI7rtx4Xwek02I6QiUfga4f1G9jCf4eYLSLxg3wD" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyFkVFLwlAUx7_KYc9bzBk--BZF4IOPPSx8GdstRjpru1oQwai0UFQKEorKlkRBNOkhsND8Mt5tfotwZ5rpQ_flwjn39z___7mHXJFLSjynckluWzEozRgAAFSnWQJpYuY2iQGsdsPcR1ZpBSd9KMaWRAhch51f4ltNoWQ9b-YUCrIsy0I6LaytYYscqNmCRizYJ2SHGJqVMbBhEZXqeQNGt7b3fjzs1gP3O3AdbGIx6Jwy14HoJEHLG4QHAJPsjS-QRCkhiHFBjPEgaUhupIDVW-y-inJzZEEPQVC2KDEjnXhEIjA_M6dniUUjfEqijqjNh2E9mzUusIYr814c726AdVRUVKoXCQ90N8vPKy5HXrzmmf_6wMol5n76vSYrXyM7OYpJF9hExK6EVixYTcGoVPP77gyn_smPDqSFFN5HNehcDbv1Ybfifw2iOOHfY-t3Paqph04oscIbhXHMZLGe_Twm27bXelokp5HQUqgTm5BvbdZroIv_vmR2Cg-ixh39AFPuD8E" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 速查表
 

@@ -103,7 +103,7 @@ export function getExportBgColor() {
   switch (state.previewBg) {
     case 'black': return '#1a1a1a';
     case 'checker': return 'transparent';
-    case 'grid': return '#ffffff';
+    case 'grid': return 'grid';
     default: return '#ffffff';
   }
 }

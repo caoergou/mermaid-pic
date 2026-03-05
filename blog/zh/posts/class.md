@@ -8,7 +8,7 @@ slug: class
 ## 什么是类图？
 
 类图（Class Diagram）是 UML 中最常用的图表之一，用于描述系统中类的结构（属性和方法）以及类之间的关系（继承、关联、组合等）。适合系统设计、数据建模、团队协作讨论等场景。
-<iframe src="https://eric.run.place/MermZen/embed.html#lZGxSgQxEIb7e4ohla7soe0VgnCNlQenDzDOxiWYzZ7JpBCxtFLBwnsHwRew8HFcfA2zcx5ZPTwwzZAvf-YjE7IYwtRg7bEZQVrUAzgL2sONgH7tGcdgqryfszeuBoeN3oC6QWMzXVgkfeIr7Xd2Qaqc3Y4GOsHbfFNkDeR1KtURbygDI8eQMaGl05bRJuWFbZH_UB6zbn5rryI6NnydqXSA6AzPvKHBg2vN83jO20Uz31aR-N_TXFkXP439zcAtXQ498lnqQEFZHoLaH48L9T3RCXy83XePS4mtUJ8ryjLVnJMxTKB7uOueXnNWsCokJ63T1fVrUvp9-fn88gU" width="100%" height="600" frameborder="0"></iframe>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAAiyiEFqcWKVRDREBAOzOvRCEzBUkguKQoMy9dIS8xNxUhqgsVLUgsLi7PL0JWn5OfnpmnoamQlJ-fgyqcX1qioalQlg8zvlapFgAj0S70" width="100%" height="600" frameborder="0"></iframe>
 
 
 ## 基本语法
@@ -25,7 +25,7 @@ classDiagram
         +logout() void
     }
 ```
-<a href="https://eric.run.place/MermZen/#S85JLC52yUxML0rM5VIAgmSQgEJocWqRQjVYAAS0M_NKFDJTEPzgkqLMvHSFvMTcVLigLlSwAGhAeX4Rkuqc_PTMPA1NhaT8_BwU0fzSEqBwWT7U6FoA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAAiyiEFqcWKVRDREBAOzOvRCEzBUkguKQoMy9dIS8xNxUhqgsVLUgsLi7PL0JWn5OfnpmnoamQlJ-fgyqcX1qioalQlg8zvlapFgAj0S70" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 **访问修饰符：**
 
@@ -50,7 +50,7 @@ classDiagram
     Dog --> Food : 依赖
     User ..> Logger : 使用
 ```
-<a href="https://eric.run.place/MermZen/#S85JLC52yUxML0rM5VIAAse8zNzEHAWbGl1dBZf8dAUrhee7lz_r3I8h6ZxYgioJUq0FlAhILAdLtDyd0AGWAKnMB0qE5FcCJV40zoJJgHTo6topuOXnpwBlnuyb-2LrNLBMaHFqkYKenp2CT356OpAJlNy7__mUFQA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFBwzMvMTcxRsKnR1VVwyU9XsFJ4vnv5s879mLLOiSVosiD1Wrq6CgGJ5WCZlqcTOiAyILX5uroKIfmVClYKLxpnwWVAenR17RTc8vNTFKwUnuyb-2LrNIhUaHFqkYKenp2CT356emoRSHbv_udTVijVAgBiL0UJ" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | 写法 | 关系类型 | 含义 |
 |------|---------|------|
@@ -68,7 +68,7 @@ classDiagram
     User "1" --> "0..*" Order : 下单
     Order "1" *-- "1..*" OrderItem : 包含
 ```
-<a href="https://eric.run.place/MermZen/#S85JLC52yUxML0rM5VIAgtDi1CIFJUMlBV1dOwUlAz09LSUF_6IUoKCVwpMd3U97p4KVQYRA6rR0dYE0Qp1nSWouUO3TntanE1YDAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAILU4tUohRMoxRUtDVtVOIUTLQ09OKUVLwL0pJLVKwUniyo_tp71SIWogYRLGWri6IhaTYsyQ1V8FK4WlP69MJq5VqATk9JQQ" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 完整示例：电商订单模型
 
@@ -105,7 +105,7 @@ classDiagram
     Order "1" *-- "1..*" OrderItem : 包含
     OrderItem "*..*" --> "1" Product : 引用
 ```
-<a href="https://eric.run.place/MermZen/#lZGxSgQxEIb7e4ohla7soe0VgnCNlQenDzDOxiWYzZ7JpBCxtFLBwnsHwRew8HFcfA2zcx5ZPTwwzZAvf-YjE7IYwtRg7bEZQVrUAzgL2sONgH7tGcdgqryfszeuBoeN3oC6QWMzXVgkfeIr7Xd2Qaqc3Y4GOsHbfFNkDeR1KtURbygDI8eQMaGl05bRJuWFbZH_UB6zbn5rryI6NnydqXSA6AzPvKHBg2vN83jO20Uz31aR-N_TXFkXP439zcAtXQ498lnqQEFZHoLaH48L9T3RCXy83XePS4mtUJ8ryjLVnJMxTKB7uOueXnNWsCokJ63T1fVrUvp9-fn88gU" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJydkc1KAzEQgF9lmFO7ukU97kEQeunJQvWWy5iNSzCbrcmsIKVHTyp4sO8g-AIefBwXX0M2UQhdtGAuCd_8fMxkhTdYHO2jxAKlIe-nmipHtbAAAIHAuVcOVpH0Z09bBl0mYMFO2wos1WpIVU3aJHhpSKpTVyo3GkO4Y3AtbGoNkb-1U2IF0iliVZ7w0OyZuPUJl2TkWcNkRmO4NA3x7-YZq3pgv27JsubbBIc20FrNc6dlOn6leNFe8E7d3DVlK_k_G47y5Za4L_bcyKstXfhHgYcCIc-PQeDBZJIJ_N50AR9v993jJuZGFpOzPO9fSXJYTgHdw1339JoUBC4wi6lR0nf4GbGA7n3z-fyC6y8rpLv5" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 <a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 

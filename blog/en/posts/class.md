@@ -10,7 +10,7 @@ slug: class
 <span class="post-meta">2026-03-04 · MermZen Tutorial
 
 Class diagrams describe object-oriented systems by showing classes, their attributes, methods, and relationships between classes.
-<iframe src="https://eric.run.place/MermZen/embed.html#S85JLC52yUxML0rM5VIAAse8zNzEHAWbGl1dBZf8dAUrhee7lz_r3I8h6ZxYgioJUq0FlAhILAdLtDyd0AGWAKnMB0qE5FcCJV40zoJJgHTo6topuOXnpwBlnuyb-2LrNLBMaHFqkYKenp2CT356OpAJlNy7__mUFQA" width="100%" height="600" frameborder="0"></iframe>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAAiyiEFqcWKVRDREBAOzOvRCEzBUkguKQoMy9dIS8xNxVTNDU3MTMHSTgnPz0zT0NTISk_H004v7REQ1OhLB9mdq1SLQB1my2H" width="100%" height="600" frameborder="0"></iframe>
 
 
 ## Declaring Classes
@@ -25,7 +25,7 @@ classDiagram
         +logout() void
     }
 ```
-<a href="https://eric.run.place/MermZen/#S85JLC52yUxML0rM5VIAgmSQgEJocWqRQjVYAAS0M_NKFDJTEPzgkqLMvHSFvMTcVAzB1NzEzByEaE5-emaehqZCUn4-qmh-aQlQuCwfam4tAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAAiyiEFqcWKVRDREBAOzOvRCEzBUkguKQoMy9dIS8xNxVTNDU3MTMHSTgnPz0zT0NTISk_H004v7REQ1OhLB9mdq1SLQB1my2H" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `+` - Public
 - `-` - Private
@@ -42,7 +42,7 @@ classDiagram
     Dog --> Food : Association
     User ..> Logger : Dependency
 ```
-<a href="https://eric.run.place/MermZen/#VcpBCsJADAXQvafIWpgeoEihOAiCCxd6gDANMdAmZVKQgoc3daH4V5__fhnRPQtyxWkHkV5lwhEOr5QgG0MLZ31QlQW10OexrfvQKz5DjzbN5rKI6Vct9GZraM9cifFPU-rgZDZs7G5Ffnx3qtA0HVyMOWoLmWbSgbSsbw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJxVyjELwjAQhuG_8pFRvA6OQQrFIggODrq5HOlxBmyuJEUp6n-X4qCu7_M-3M351dIF5124ciltZM3cnxMANCn2fMX6SYTWFB67dJEcR05BPsucF0Q48B0eG-sHK3GMlr5sRDjaBI9GNYvyPxPV2Jp1s5diIf74qUhGVdXYm6pkeLQySOokhcm93lztOmc" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## Multiplicity
 
@@ -51,7 +51,7 @@ classDiagram
     User "1" --> "0..*" Order : Places
     Order "1" *-- "1..*" OrderItem : Contains
 ```
-<a href="https://eric.run.place/MermZen/#S85JLC52yUxML0rM5VIAgtDi1CIFJUMlBV1dOwUlAz09LSUF_6IUoKCVQkBOYnJqMVgZRAikTktXF0gj1HmWpOYC1Trn55UkZuYVAwA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAILU4tUohRMoxRUtDVtVOIUTLQ09OKUVLwL0pJLVKwUgjISUxOLYaohYhBFGvp6oJYSIo9S1JzFawUnPPzShIz84qVagEOqiJX" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## Example: E-commerce Order System
 
@@ -85,7 +85,7 @@ classDiagram
     Order "1" *-- "1..*" OrderItem
     OrderItem "*" --> "1" Product
 ```
-<a href="https://eric.run.place/MermZen/#lZBBCsIwEEX3PcWQlVZa9AKC0I0rC9UDjEksgTSt6XQh4t1N0mKKYMHZDPkzvJ_5XGPfFwpri00CrrgX4NJLC88g-NooQ6BEfFdklanBYCOj2Gnk8mSFtKs1hB5mr2QGDvISuUCSwK10TRwo6hw1P7eE2rFvukX6wT6SbL759wENKXpENRBgMIpKq_jshlpSNVxp2ai0rRg4_R3Q6Np9HCdoCJvtGGTZHtg2z1M2i29MzI_TLHM9jv2pcSUcztKJ4tanX74B" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJydUcFqAjEQ_ZVhTrrtivbooVDw0pOCestlzE6XQDZrs7OCiP8um4gdECuYS8J7L-9lXk54wPnHO1qco_XUdQtHdaTGBACAhMC24winjAzrzQUBVylgLdGFGgI1rNC9J8vLWHEcjSHtmTyboO0T87__goTBRibh6ksUYcnbTSvkR2P48S3J44Rv4eYu5benIE6OCk420Acnq-isnqdmWfc7eRq3im3VW3mlshy-_wu-WadPMDgzCGX5CQank0lhUPeai8yaoiyHk9IM8ytdqsNgcfMbbl1fjucL1XGaIA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ---
 

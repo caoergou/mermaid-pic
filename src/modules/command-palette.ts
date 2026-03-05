@@ -31,30 +31,29 @@ const CMD_ICONS = {
 
 function getCmdCommands() {
   const s = STRINGS[state.currentLang];
-  const isZh = state.currentLang === 'zh';
   const cmds = [
-    { group: isZh ? '导出' : 'Export', label: isZh ? '下载 PNG' : 'Download PNG', icon: 'download', action() { downloadPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
-    { group: isZh ? '导出' : 'Export', label: isZh ? '下载 SVG' : 'Download SVG', icon: 'download', action() { downloadSvg().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
-    { group: isZh ? '导出' : 'Export', label: isZh ? '复制 PNG' : 'Copy PNG', icon: 'copy', kbd: 'Ctrl+Shift+C', action() { copyPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
-    { group: isZh ? '分享' : 'Share', label: isZh ? '复制分享链接' : 'Copy share link', icon: 'share', action() { copyShareLink().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
-    { group: isZh ? '视图' : 'View', label: isZh ? '切换深色/浅色模式' : 'Toggle dark/light mode', icon: 'theme', action() { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; applyUiTheme(!isDark); } },
-    { group: isZh ? '视图' : 'View', label: isZh ? '切换手绘风格' : 'Toggle hand-drawn style', icon: 'pencil', action() {
+    { group: s.cmdExport, label: s.menuDownloadPng, icon: 'download', action() { downloadPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: s.cmdExport, label: s.menuDownloadSvg, icon: 'download', action() { downloadSvg().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: s.cmdExport, label: s.menuCopyPng, icon: 'copy', kbd: 'Ctrl+Shift+C', action() { copyPng().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: s.cmdShare, label: s.menuShareLink, icon: 'share', action() { copyShareLink().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: s.cmdView, label: s.menuToggleDarkLight, icon: 'theme', action() { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; applyUiTheme(!isDark); } },
+    { group: s.cmdView, label: s.menuHanddrawn, icon: 'pencil', action() {
       state.handDrawn = !state.handDrawn;
       if (dom.handDrawnBtn) { dom.handDrawnBtn.classList.toggle('active', state.handDrawn); dom.handDrawnBtn.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false'); }
       if (dom.handDrawnToggleQuick) { dom.handDrawnToggleQuick.classList.toggle('active', state.handDrawn); dom.handDrawnToggleQuick.setAttribute('aria-pressed', state.handDrawn ? 'true' : 'false'); }
       saveHandDrawnPrefs();
       initMermaid(); renderDiagram();
     }},
-    { group: isZh ? '视图' : 'View', label: isZh ? '重置缩放' : 'Reset zoom', icon: 'zoom', action: resetView },
-    { group: isZh ? '分享' : 'Share', label: isZh ? '嵌入代码' : 'Copy embed code', icon: 'share', action() { copyEmbedCode().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
-    { group: isZh ? '帮助' : 'Help', label: isZh ? '示例与快捷键' : 'Examples & Shortcuts', icon: 'help', action: openHelp },
-    { group: isZh ? '帮助' : 'Help', label: 'GitHub', icon: 'github', action() { window.open('https://github.com/caoergou/MermZen', '_blank'); } },
+    { group: s.cmdView, label: s.menuResetZoom, icon: 'zoom', action: resetView },
+    { group: s.cmdShare, label: s.menuEmbedCode, icon: 'share', action() { copyEmbedCode().catch(e => { showToast(s.toastFailed + ': ' + e.message); }); } },
+    { group: s.cmdHelp, label: s.menuShortcuts, icon: 'help', action: openHelp },
+    { group: s.cmdHelp, label: s.menuGithub, icon: 'github', action() { window.open('https://github.com/caoergou/MermZen', '_blank'); } },
   ];
 
-  const examples = isZh ? EXAMPLES_ZH : EXAMPLES_EN;
+  const examples = state.currentLang === 'zh' ? EXAMPLES_ZH : EXAMPLES_EN;
   examples.forEach(ex => {
     cmds.push({
-      group: isZh ? '示例' : 'Examples',
+      group: s.cmdExamples,
       label: ex.label,
       icon: 'example',
       action() { if (state.editorView) state.editorView.dispatch({ changes: { from: 0, to: state.editorView.state.doc.length, insert: ex.code } }); },
@@ -63,8 +62,8 @@ function getCmdCommands() {
 
   ['default', 'dark', 'forest', 'neutral', 'base'].forEach(t => {
     cmds.push({
-      group: isZh ? '主题' : 'Theme',
-      label: (isZh ? '主题: ' : 'Theme: ') + t.charAt(0).toUpperCase() + t.slice(1),
+      group: s.cmdTheme,
+      label: (state.currentLang === 'zh' ? '主题: ' : 'Theme: ') + t.charAt(0).toUpperCase() + t.slice(1),
       icon: 'theme',
       action() { switchTheme(t); initMermaid(); renderDiagram(); },
     });
@@ -72,38 +71,38 @@ function getCmdCommands() {
 
   Object.keys(HAND_FONTS).forEach(key => {
     cmds.push({
-      group: isZh ? '手绘' : 'Hand-drawn',
-      label: (isZh ? '手绘字体: ' : 'Hand font: ') + HAND_FONTS[key].label,
+      group: s.cmdHanddrawn,
+      label: (state.currentLang === 'zh' ? '手绘字体: ' : 'Hand font: ') + HAND_FONTS[key].label,
       icon: 'pencil',
       action() { state.handDrawnFont = key; saveHandDrawnPrefs(); initMermaid(); renderDiagram(); },
     });
   });
 
   cmds.push({
-    group: isZh ? '手绘' : 'Hand-drawn',
-    label: isZh ? '刷新手绘线条' : 'Reshuffle hand-drawn',
+    group: s.cmdHanddrawn,
+    label: s.menuReshuffle,
     icon: 'pencil',
     action() { state.handDrawnSeed = Math.floor(Math.random() * 10000); initMermaid(); renderDiagram(); },
   });
 
   cmds.push({
-    group: isZh ? '编辑' : 'Edit',
-    label: isZh ? '格式化代码' : 'Format Code',
+    group: s.cmdEdit,
+    label: s.menuFormatCode,
     icon: 'example',
     kbd: 'Ctrl+Shift+F',
     action() { formatCode(); },
   });
 
   const bgLabels = {
-    white: isZh ? '白色背景' : 'White background',
-    black: isZh ? '黑色背景' : 'Black background',
-    checker: isZh ? '透明背景' : 'Transparent background',
-    grid: isZh ? '网格背景' : 'Grid background',
+    white: state.currentLang === 'zh' ? '白色背景' : 'White background',
+    black: state.currentLang === 'zh' ? '黑色背景' : 'Black background',
+    checker: state.currentLang === 'zh' ? '透明背景' : 'Transparent background',
+    grid: state.currentLang === 'zh' ? '网格背景' : 'Grid background',
   };
   const bgKeys = { white: 'Alt+1', black: 'Alt+2', checker: 'Alt+3', grid: 'Alt+4' };
   Object.keys(bgLabels).forEach(key => {
     cmds.push({
-      group: isZh ? '背景' : 'Background',
+      group: s.cmdBackground,
       label: bgLabels[key],
       icon: 'example',
       kbd: bgKeys[key],
@@ -117,7 +116,7 @@ function getCmdCommands() {
 function renderCmdList() {
   cmdList.innerHTML = '';
   if (cmdFiltered.length === 0) {
-    cmdList.innerHTML = '<div class="cmd-palette__empty">' + (state.currentLang === 'zh' ? '无匹配命令' : 'No matching commands') + '</div>';
+    cmdList.innerHTML = '<div class="cmd-palette__empty">' + STRINGS[state.currentLang].cmdNoCommands + '</div>';
     return;
   }
   let lastGroup = '';

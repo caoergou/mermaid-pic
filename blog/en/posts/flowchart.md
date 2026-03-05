@@ -10,7 +10,7 @@ slug: flowchart
 <span class="post-meta">2026-03-04 · MermZen Tutorial
 
 Flowcharts visualize process steps and decision paths, making them ideal for user flows, approval processes, or algorithm descriptions. Mermaid uses either `graph` or `flowchart` keywords for flow diagrams.
-<iframe src="https://eric.run.place/MermZen/embed.html#Sy9KLMhQCHHhUgACx-hn03Y-W9gWC-Y5aTyd0_Zi-SSImCZYzLn6Rf_Gp3sX1YJ5LhogJUCuJkTWVSP62ZK1QKFYCN8tOvrp2gnPV3Q_3dUPMhZirnu0xrOpG571rnu6a7ImRMjD7tmC9mebVzybPv3pjjmxAA" width="100%" height="600" frameborder="0"></iframe>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKL0osyFAIcVGqBQBEswY6" width="100%" height="600" frameborder="0"></iframe>
 
 
 ## Declaring a Chart
@@ -18,7 +18,7 @@ Flowcharts visualize process steps and decision paths, making them ideal for use
 ```
 graph TD
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHEBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFAIcVGqBQBEswY6" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 Direction parameters:
 
@@ -41,7 +41,7 @@ graph TD
     F[[Subroutine]]
     G[(Database)]
 ```
-<a href="https://eric.run.place/MermZen/#JYwxDsIwDEV3TuHRmTgDNMDeslkZ3MYqltKkSpMJcXeq5G_vPemvmfcPvO0Fzt1olKVwXIO4Ju44phq9eMhnMM0NX6u8peh_DS3ioHkJYnp-IE2FvdYNrrBrCK77J9FU55xq0Siu378ILRee-RDj_g" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJwtjbEOwiAURX_l5U2QmJg4dtOi7q0bMrzCSyWh0CC4NP13Bzqec25yN_xhdzmhxQ7nTOsHXuodAQCuemBbKM6BTTM3MaQaHTvIbItsst-UpyVFtzdWQvQ-28DyGNyFHgs5Xxc4w-pDMEd4aD3WKadafGRzfDy1UFRooi9Lg_sf8Hkwvw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | Syntax | Shape | Usage |
 |--------|-------|-------|
@@ -62,7 +62,7 @@ graph LR
     A --label--> F
     A -->|label| G
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQ8AniUgACRwVdXTsFJzhbV8EZxtYDSrhAOba2dgqucEU5iUmpOSB9bggzasCCNQruAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFDwCYrJU1BQUHBU0NW1U3BCcHQVnOEcPV07BRcYz9bWTsEVoS4nMSk1B6TXDcmgGrBojYK7Ui0AIbcbvA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 | Syntax | Meaning |
 |--------|---------|
@@ -84,7 +84,7 @@ graph TD
     end
     B --> C
 ```
-<a href="https://eric.run.place/MermZen/#Sy9KLMhQCHHhUgCC4tKkdDDfrSg_ryQ1LwUsCgKO0aGeCj6JlalFsQq6unYKTtFhiTmZKYklmfl5sWBVMNVwM5wSk7ORjXCOdgzwhOh2iXZJLElMSixORdXrBJZ1BgA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFAIcYnJU1BQUCguTYIIuBXl55Wk5qVAhEHAMTrUU8EnsTK1KFZBV9dOwSk6LDEnMyWxJDM_LxaiDK4eboxTYnI2iinO0Y4BnhADXKJdEksSkxKLU9G1O4HlnZVqAbsAMTo" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## Full Example: User Login Flow
 
@@ -103,7 +103,7 @@ graph TD
     I --> J[Redirect to dashboard]
     J --> K([End])
 ```
-<a href="https://eric.run.place/MermZen/#TY5LTsMwEIb3nGKW7aISUvegpnmQghAiZYGsLIw9baymNpoxFCnhAByEi3ESXCeCzGo08_2PPcnXBrbpBYRZzUTlJfl6DovFFSTiiZEArUdiUIQ6rEa2XEc6idC6Wynl3qwH_DDs-fozPtfnZ3_vekhF1bgTIJGjQZgO7hPuGbmHrHuQzCdHGt5la_TolP055aK0ocUxtICdNC3E3MEzj55Fl4c7w8_XNyxHffGfcCPunDqAHAsvL-FobD2hzinJJDWqSlGgRZIeoUJm4yxs3QFHYRmDN-IRtSFUHrwDLbl5cZL0gGwicjsTmdX1_Bc" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJxNjk1OwzAQRq8y8qqVqITorgtQ0_yQghAiZYFMFsYeiNXURmPTIiU9AAfhYpwE1Ukg63nfe9OwPVtcnDHJFuyNxHsFm_jZAAAsJ7zwgnw5hdnsEiL-6JAAjUdyIAkVGq9F7coOjwK1apZS2g_jAT-18-7q2F1Xp2t7Z1uIeVHZAyCRpX4ad4Ex-YSuhaS5F84dLCnYi1qrQZb8yVKeG0m4Q-PhVegaQrvXpkGbNanQtYOfr2-YD4bsP3LNb63cgujfnp_DTptyjJ1C0bgcdjnP0CAJj1Cgc9oa2NgtDtM8xNf8AZUmlB68BSVc9WIFqZ5ZB-ZmwhOjyik7_gJxL3n6" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ---
 

@@ -19,7 +19,7 @@ pie title My Pie Chart
     "Category B" : 35
     "Category C" : 40
 ```
-<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVfCtVAgAcpwzEotKuBSAQMk5sSQ1Pb-oUsFRScFKwcgUTdQJJGqMLuoMEjUxAAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlV8K1UCMhMVXDOSCwqiclTUFBQiFFyTixJTc8vqlRwjFFSsFIwMsWQcAJLGGNKOIMlTAyUagEN_R95" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 Key features:
 - `pie title` adds a chart title
@@ -38,7 +38,7 @@ pie title Monthly Traffic Sources
     "Social" : 18
     "Referral" : 12
 ```
-<a href="https://eric.run.place/MermZen/#LckxCoAwDEDR3VMEb2BxEGdXEawXCCG1gdJKrIO319L-8f1LGLLkwLCmmH144VB0TghsepT47uCv3_TEWJBRyfcww2jqWUSZchEzVbGJBEORocnOjlWbmQ8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJw9ybEKwjAQBuBX-bnZxeAgmV2l0DpmCcfFHoREzigU8d1LC-n6fT_6kncnYvL0UkHTlgX3WtqcFzwspqSMqX6M5R0KAAQa7BnLxhKN50DwuLieNzXhtqO7dpwqa8w7ng8cJYlZZ0f_FQuYKZw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ### Development Time Allocation
 
@@ -50,7 +50,7 @@ pie title Development Time Distribution
     "Testing" : 15
     "Documentation" : 10
 ```
-<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXBJLUvNyS_ITc0rUQjJzAUKZBaXFGUmlZZk5udxKQCBUlBqYWlmUSpISbGSgpWCoSlE3K0oP68kNS8FJGYMFXNKTM6GChlBhUJSi0sy89KRdbrkJ5eCjEsEWQKWMAAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJxdjTEOwjAQBL-yupoCgmhcIosHoJRpgjmhE8k52Oc0EX9HsZQUtDOr2YVmcs2BAjmahGFiA8PzzEOcRlZDKyPDS7Ykj2IStVMA6OjOnyKJ11HuCA6ny6ZuKaqxPis-7_jah_dGm522nE309ZfwMZQ13dfL6o70_QHyzjVC" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ---
 

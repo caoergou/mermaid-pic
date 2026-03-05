@@ -17,7 +17,7 @@ pie title 标题
     "类别B" : 数值
     "类别C" : 数值
 ```
-<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXi2oP3lohlcCkCg9Hzj7qcdqx2VFKwUnk3d8LRhD7KwE3ZhZ4QwAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlVeLag_eWiGTF5CgoKCjFKzzfuftqx2jFGScFK4dnUDU8b9qDKOOGUcUaSUaoFAEU-Lms" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `pie` — 声明饼图
 - `title 标题` — 可选，图表标题
@@ -34,7 +34,7 @@ pie title 本月开发时间分配
     "测试调试" : 15
     "文档撰写" : 10
 ```
-<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXg2Z82zOR1P9zQ87Z_4bPq2l9O3PO1oe9nay6UABEov5zQ829gEFHk2b4KSgpWCoSlE_Gln7_PV6yG6QOLGMPEJfSjiRlDxZ1u7X6yf-mJDM5BENufZtPZnCxc_m7ThadtMsLgBAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlVeDZnzbM5HU_3NDztn_hs-raX07c87Wh72dobk6egoKAQo_RyTsOzjU1PO9qezZsQo6RgpWBoCpN62tn7fPV6iFawlDFCakIfqpQRXOrZ1u4X66e-2ND8Yv1UNAOfTWt_tnDxs0kbnrbNhEgZKNUCANTTUWI" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 <a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 
@@ -47,7 +47,7 @@ pie title 网站月度流量来源
     "社交媒体" : 18
     "外链引用" : 12
 ```
-<a href="https://eric.run.place/MermZen/#K8hMVSjJLMlJVXi-d-Lz1TOfzel4umvZs62NL9v7n81d-mzXBC4FIFB6NmHO8y2Lnu6Z-mxyn5KClYKJEUT8-ewtz_qWvli3_-X0dSBxIwuo-JJ9T3Ytebpq0pO9k0HihlDxp0umvZy8D2jO8ykrwOJGAA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlVeL534vPVM5_N6Xi6a9mzrY0v2_ufzV36bNeEmDwFBQWFGKVnE-Y837Lo6Z6pzyb3xSgpWCmYGMGkns_e8qxv6Yt1-19OXweWMrKASy3Z92TXkqerJj3ZOxksZQiXerpk2svJ-57umfp8ygqIlJFSLQBaOUe-" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 <a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 

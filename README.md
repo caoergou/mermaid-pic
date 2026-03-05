@@ -45,28 +45,33 @@ MermZen fills that gap: a CodeMirror 6 editor with Mermaid-aware syntax highligh
 ## Features
 
 **Editor**
+
 - CodeMirror 6 with Mermaid syntax highlighting and autocomplete
 - Inline error display pinpointed to the exact line
 - Code formatter and command palette (`Ctrl+K`)
 - Full keyboard shortcut system
 
 **Preview**
+
 - Live rendering as you type (300ms debounce)
 - 11 diagram types: flowchart, sequence, class, Gantt, pie, mindmap, ER, state, architecture, gitGraph, block-beta
 - Pan, zoom, and checkerboard background for transparent diagrams
 - Right-click context menu for quick export
 
 **Output**
+
 - Export SVG or PNG (PNG rendered at 2× resolution)
 - Copy PNG directly to clipboard
 - Shareable URL — diagram state encoded in the URL hash, no server needed
 - Embeddable iframe via `embed.html` — paste `<iframe src="…/embed.html#code">` into any page for a live, hand-drawn diagram with zero dependencies
 
 **Appearance**
+
 - Hand-drawn style mode (with Chinese handwriting font support)
 - 5 Mermaid themes + dark / light UI toggle
 
 **Onboarding**
+
 - Built-in example templates
 - Interactive tour for first-time users
 
@@ -93,4 +98,3 @@ MermZen fills that gap: a CodeMirror 6 editor with Mermaid-aware syntax highligh
 - [pako](https://github.com/nodeca/pako) — deflate compression for shareable URLs
 
 All production dependencies are bundled locally — no CDN required at runtime.
-
