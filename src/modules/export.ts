@@ -36,7 +36,7 @@ const DIAGRAM_TYPE_NAMES = {
 };
 
 /** 从代码首行取第一个词（跳过空行与 %% 注释） */
-function getFirstWordFromCode(code) {
+function getFirstWordFromCode(code: string): string {
   if (!code || typeof code !== 'string') return '';
   const line = code.split('\n').find(l => {
     const t = l.trim();
@@ -48,7 +48,7 @@ function getFirstWordFromCode(code) {
 /**
  * 从 Mermaid 代码首行解析图表类型 key；未识别时返回 'diagram'
  */
-function getDiagramTypeKey(code) {
+function getDiagramTypeKey(code: string): string {
   const first = getFirstWordFromCode(code);
   if (!first) return 'diagram';
   const key = first.toLowerCase();
@@ -63,7 +63,7 @@ function getDiagramTypeKey(code) {
 /**
  * 生成导出文件名：类型名-日期时间.扩展名（紧凑无多余空格）
  */
-function getExportFilename(ext) {
+function getExportFilename(ext: string): string {
   const code = getCode();
   const key = getDiagramTypeKey(code);
   const names = DIAGRAM_TYPE_NAMES[key];
@@ -71,7 +71,7 @@ function getExportFilename(ext) {
   let typeName = names ? (names[lang] || names.en) : '';
   if (!typeName) typeName = getFirstWordFromCode(code) || (lang === 'zh' ? '图表' : 'Diagram');
   const now = new Date();
-  const pad = n => String(n).padStart(2, '0');
+  const pad = (n: number): string => String(n).padStart(2, '0');
   const dateStr = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
   const safe = (typeName.replace(/[/\\:*?"<>|\s]+/g, '-').replace(/-+/g, '-') || 'diagram').replace(/^-|-$/g, '');
   return `${safe}-${dateStr}.${ext.replace(/^\./, '')}`;
@@ -135,7 +135,7 @@ export function buildPayload(code: string) {
 /**
  * 编码 Payload 对象
  */
-export function encodePayload(payload) {
+export function encodePayload(payload: any): string {
   const json = JSON.stringify(payload);
   const bytes = new TextEncoder().encode(json);
   const compressed = deflate(bytes);
@@ -147,7 +147,7 @@ export function encodePayload(payload) {
 /**
  * 编码代码字符串 (兼容旧逻辑，但内部改用 encodePayload)
  */
-export function encodeCode(code) {
+export function encodeCode(code: string): string {
   return encodePayload(buildPayload(code));
 }
 
@@ -155,7 +155,7 @@ export function encodeCode(code) {
  * 解码 Payload
  * 返回 { code, settings }，兼容旧格式
  */
-export function decodePayload(encoded) {
+export function decodePayload(encoded: string): { code: string; settings: any } | null {
   if (!encoded) return null;
   encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
   while (encoded.length % 4 !== 0) encoded += '=';
@@ -199,7 +199,7 @@ export function decodePayload(encoded) {
 /**
  * 解码代码字符串 (保持签名不变，仅返回 code)
  */
-export function decodeCode(encoded) {
+export function decodeCode(encoded: string): string | null {
   const res = decodePayload(encoded);
   return res ? res.code : null;
 }
@@ -207,17 +207,17 @@ export function decodeCode(encoded) {
 /**
  * 获取 URL 查询参数中的状态
  */
-export function getQueryState() {
+export function getQueryState(): { code: string; settings: any } | null {
   try {
     const param = new URLSearchParams(location.search).get('code');
-    return decodePayload(param);
+    return decodePayload(param || '');
   } catch (e) { return null; }
 }
 
 /**
  * 获取 URL 查询参数中的代码
  */
-export function getQueryCode() {
+export function getQueryCode(): string | null {
   const res = getQueryState();
   return res ? res.code : null;
 }
@@ -225,7 +225,7 @@ export function getQueryCode() {
 /**
  * 获取 URL Hash 中的状态
  */
-export function getHashState() {
+export function getHashState(): { code: string; settings: any } | null {
   try {
     const hash = location.hash.slice(1);
     return decodePayload(hash);
@@ -235,7 +235,7 @@ export function getHashState() {
 /**
  * 获取 URL Hash 中的代码
  */
-export function getHashCode() {
+export function getHashCode(): string | null {
   const res = getHashState();
   return res ? res.code : null;
 }
@@ -243,7 +243,7 @@ export function getHashCode() {
 /**
  * 更新 URL Hash
  */
-export function updateHash(code) {
+export function updateHash(code: string): void {
   const encoded = encodeCode(code);
   window.history.replaceState(null, '', '#' + encoded);
   try { localStorage.setItem('mermzen-code', code); } catch (e) {}
