@@ -2,7 +2,7 @@ import './styles/fonts.css';
 import { state } from './modules/store';
 import { updateEditorStatus, setRenderStatus, closeHelp, showToast } from './modules/utils';
 import { applyUiTheme, initPreviewPills, switchPreviewBg, switchTheme, syncHandDrawnUI } from './modules/ui/theme';
-import { applyI18n } from './modules/i18n';
+import { applyI18n, syncLanguageUI } from './modules/i18n';
 import { DEFAULT_CODE } from './modules/examples';
 import { createEditor, scheduleLint, formatCode } from './modules/editor';
 import { initMermaid, renderDiagram } from './modules/render';
@@ -98,6 +98,7 @@ async function bootstrap() {
   if (langParam && (langParam === 'zh' || langParam === 'en')) {
     state.currentLang = langParam;
     localStorage.setItem('mermzen-lang', langParam);
+    syncLanguageUI(); // 同步语言按钮 UI 状态
   }
 
   const urlState = getHashState() || getQueryState();
