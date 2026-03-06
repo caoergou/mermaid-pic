@@ -1,13 +1,5 @@
-/* 字体加载 - @import 不支持查询参数，使用 Vite 插件配置 font-display */
+/* UI 字体和编辑器字体 - 关键路径，同步加载 */
 @import '@fontsource-variable/outfit';
 @import '@fontsource-variable/jetbrains-mono';
-@import '@fontsource/kalam/400.css';
-@import '@fontsource/caveat/400.css';
 
-@font-face {
-  font-family: 'Virgil';
-  src: url('/fonts/Virgil.woff2') format('woff2');
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
-}
+/* 手绘字体通过 render.ts 的 ensureHandDrawnFont() 按需懒加载，无需在此预加载 */

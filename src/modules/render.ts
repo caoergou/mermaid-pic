@@ -8,15 +8,48 @@ import { getCode, clearDiagnostics, pushDiagnosticFromError, scrollToLine } from
 // ── Mermaid 初始化 ──────────────────────────────────────────
 const NORMAL_FONT = "system-ui, -apple-system, sans-serif";
 
-// 所有字体已通过 src/styles/fonts.css 全局预加载，无需动态注入
-const _injectedFonts = new Set(['kalam', 'virgil', 'caveat']);
+// kalam/caveat/virgil 均通过 ensureHandDrawnFont() 按需注入
+const _injectedFonts = new Set<string>();
+let _xiaolaiLoaded = false;
+
+const XIAOLAI_CSS_CANDIDATES = [
+  'https://registry.npmmirror.com/@chinese-fonts/xiaolai/3.0.0/files/dist/Xiaolai/result.css',
+  'https://cdn.jsdelivr.net/npm/@chinese-fonts/xiaolai@3.0.0/dist/Xiaolai/result.css',
+  'https://unpkg.com/@chinese-fonts/xiaolai@3.0.0/dist/Xiaolai/result.css',
+];
+
+function ensureXiaolaiFont() {
+  if (_xiaolaiLoaded) return;
+  _xiaolaiLoaded = true;
+
+  const injectLink = (url: string) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = url;
+    document.head.appendChild(link);
+  };
+
+  // 并发 HEAD 请求，用 Promise.any 选出第一个成功的 CDN
+  // 若全部失败或 3s 超时，回退到列表第一项
+  const tryHead = (url: string) => fetch(url, { method: 'HEAD', cache: 'force-cache' })
+    .then(r => { if (!r.ok) throw new Error(); return url; });
+
+  const timeout = new Promise<never>((_, reject) => setTimeout(reject, 3000));
+  const race = Promise.any
+    ? Promise.any(XIAOLAI_CSS_CANDIDATES.map(tryHead))
+    : Promise.race(XIAOLAI_CSS_CANDIDATES.map(tryHead));
+
+  Promise.race([race, timeout])
+    .then((url: string) => injectLink(url))
+    .catch(() => injectLink(XIAOLAI_CSS_CANDIDATES[0]));
+}
 
 // 跟踪上一次的 Mermaid 配置，避免不必要的重新初始化
 let _lastMermaidConfig = null;
 
 /**
- * 按需懒加载手绘字体（Caveat / Virgil）。
- * Kalam 和小赖在页面初始化时已全局预加载，无需处理。
+ * 按需懒加载手绘字体（Kalam / Caveat / Virgil）。
+ * 首次渲染手绘图时注入 @font-face，后续调用直接跳过。
  */
 function ensureHandDrawnFont(fontKey) {
   if (_injectedFonts.has(fontKey)) return;
@@ -137,6 +170,7 @@ export async function renderDiagram() {
   if (state.handDrawn && !noHandDrawn) {
     const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.kalam;
     ensureHandDrawnFont(state.handDrawnFont);
+    ensureXiaolaiFont();
     try { await document.fonts.load('16px ' + (preset.label === 'Virgil' ? 'Virgil' : preset.label)); } catch (e) {}
     try { await document.fonts.load('16px "Xiaolai SC"'); } catch (e) {}
   }

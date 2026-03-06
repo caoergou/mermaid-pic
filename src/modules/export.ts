@@ -5,7 +5,6 @@ import { showToast, btnSuccess, downloadFile } from './utils';
 import { STRINGS } from './i18n';
 import { getCode } from './editor';
 import { inlineFontsIntoSvg, svgToPngBlob } from './export-utils';
-import { optimizeSvg } from './svgo-optimize';
 
 // ── 图表类型 → 中/英显示名（用于导出文件名）────────────────────────
 const DIAGRAM_TYPE_NAMES = {
@@ -97,6 +96,7 @@ export async function downloadSvg() {
   if (!svgEl) { showToast(STRINGS[state.currentLang].toastNoDiagram); return; }
   const cloned = await inlineFontsIntoSvg(svgEl, true); // 确保应用背景
   const rawSvg = new XMLSerializer().serializeToString(cloned);
+  const { optimizeSvg } = await import('./svgo-optimize');
   const optimized = optimizeSvg(rawSvg);
   const blob = new Blob([optimized], { type: 'image/svg+xml' });
   downloadFile(blob, getExportFilename('svg'));

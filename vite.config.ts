@@ -14,18 +14,18 @@ export default defineConfig({
       input: { main: 'index.html', embed: 'embed.html' },
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/mermaid') || id.includes('node_modules/khroma') || id.includes('node_modules/dagre') || id.includes('node_modules/elkjs'))
-            return 'mermaid';
-          if (id.includes('@codemirror') || id.includes('@lezer') || id.includes('codemirror-lang-mermaid'))
+          // codemirror: 编辑器相关，首屏需要
+          if (id.includes('@codemirror') || id.includes('@lezer') || id.includes('codemirror-lang-mermaid') || id.includes('node_modules/codemirror/'))
             return 'codemirror';
-          if (id.includes('node_modules/codemirror/'))
-            return 'codemirror';
+          // svgo: 已改为动态 import，保持独立 chunk
           if (id.includes('node_modules/svgo'))
             return 'svgo';
+          // pako: 首屏解码 URL hash 时立即需要，单独保持小 chunk
           if (id.includes('node_modules/pako'))
             return 'vendor';
-          if (id.includes('node_modules'))
-            return 'vendor';
+          // mermaid 及其所有运行时依赖归入同一 chunk，避免跨 chunk 循环引用 TDZ 错误
+          if (id.includes('node_modules/'))
+            return 'mermaid';
         },
         chunkFileNames: 'assets/[name]-[hash:6].js',
         entryFileNames: 'assets/[name]-[hash:6].js',
@@ -33,6 +33,8 @@ export default defineConfig({
       },
     },
     chunkSizeWarningLimit: 1000,
+    modulePreload: { polyfill: false },
+    assetsInlineLimit: 4096,
   },
   optimizeDeps: {
     include: ['mermaid', 'pako'],

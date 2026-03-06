@@ -6,6 +6,7 @@ const fontDataCache = {};
 
 // ── 小赖字体 (Xiaolai SC) 子集嵌入 ────────────────────────────
 const XIAOLAI_CSS_URLS = [
+  'https://registry.npmmirror.com/@chinese-fonts/xiaolai/3.0.0/files/dist/Xiaolai/result.css',
   'https://cdn.jsdelivr.net/npm/@chinese-fonts/xiaolai@3.0.0/dist/Xiaolai/result.css',
   'https://unpkg.com/@chinese-fonts/xiaolai@3.0.0/dist/Xiaolai/result.css',
 ];
@@ -123,9 +124,21 @@ async function fetchFontAsBase64(url) {
     return result;
   }
 
-  // 如果是 jsdelivr URL，尝试 unpkg 回退
-  if (url.includes('cdn.jsdelivr.net')) {
-    const altUrl = url.replace('https://cdn.jsdelivr.net/npm/', 'https://unpkg.com/');
+  // CDN 回退：根据原始 URL 的来源，换其他 CDN 重试
+  const fallbacks: string[] = [];
+  if (url.includes('cdn.jsdelivr.net/npm/')) {
+    // jsdelivr: cdn.jsdelivr.net/npm/@scope/pkg@ver/path  →  unpkg / npmmirror
+    fallbacks.push(url.replace('https://cdn.jsdelivr.net/npm/', 'https://unpkg.com/'));
+    // npmmirror: registry.npmmirror.com/@scope/pkg/ver/files/path
+    const npmmirrorUrl = url.replace('https://cdn.jsdelivr.net/npm/', 'https://registry.npmmirror.com/').replace(/@(\d)/, '/$1');
+    fallbacks.push(npmmirrorUrl);
+  } else if (url.includes('registry.npmmirror.com/')) {
+    // npmmirror → jsdelivr
+    const jsdUrl = url.replace('https://registry.npmmirror.com/', 'https://cdn.jsdelivr.net/npm/').replace(/\/(\d[^/]*)\/files\//, '@$1/');
+    fallbacks.push(jsdUrl);
+    fallbacks.push(url.replace('https://registry.npmmirror.com/', 'https://unpkg.com/').replace(/\/(\d[^/]*)\/files\//, '@$1/'));
+  }
+  for (const altUrl of fallbacks) {
     const altResult = await tryFetchFont(altUrl);
     if (altResult) {
       fontDataCache[url] = altResult;

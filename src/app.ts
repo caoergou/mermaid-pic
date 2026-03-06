@@ -112,11 +112,8 @@ async function bootstrap() {
     if (s.bg) state.previewBg = s.bg;
   }
 
-  // 并行初始化非阻塞任务
-  const [mermaidInit, i18nInit] = await Promise.all([
-    Promise.resolve(initMermaid()),
-    Promise.resolve(applyI18n()),
-  ]);
+  initMermaid();
+  applyI18n();
 
   // 同步 UI 状态（如果从 URL 恢复了设置）
   if (urlState && urlState.settings) {
@@ -128,21 +125,18 @@ async function bootstrap() {
   const savedCode = (() => { try { return localStorage.getItem('mermzen-code'); } catch (e) { return null; } })();
   const initialCode = urlState?.code || savedCode || DEFAULT_CODE;
 
-  // 延迟创建编辑器以让浏览器有时间解析 DOM
-  setTimeout(() => {
-    createEditor(initialCode, doc => {
-      updateEditorStatus();
-      updateHash(doc);
-      scheduleLint();
-      setRenderStatus('rendering', '...');
-      clearTimeout(state.renderTimeout);
-      state.renderTimeout = setTimeout(renderDiagram, 300);
-    }, () => {
-      // 编辑器创建完成后，更新状态并渲染图表
-      updateEditorStatus();
-      renderDiagram();
-    });
-  }, 50);
+  createEditor(initialCode, doc => {
+    updateEditorStatus();
+    updateHash(doc);
+    scheduleLint();
+    setRenderStatus('rendering', '...');
+    clearTimeout(state.renderTimeout);
+    state.renderTimeout = setTimeout(renderDiagram, 300);
+  }, () => {
+    // 编辑器创建完成后，更新状态并渲染图表
+    updateEditorStatus();
+    renderDiagram();
+  });
 
   if (window.innerWidth <= 768) switchMobileTab('editor');
 
