@@ -202,56 +202,25 @@ async function buildInlineFontCss() {
 export async function inlineFontsIntoSvg(svgEl, applyBg = true) {
   const clone = svgEl.cloneNode(true) as SVGElement;
 
-  // 移除所有外部图像
+  // 1. 移除所有外部图像元素
   const images = clone.querySelectorAll('image');
   for (let i = images.length - 1; i >= 0; i--) {
     const img = images[i];
     if (img.parentNode) img.parentNode.removeChild(img);
   }
 
-  // 移除或清理所有可能导致跨域污染的元素和属性
-  // 清理 style 标签中的所有外部引用
+  // 2. ✓ 保留原有 style，只清理外部引用（@import 和 http URL）
   const styleEls = Array.from(clone.querySelectorAll('style'));
   for (const s of styleEls) {
     let css = s.textContent;
-    // 删除所有 @import 语句
+    // 删除 @import 语句
     css = css.replace(/@import\s+[^;]+;/g, '');
-    // 删除所有 url() 调用，包括任何嵌套的
-    while (css.includes('url(')) {
-      css = css.replace(/url\([^()]*\)/g, '');
-    }
+    // 删除外部 URL (http:// 和 https://)，但保留 data: URI
+    css = css.replace(/url\(['"]?https?:\/\/[^'")\s]+['"]?\)/g, '');
     s.textContent = css;
   }
 
-  // 移除 SVG 中的所有可能导致跨域加载的属性
-  const allElements = clone.querySelectorAll('*');
-  for (const el of allElements) {
-    // 获取所有属性
-    const attrs = Array.from(el.attributes);
-    for (const attr of attrs) {
-      // 移除任何包含 http:// 或 https:// 的属性（明确的外部引用）
-      if (attr.value && (attr.value.includes('http://') || attr.value.includes('https://'))) {
-        el.removeAttribute(attr.name);
-        continue;
-      }
-
-      // 移除属性中的外部 url() 调用（只删除 http 引用，保留 data: URI）
-      if (attr.value && attr.value.includes('url(')) {
-        let cleanedValue = attr.value.replace(/url\(['"]?(https?:\/\/[^'")\s]+)['"]?\)/g, '');
-        if (cleanedValue !== attr.value) {
-          if (cleanedValue.trim()) {
-            el.setAttribute(attr.name, cleanedValue);
-          } else {
-            el.removeAttribute(attr.name);
-          }
-        }
-      }
-    }
-    // 移除所有 class 属性，以避免全局样式表中的样式
-    el.removeAttribute('class');
-  }
-
-  // 并行构建：手绘字体（始终嵌入以支持 SVG） + 小赖 CJK 字体（始终检测）
+  // 3. 构建内联字体
   const [fontCss, xiaolaiCss] = await Promise.all([
     buildInlineFontCss(),
     buildXiaolaiCssForSvg(clone),
@@ -267,46 +236,15 @@ export async function inlineFontsIntoSvg(svgEl, applyBg = true) {
     }
   }
 
+  // 4. ✓ 在开头插入 @font-face 声明
   if (combinedCss) {
     const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     styleEl.textContent = combinedCss;
     clone.insertBefore(styleEl, clone.firstChild);
   }
 
-  // 如果是手写模式且有手写字体，将手写字体注入到所有 font-family 声明最前面
-  if (state.handDrawn && fontCss) {
-    const preset = HAND_FONTS[state.handDrawnFont] || HAND_FONTS.kalam;
-    const handFontName = preset.label;
-    for (const s of clone.querySelectorAll('style')) {
-      s.textContent = s.textContent.replace(
-        /font-family:([^;}]+)/g,
-        (match, families) => {
-          if (families.includes(handFontName)) return match; // 避免重复
-          // 将手写字体放在最前面，优先应用
-          return `font-family:"${handFontName}", ${families.trim()}`;
-        },
-      );
-    }
-  }
-
-  // 如果嵌入了小赖字体，将其注入到 SVG 所有 font-family 声明中
-  // 放在英文字体之后、sans-serif 之前，使 CJK 字符自动 fallback 到它
-  if (xiaolaiCss) {
-    for (const s of clone.querySelectorAll('style')) {
-      s.textContent = s.textContent.replace(
-        /font-family:([^;}]+)/g,
-        (match, families) => {
-          if (families.includes('Xiaolai')) return match; // 避免重复
-          const updated = families.trimEnd().replace(
-            /,?\s*sans-serif\b/,
-            ',"Xiaolai SC",sans-serif',
-          );
-          // 若没有 sans-serif，直接追加
-          return 'font-family:' + (updated.includes('Xiaolai') ? updated : families.trimEnd() + ',"Xiaolai SC"');
-        },
-      );
-    }
-  }
+  // ✓ 保留所有 class 属性和其他属性，不做额外清理
+  // 这样 SVG 元素可以继续应用原有的样式规则
 
   return clone;
 }
