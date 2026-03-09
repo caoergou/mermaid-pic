@@ -62,6 +62,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          # Ensure 'automated' label exists (ignore error if already exists)
+          gh label create "automated" --description "Automated PRs by CI" --color "0e8a16" 2>/dev/null || true
+
           # Create a new branch
           BRANCH_NAME="update-preview-images-$(date +%Y%m%d-%H%M%S)"
           git checkout -b "$BRANCH_NAME"
