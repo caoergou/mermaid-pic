@@ -12,6 +12,29 @@ slug: sequence
 Sequence diagrams show interactions between participants over time. They answer the question: **Who sends what to whom at which moment?** Perfect for API flows, user-system interaction, and microservice communication.
 <iframe src="https://eric.run.place/MermZen/embed.html#K04tLE3NS051yUxML0rM5VIAgpz8_AKFZ-v7X86aomBsoPB8-SSwMAg8XbfoWcf256vX69rZPZvT-7Rr4dOZK6wUnu5vfrF987PFDc-2dsPVwuV1gYrhGq0UCvLz0sGKUvNSAA" width="100%" height="500" frameborder="0"></iframe>
 
+## Why Use Sequence Diagrams?
+
+Sequence diagrams are the best choice for showing **interaction flows**:
+
+- **Show message interactions between multiple participants** — Clearly present "who does what to whom"
+- **Perfect for API call chains** — Frontend → Backend → Database → Cache, all at a glance
+- **Clearly express "who sends what to whom at which moment"** — Timeline flows top to bottom, intuitive order
+
+```
+sequenceDiagram
+    actor User
+    participant Frontend
+    participant API as API Server
+    participant Database
+    
+    User->>Frontend: Click login
+    Frontend->>API: POST /api/login
+    API->>Database: SELECT * FROM users
+    Database-->>API: User data
+    API-->>Frontend: 200 OK + Token
+    Frontend-->>User: Redirect to dashboard
+```
+<a href="https://eric.run.place/MermZen/#bY47bwIxEIT_yshlCAJRukCKeEhRQIe4S5dm8a3AAuyLbWgQ_z17saw8Xdhaz7czc1NXpSePyiitIr9f2BmeW9oHOr85yCGTfMBr5JDnjkKyxnbkEpbBu8Su_as8bZ5B8fOpOVz_W55Toh1Fzkq--5jhdFp8NWYna444-b11mSiSUGKusanqBiPq7OgbJIroJUCjXqwWswYPWG6rNS4SEjNYkGGx6wugld8vox99JuMxqhcM0Pgj_64kZL-vseXWBjYJyYtZPOw8hVbdPwA" target="_blank" rel="noopener" class="try-in-editor">Try in MermZen →</a>
 
 ## Declaring Participants
 
@@ -39,6 +62,93 @@ sequenceDiagram
     A-xB: Solid with cross (failure)
 ```
 <a href="https://eric.run.place/MermZen/#eJxtjL0KwjAQgF_lyNSAWRwzBFr6Bq4uRzxtoObqnWkV8d1FawuC8_fzMKPx242JxhulS6EcqU14EjzvMwBA7UJoPOy4TwfggTKgCE9Q6T3HTjhzUTurjXMh1B5a1I5-ZSEdOCvZZWrXJ75Hs7fAD_1e_uDb2k7p2kEUVoXqiKkvQtY8X-APQ6g" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+### Arrow Type Selection Guide
+
+Choose the right arrow type to make your diagram semantically clearer:
+
+| Arrow Type | Syntax | Use Case |
+|------------|--------|----------|
+| Solid arrow `->>` | `A->>B: request` | Synchronous request, HTTP request, function call |
+| Dashed arrow `-->>` | `B-->>A: response` | Return value, HTTP response, callback result |
+| Async arrow `->)` | `A-)B: event` | Event publishing, non-blocking call, WebSocket message |
+| Failure arrow `-x` | `A-xB: timeout` | Failed call, timeout, request error |
+
+```
+sequenceDiagram
+    participant Client
+    participant Server
+    
+    Client->>Server: HTTP request (sync)
+    Server-->>Client: HTTP response (return)
+    
+    Client-)Server: WebSocket message (async)
+    Server--)Client: Push notification (async response)
+    
+    Client-xServer: Request timeout (failure)
+```
+<a href="https://eric.run.place/MermZen/#bY-xDoIwEIZfpelEE1kcGVh0cCRK4uJSmwMvwhXbK9EY392aAovccMPdd_flf8tRFtuNNLKQHh4ByMAedet0fyERa9CO0eCgicWuQyD-n5_AjeDSPPVE5mWZVoU41HUl3E_gWWT-RUYlMgF5RNPNgvrBkgeROeDgSK18V_PzM1xP1tyBRQ_e6zZe6RWFmg1V8DdBlrFBoxktTfxiXbM9Z9txSsHYgw0xTaOxCw6U_HwB" target="_blank" rel="noopener" class="try-in-editor">Try in MermZen →</a>
+
+## Best Practices
+
+### Participant Naming Conventions
+
+- Use `actor` for **real users** (renders as stick figure)
+- Use `participant` for **system components** (services, databases, caches, etc.)
+- Use `as` keyword for **short aliases** to keep code concise
+
+### Add Key Notes
+
+Use `note` to add explanations for key steps, helping readers understand complex logic:
+
+```
+sequenceDiagram
+    participant A
+    participant B
+    Note right of A: Note for A
+    Note over A,B: Note spanning multiple participants
+    A->>B: Message
+```
+
+### Control Participant Count
+
+**Recommended: no more than 5 participants**. Too many participants make diagrams hard to read. For complex systems:
+- Split into multiple sequence diagrams
+- Use `box` to group related participants
+- Omit minor intermediate steps
+
+```
+sequenceDiagram
+    actor User
+    participant Frontend
+    participant API
+    participant Cache
+    participant Database
+    
+    Note over User,Database: Recommended: max 5 participants
+    
+    User->>Frontend: Send request
+    Frontend->>API: API call
+    API->>Cache: Query cache
+    Cache-->>API: Cache hit
+    API-->>Frontend: Return result
+    Frontend-->>User: Display data
+```
+<a href="https://eric.run.place/MermZen/#ZU_LCsJADPyVsGe9CF72IIhF8CI-8OYlboMutLt1NxVF_HfTrvXVHAKZmWQmd3VRejRQRmkV6VyTM5RZPAYs9w6k0LAPsIsU0lxhYGtshY5hHrxjcnmfma4WfXCG5kR9OEPGA8YXk_rSM4G_UHIedBINGzK-LMWTcg0lXmH8fSt-32g2h5NJF1LDVjqE5snISdJxIpPEuokNBosisTIJ0abWsK4p3IR8v9Diw26zneBk-bP6470hroMT91gX_-YibLJqyGysCrxBLu-qxxM" target="_blank" rel="noopener" class="try-in-editor">Try in MermZen →</a>
+
+## Comparison with Other Diagrams
+
+| Feature | Sequence Diagram | Flowchart | Activity Diagram |
+|---------|------------------|-----------|-------------------|
+| **Core Focus** | Time sequence | Decision branches | Process steps |
+| **Best For** | API call chains, microservice communication | Business logic, decision flows | Workflows, business processes |
+| **Participants** | Multiple (recommended ≤5) | Unlimited | Unlimited |
+| **Time Expression** | Top to bottom, intuitive | No time concept | Can annotate time |
+
+**Selection Guide:**
+- Need to show **who does what to whom** → Sequence Diagram
+- Need to show **conditional branches and loops** → Flowchart
+- Need to show **complete business process** → Activity Diagram
 
 ## Control Structures
 

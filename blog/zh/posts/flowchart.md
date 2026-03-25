@@ -13,6 +13,83 @@ slug: flowchart
 
 <iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKL0osyFAIcVGqBQBEswY6" width="100%" height="600" frameborder="0"></iframe>
 
+## 为什么用流程图？
+
+流程图的核心价值在于**清晰表达过程步骤和决策路径**。相比纯文字描述，流程图能：
+
+- 直观展示分支逻辑，避免遗漏边界情况
+- 让团队成员快速理解业务规则
+- 作为开发文档，减少沟通成本
+
+**适合场景：**
+- 用户操作流程：登录、注册、下单等操作流程
+- 业务审批逻辑：请假审批、报销审批等
+- 算法流程：查找、排序、计算等逻辑
+
+## 实际场景建议
+
+### 用户流程示例
+
+用户登录流程是最常见的流程图应用场景，清晰展示验证、错误处理、成功跳转等分支：
+
+```
+graph TD
+    A([开始]) --> B[用户输入账号 / 密码]
+    B --> C{账号是否存在?}
+    C -->|否| D[提示账号不存在]
+    D --> B
+    C -->|是| E{密码是否正确?}
+    E -->|否| F[记录失败次数]
+    F --> G{失败次数 ≥ 3?}
+    G -->|是| H[锁定账号 30 分钟]
+    G -->|否| B
+    E -->|是| I[生成 Session Token]
+    I --> J[跳转首页]
+    J --> K([结束])
+```
+<a href="https://eric.run.place/MermZen/#eJxNj0FLwmAYx7_Kw04KSZE3D0Vzatoxb287REhFMCOhyybkIVlEOHLGiMRGbnnQzchYVPZhoufd9i2ivRN3_v_-v__zyNw5l1tf4Q64HHd4tn96BFVhTwIA2EoR_LrA52sxDZnMBvDE10dU9YLvLl5awczGjgergG7bf2yJrMNHZF5mKTVc1GycGPgw2mwyIv9PKKjZCgiEdjR_-MHg3_cbRsYqgY0mW9RwFSjIbJHJ6eTJN52FvLCUF0ngTHHew-FLMLPo2KS9aWwuRuaSnIzg58qC7MJTWs5tk1BvoXMf_5tdA1Tb4e1ATJLRIp-8IeqWia8PqKrBbq3ROK5LUK2f1KS4WY6uqJDAew3m49C-C823OKpE0U6K-J9d2h-Iaa75B8UPvnA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+### 业务审批示例
+
+请假审批流程展示多级审批逻辑：
+
+```
+graph TD
+    A([开始]) --> B[员工提交请假申请]
+    B --> C{请假天数 ≤ 3?}
+    C -->|是| D[直属领导审批]
+    C -->|否| E[部门经理审批]
+    D --> F{审批通过?}
+    E --> F
+    F -->|是| G[更新考勤系统]
+    F -->|否| H[通知员工驳回]
+    G --> I([结束])
+    H --> I
+```
+<a href="https://eric.run.place/MermZen/#eJxtUbtuwzAM_BVBUwM0gCKLopWhRRLn0b2b5cGWpXYKigLuYuffS1oNEAPVcJB4vOOBGuWP3OpnGeRWfny3X5_ivfJXQWf3VPsBklKELnTNSqzXL2LPRQMlYR_BD7boqcHE1vih7BJSXRlChKLIlSbb7Wf5YVy2gdOOTACV8IPW1oji9ZYFBxZMRFqdJlHRXLSJpkCA6AdXlpbuXQqM7Yb6NLpmKQWj7SSOJHUqUmQHjBhDIjTK_iOt5pin8ZFi-aal4CngPd0x9-XHaRH1XPONo1roaDmlUrQK0JEqGFLHCfrULKU56qW-z0Lk7T5u2rXINraPf9LzHOGNv4kMibMIqVll8pJJefsFgtOICA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+### 算法流程示例
+
+二分查找算法流程图：
+
+```
+graph TD
+    A([开始]) --> B[初始化 left=0, right=n-1]
+    B --> C{left ≤ right?}
+    C -->|否| D[返回 -1 未找到]
+    C -->|是| E[计算 mid = left + right / 2]
+    E --> F{arr[mid] == target?}
+    F -->|是| G[返回 mid]
+    F -->|否| H{arr[mid] < target?}
+    H -->|是| I[left = mid + 1]
+    H -->|否| J[right = mid - 1]
+    I --> C
+    J --> C
+    D --> K([结束])
+    G --> K
+```
+<a href="https://eric.run.place/MermZen/#eJxdUUFuwjAQ_MrKpyKwmjjBAVS3KgQI9NpbkkOC44DUoipKekn4e20v0Lo-rDS7M7OjdU--yYJNyIEsSN0UX0d4j7Mz6Pf6kGbdVHmervNDmY-A0mdYmibzJTZ1DXwOH5VqhTeB5lQfW3Gmfo4WSytZ9WYOWccYD5HzckHCyhAG7RIyPkCsvWdKhhpzWQH1tYZHrNCVRZXZG3i5K-ScqQHWRlgWftZF5TyCz5MEYUPBGPfBI7Crcm0zbfqiaVJNzEEIaIumru6hNo731g1lJC4Nsye_hk___BLHb5faYMKmHMPtVInjtk8xNrLonbXDgyLY_wWxBW_mz6JKBuZwU5WPcLjFIbn8AIPgirI" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
 ## 声明图表
 
 使用 `graph` 或 `flowchart` 关键字，后接方向参数：
@@ -56,6 +133,23 @@ graph TD
 | `A[[文字]]` | 矩形带双线 | 子程序调用 |
 | `A[(文字)]` | 圆柱 | 数据库、存储 |
 
+### 节点形状选择指南
+
+选择正确的节点形状能让流程图更易读：
+
+| 形状 | 语法 | 适用场景 |
+|------|------|---------|
+| **矩形** `[文字]` | 普通步骤、动作、处理过程 | 最常用，表示执行操作 |
+| **菱形** `{文字}` | 判断条件、分支决策 | 必须有至少两个出口（是/否） |
+| **圆形** `((文字))` | 连接点、汇合节点 | 用于跨页连接或流程汇合 |
+| **椭圆** `([文字])` | 开始/结束节点 | 流程的起点和终点 |
+
+**选择建议：**
+- 每个流程图都应有明确的开始和结束节点（椭圆）
+- 判断节点使用菱形，分支出口必须标注（是/否、成功/失败）
+- 普通处理步骤使用矩形
+- 避免过度使用特殊形状，保持简洁
+
 ## 连线类型
 
 连线决定节点之间的视觉关系：
@@ -96,7 +190,75 @@ graph TD
     end
     B --> C
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKL0osyFAIcYnJU1BQUCguTYIIPO3sfb56PUQQBByjn09Z8axj-_OpPS_nLopV0NW1U3CKfrFwxdPeqS9X9bxY3xgLUZyal4Ju1IQ-FKOcox0DPBWe7534tHUzxCCX6GdTNzzrXfd012R0U5zACpyVagHR3EXO" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKL0osyFAIcYnJU1BQUCguTYIIPO3sfb56PUQQBByjn09Z8axj-_OpPS_nLopV0NW1U3CKfrFwxdPeqS9X9bxY3xgLUZyal4Ju1IQ-FKOcox0DPBWe7534tHUzxCCX6GdTNzzrXfd012R0U5zACpyVagHR3EXO" width="100%" height="600" frameborder="0"></iframe>
+
+## 最佳实践
+
+### 1. 控制决策节点数量
+
+建议每层决策节点不超过 **2 个**，避免流程图过于复杂：
+
+```
+graph TD
+    A[开始] --> B{条件1?}
+    B -->|是| C{条件2?}
+    B -->|否| D[处理A]
+    C -->|是| E[处理B]
+    C -->|否| F[处理C]
+```
+
+如果需要更多判断，考虑拆分为多个子流程或使用子图。
+
+### 2. 分支出口必须标注
+
+每个判断节点的分支出口都应有清晰的标签：
+
+```
+graph LR
+    A{登录成功?} -->|是| B[跳转首页]
+    A -->|否| C[显示错误]
+```
+
+**推荐标签：** 是/否、成功/失败、通过/驳回、有效/无效
+
+### 3. 使用子图分组相关节点
+
+将相关的节点用 `subgraph` 分组，提升可读性：
+
+```
+graph TD
+    subgraph 用户端
+        A[用户请求] --> B[身份验证]
+    end
+    subgraph 服务端
+        C[API网关] --> D[业务逻辑]
+        D --> E[数据库]
+    end
+    B --> C
+```
+<a href="https://eric.run.place/MermZen/#eJxljrsOwjAMRX8lykylJmleDEh9MLAxsDUd0jSBqUKgsCD-HadRB8odLMv32Ndv_MJ7usMO7_H1Ye83dOnMjEDPOOaBiZJTZaKgTEJvfchAUt3_umoMUIWr6ICK4oAa8JW3o4mVD5OJ2iqXKEeGfMTP01-ckCWgnFqyjWv7-nyCYeBgcSJZTun6dJ_YdUmXDBJV0GtKUregR0AFlyVUJjwseM22rzQL2eLPFxbjUGY" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+### 4. 保持流程方向一致
+
+- **从上到下（TD）**：最常用，适合大多数业务流程
+- **从左到右（LR）**：适合状态机、数据管道、时间线
+
+避免在同一张图中混用多个方向。
+
+## 与其他图表对比
+
+| 特性 | 流程图 | 时序图 | 状态图 |
+|------|--------|--------|--------|
+| **核心表达** | 过程步骤 + 决策 | 对象交互顺序 | 状态转换 |
+| **适用场景** | 业务流程、算法 | API 调用、系统交互 | 状态机、生命周期 |
+| **决策分支** | ✅ 强调 | ❌ 不侧重 | ✅ 有条件转换 |
+| **时间顺序** | ⚠️ 可选 | ✅ 核心 | ⚠️ 隐含 |
+| **参与者** | ⚠️ 可选 | ✅ 必需 | ❌ 单一对象 |
+
+**选择建议：**
+- 需要展示**决策分支**？→ 流程图
+- 需要展示**多个对象的交互顺序**？→ 时序图
+- 需要展示**单一对象的状态变化**？→ 状态图
 
 ## 完整示例：用户登录流程
 

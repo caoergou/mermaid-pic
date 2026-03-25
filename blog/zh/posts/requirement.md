@@ -13,6 +13,14 @@ slug: requirement
 
 <iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslIqSi0szSxKzU3NK3HJTEwvSsyNyVNQUFAoySzJSVV4Oafh2camp7P3PVvQ_nLRDKVaAHSMGO4" width="100%" height="600" frameborder="0"></iframe>
 
+## 为什么用需求图？
+
+需求图在软件工程和项目管理中扮演着重要角色：
+
+- **可视化需求层次和关系**：清晰展示需求之间的父子关系、依赖关系，帮助团队理解需求结构
+- **追踪需求之间的依赖关系**：明确哪些需求依赖于其他需求，便于规划开发顺序和识别风险
+- **管理"需求如何被验证"**：将验证方法与需求关联，确保每个需求都有对应的测试或审查方式
+
 ## 声明图表
 
 使用 `requirementDiagram` 关键字：
@@ -51,6 +59,55 @@ requirementDiagram
 ```
 <a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqSi0szSxKzU3NK3HJTEwvSsyNyVNQUFAoySzJSVV4On_XszlrXs5peLax6ensfRApJC0KMUoQSQXDGCWFaog8CGSmWCkEGSL4JakVJVYKz6eseNax_Wn_-ie7lz6fufvp3qnPN-9-vns-krrKglQrhbTSvOSSzPy8xByETHFJYklpsZVCYkFBUX5ZagpEphaPk4ywOMkIn5OezV_6fE73kx2rnuza9WT_wmeN60lxWEFqXkpmXjphdxljcZcxhrvAAfN015QX65c-bd3-bE7n08m9T3dNebqn_8W6fS_WLUR3Wl5-ni4J4aZUCwCn48p7" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
+## 需求管理实践
+
+需求图支持三种主要的需求类型：
+
+### 功能需求
+
+系统必须实现的功能，描述系统"做什么"：
+
+```
+requirementDiagram
+    title 功能需求示例
+    requirement "用户认证" {
+        id: FR-001
+        text: 系统支持用户名密码登录
+        type: functional
+        status: approved
+    }
+```
+
+### 非功能需求
+
+性能、安全、可用性等方面的要求，描述系统"做得怎样"：
+
+```
+requirementDiagram
+    title 非功能需求示例
+    requirement "性能要求" {
+        id: NFR-001
+        text: 系统响应时间小于2秒
+        type: non-functional
+        status: approved
+    }
+```
+
+### 约束需求
+
+技术限制、预算、时间等外部条件：
+
+```
+requirementDiagram
+    title 约束需求示例
+    requirement "技术栈约束" {
+        id: CON-001
+        text: 必须使用React框架开发前端
+    }
+```
+
+<iframe src="https://eric.run.place/MermZen/embed.html#eJwrSi0szSxKzU3NK3HJTEwvSszlUgCCksySnFSFJzs6ny_vfTmn4dnGpucbdz-d1w2WLELoUVB6sW7R096pT5e0PJ_QpqRQDVYAApkpVgpuhnBuSWpFiZXC8ykrnnVsf9q__snupU87Zj_dvetxQ-Oz-Uufz-kGMp72T3u2rQNiIEJjZUGqlUJaaV5ySWZ-XmIOWKIW0x1PJ_c-3TXl2fRtL6dvQXeHH4ZDXi7c-nLuoqddC17s3QvR83RD_5NdfcbPl09CszovP0-XsPXPuhqezVn_bEHH813Lns2dj-4CZ3QHPN3f-nLh7id79wODJCg1Mbnk2cK2Z_O2IRkPJtCCV1fXDt2nVgqZuQVA_cVcAEywwXU" width="100%" height="300" frameborder="0"></iframe>
+
 ## 需求关系
 
 定义需求之间的关系：
@@ -76,6 +133,41 @@ requirementDiagram
     "个人信息管理" --> "响应式设计" : requires
 ```
 <a href="https://eric.run.place/MermZen/#eJyFkMFKw0AQhl9l2bM9WG85ePIJPOdSNJSALRijCKWg1qpUS6tGUQyEYINFMEFyMCTN-jI7O9u3EF3UQmLc0yw733z7T4fuUa2-RDeoRi1je9e0jJbRttfMRtNqtPQ2IYTYpr1lkLl7IF6PoB9jnMEDU08LCNEp3meQ38DAk71cp6Sjej6PuamR9eXfu23s2xpBZyrO3mAU8SxQLMYZZp7q65YpePLM05S_--IwwtDH8UmJqF4lEl6A7jlcXeDsVrLLxYEVXrgeQurAbCRDJkO_RLpSkH5lAXcK42N8GsqQweSUJ4N5L4fUkVEgXh4hScQdw0n6o1ZFYZe12upf6bXvr-5UssUERbB0_v847X4A9eYV9g" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## 需求验证方法
+
+每个需求都应该可验证。Mermaid 需求图使用 `element` 节点和 `verifies` 关系来标注验证方法：
+
+```
+requirementDiagram
+    title 需求验证方法示例
+    requirement "用户登录" {
+        id: R1
+        text: 用户可以使用用户名密码登录
+        type: functional
+        status: approved
+    }
+    element "登录测试用例" {
+        type: test
+    }
+    element "安全审查" {
+        type: review
+    }
+    
+    "登录测试用例" - verifies -> "用户登录"
+    "安全审查" - verifies -> "用户登录"
+```
+
+<iframe src="https://eric.run.place/MermZen/embed.html#eJwrSi0szSxKzU3NK3HJTEwvSszlUgCCksySnFSFl3Manm1sermq58X6xmfTdj7bPPX5kl1P9nWDlRQhdCooPZ-y4lnH9uczdz_dO1VJoRqsAAQyU6wUggzh3JLUihIrBYjip_3rn-xe-mTvfiAXKjKh9-n6tucLGiHmIHRVFqRaKaSV5iWXZObnJebAJYpLEktKi60UEgsKivLLUlPAErVgMjUH5jKwWc-2dr9YPxVoDdD1yO6DGF2SWlyCTe_TdZ1PW1c8Xbfw2fylmLqKUssyU8uR9IEJrBbqKpSlFmWmZaYWK-jaoYUWRBeqVXjVAwCccLnv" width="100%" height="350" frameborder="0"></iframe>
+
+常见的验证方法包括：
+
+| 验证类型 | 说明 | 适用场景 |
+|---------|------|---------|
+| **测试** | 自动化测试、单元测试、集成测试 | 功能需求 |
+| **审查** | 代码审查、设计审查、需求审查 | 非功能需求、架构需求 |
+| **演示** | 向利益相关者演示功能 | 用户界面需求 |
+| **分析** | 性能分析、安全分析 | 性能需求、安全需求 |
 
 ## 完整示例：软件项目需求管理
 
@@ -133,6 +225,109 @@ requirementDiagram
     "支付功能" --> "性能要求" : impacts
 ```
 <a href="https://eric.run.place/MermZen/#eJy9lMFu2kAQhl9l5XM5lLYXH3rqE_TMxQKHrBSMawxqFEXCQXUNgRIFE5omVWKJghupuChJ09gQHgbPrjnlFSpwCsg4QHuIT-ud-X_NN7O7O0yOYaPPmDjDMhL_LoslPsUL8hvMJSUuFRMQQkjG8haPqH4NdZVeOtQ5G53mSXcPTu78hDkhijFUN4l2QzsGPVBjDNrxc8YfTrDo7fPZv8y_l1nk50PVcp1v5NIEtTzMK_TYgX59mFfcQYfot-7vC9e23YFBFGtOvy3yLNrICnEZpwVuaxbJyJyczbCIE0UpneMTs4go4bSE5W0WbeLk5mw_x0t4A8e5sRM7pSDX-55VjzF-3m4Yrmu3oaZAt06bdghudAF30kEf11c9OGgNzzCHecWzWqTwAQ7LoKm06zwNrvfxAkomlI_WIPauftDid6_fCsF9sXS6Nw6Uzod5BbTz0XFzOt2pIdRVqCn_QizyQgILyTDgFJ_A2dTjyKS4DyVzDV6iW67zGUpnXqEfgvwyiEx0i5QVaH6h7YqvJUe30Kve97QHq87XcRPuOu7AmDTBoLoJFeO-V3yaaY9OVKIdrIOeb3uFvtdSSHcvBP3VI4e7VgFbJ41fo8YV2Dr8rLr2JxRFtH0Y5BPSQuR_GVcOeFL8AqW_WHinIpHXi7eZ_duPzFLV_I1YlAQ815HMR_38wCFcs7DA_FiEUyIXl5eXtkoUUtwKRaD45SJm9w_aZ9Ij" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## 最佳实践
+
+### 1. 每个需求有唯一 ID
+
+使用有意义的 ID 命名规范，便于追踪和引用：
+
+```
+requirementDiagram
+    requirement "用户管理模块" {
+        id: R1
+        text: 完整的用户管理功能
+    }
+    requirement "用户注册" {
+        id: R1.1    ← 子需求使用父ID前缀
+        text: 新用户可以注册账号
+    }
+```
+
+### 2. 清晰定义需求状态
+
+明确标注每个需求的当前状态：
+
+- `approved` — 已批准，可以开始开发
+- `pending` — 待审批，需要进一步讨论
+- `rejected` — 已拒绝，不再考虑
+
+### 3. 建立需求间的"包含"关系
+
+使用 `contains` 关系组织需求层次：
+
+```
+requirementDiagram
+    title 需求层次结构
+    requirement "用户管理模块" {
+        id: R1
+        text: 完整的用户管理功能
+        type: functional
+    }
+    requirement "用户注册" {
+        id: R1.1
+        text: 新用户可以注册账号
+        type: functional
+    }
+    requirement "用户登录" {
+        id: R1.2
+        text: 已注册用户可以登录
+        type: functional
+    }
+    requirement "密码重置" {
+        id: R1.3
+        text: 用户可以重置密码
+        type: functional
+    }
+    
+    "用户管理模块" - contains -> "用户注册"
+    "用户管理模块" - contains -> "用户登录"
+    "用户管理模块" - contains -> "密码重置"
+```
+
+<iframe src="https://eric.run.place/MermZen/embed.html#eJwrSi0szSxKzU3NK3HJTEwvSszlUgCCksySnFSFl3Manm1serqx6dmahc93T342rwUsWYTQo6D0fMqKZx3bn69b-HxC27MVC5_Ona6kUA1WBgKZKVYKQYZwbklqRYmVwtN1Pc-mbnk-qwVZ79Ou-S-a9yJUVhakWimkleYll2Tm5yXmgCVqcVn_bPOKp209mBbroVv9bNoGiI6n_euf7F4K0fdiy7Kn_dvJtPr5zN1P907FYrURuq-3b4JYh-wAiG6SrX66vu35gsaX7b3P967DYrUxmtXINkI0QQwgxl4wgTWWdRWS8_NKEjPzihV07dBigkRd0EAkWheK_7kAu2oswA" width="100%" height="400" frameborder="0"></iframe>
+
+### 4. 为非功能需求设置验证标准
+
+非功能需求（性能、安全等）必须有明确的验证标准：
+
+```
+requirementDiagram
+    requirement "响应时间" {
+        id: NFR-001
+        text: 页面加载时间小于3秒
+        type: non-functional
+        verification: "性能测试"
+    }
+```
+
+## 与其他图表对比
+
+### 需求图 vs 用例图
+
+| 特性 | 需求图 | 用例图 |
+|------|--------|--------|
+| **侧重点** | 需求层次和验证方法 | 用户与系统的交互 |
+| **主要元素** | 需求节点、验证元素 | 参与者、用例、关系 |
+| **适用场景** | 需求管理、项目规划 | 需求分析、系统设计 |
+| **关系类型** | requires、contains、verifies | include、extend、generalize |
+
+**需求图**强调需求之间的层次关系和验证方法，适合项目经理和需求工程师使用。
+
+**用例图**强调用户如何与系统交互，适合需求分析和系统设计阶段。
+
+### 需求图 vs 类图
+
+| 特性 | 需求图 | 类图 |
+|------|--------|------|
+| **侧重点** | 需求层次结构 | 系统结构设计 |
+| **主要元素** | 需求、元素 | 类、接口、关系 |
+| **适用阶段** | 需求阶段 | 设计阶段 |
+| **目的** | 理解和管理需求 | 指导代码实现 |
+
+**需求图**是需求层次的抽象，描述"系统应该做什么"。
+
+**类图**是系统结构的抽象，描述"系统如何实现"。
 
 ## 速查表
 

@@ -9,6 +9,31 @@ slug: pie
 
 饼图（Pie Chart）直观展示各部分在整体中所占的比例，适合展示预算分配、用户来源分布、时间占比等数据。Mermaid 的饼图是所有图表类型中语法最简单的。
 
+## 为什么用饼图？
+
+- **直观展示占比关系** — 一眼看出各部分在整体中的分量
+- **"部分与整体"一目了然** — 无需计算，直接感知比例大小
+- **适合快速汇报** — 非技术人员也能轻松理解
+
+## 数据适用性
+
+- **最佳扇区数量：3-7 个** — 太少显得空洞，太多难以区分
+- **超过 7 个建议合并为"其他"** — 保持图表清晰可读
+- **数据差异明显时效果最好** — 扇区大小对比鲜明，易于识别
+
+## 最佳实践
+
+- **从大到小排列** — 最大的扇区放在起始位置（通常是右上角）
+- **最重要的放起始位置** — 读者视线首先落在此处
+- **使用对比色区分扇区** — Mermaid 自动配色，相邻扇区颜色区分明显
+
+## 什么时候不该用饼图？
+
+- **超过 7 个类别时** — 考虑用柱状图或条形图
+- **数据差异不明显** — 如 30% vs 35%，肉眼难以区分
+- **需要精确比较时** — 柱状图更适合精确数值对比
+- **有负数或零值时** — 饼图无法表示负值，零值扇区无意义
+
 ## 基本语法
 
 ```
@@ -17,7 +42,7 @@ pie title 标题
     "类别B" : 数值
     "类别C" : 数值
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlVeLag_eWiGTF5CgoKCjFKzzfuftqx2jFGScFK4dnUDU8b9qDKOOGUcUaSUaoFAEU-Lms" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJwryExVKMksyUlVeLag_eWiGVwKQKD0fOPupx2rHZUUrBSeTd3wtGEPsrATdmFnhDAASkcmlA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 - `pie` — 声明饼图
 - `title 标题` — 可选，图表标题
@@ -34,7 +59,7 @@ pie title 本月开发时间分配
     "测试调试" : 15
     "文档撰写" : 10
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlVeDZnzbM5HU_3NDztn_hs-raX07c87Wh72dobk6egoKAQo_RyTsOzjU1PO9qezZsQo6RgpWBoCpN62tn7fPV6iFawlDFCakIfqpQRXOrZ1u4X66e-2ND8Yv1UNAOfTWt_tnDxs0kbnrbNhEgZKNUCANTTUWI" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJwryExVKMksyUlVeDZnzbM5HU_3NDztn_hs-raX07c87Wh72drLpQAESi_nNDzb2AQUeTZvgpKClYKhKUT8aWfv89XrIbpA4sYw8Ql9KOJGUPFnW7tfrJ_6YkMzkEQ259m09mcLFz-btOFp20ywuAEAk11Gmw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 <a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 
@@ -47,7 +72,7 @@ pie title 网站月度流量来源
     "社交媒体" : 18
     "外链引用" : 12
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqyExVKMksyUlVeL534vPVM5_N6Xi6a9mzrY0v2_ufzV36bNeEmDwFBQWFGKVnE-Y837Lo6Z6pzyb3xSgpWCmYGMGkns_e8qxv6Yt1-19OXweWMrKASy3Z92TXkqerJj3ZOxksZQiXerpk2svJ-57umfp8ygqIlJFSLQBaOUe-" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJwryExVKMksyUlVeL534vPVM5_N6Xi6a9mzrY0v2_ufzV36bNcELgUgUHo2Yc7zLYue7pn6bHKfkoKVgokRRPz57C3P-pa-WLf_5fR1IHEjC6j4kn1Pdi15umrSk72TQeKGUPGnS6a9nLwPaM7zKSvA4kYA5aM-bw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 <a href="https://eric.run.place/MermZen/" target="_blank" class="try-in-editor">在 MermZen 中试试 →</a>
 

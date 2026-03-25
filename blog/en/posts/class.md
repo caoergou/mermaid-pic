@@ -10,8 +10,27 @@ slug: class
 <span class="post-meta">2026-03-04 · MermZen Tutorial
 
 Class diagrams describe object-oriented systems by showing classes, their attributes, methods, and relationships between classes.
-<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAAiyiEFqcWKVRDREBAOzOvRCEzBUkguKQoMy9dIS8xNxVTNDU3MTMHSTgnPz0zT0NTISk_H004v7REQ1OhLB9mdq1SLQB1my2H" width="100%" height="600" frameborder="0"></iframe>
+<iframe src="https://eric.run.place/MermZen/embed.html#eNqrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVMAArCIQmhxapFCNUQEBLQz80oUMlOQBIJLijLz0hXyEnNTMUVTcxMzc5CEc_LTM_M0NBWS8vPRhPNLS4DiZfkws2uVagF1my2H" width="100%" height="600" frameborder="0"></iframe>
 
+
+## Why Use Class Diagrams?
+
+- **Most common static structure diagram in UML**: Class diagrams are the core tool for object-oriented modeling
+- **Describe system structure**: Clearly show classes, attributes, methods, and relationships
+- **Wide range of applications**:
+  - Object-oriented design and analysis
+  - Database modeling (complement to ER diagrams)
+  - API interface design
+  - Code architecture documentation
+
+## UML Design Scenarios
+
+| Scenario | Purpose |
+|----------|---------|
+| System design phase | Plan class structure, define attributes and methods, organize relationships between classes |
+| Code review | Discuss coupling between classes, evaluate inheritance hierarchy |
+| Documentation | Generate class diagram documentation for team understanding |
+| Database design | Map classes to database tables, plan entity relationships |
 
 ## Declaring Classes
 
@@ -42,7 +61,23 @@ classDiagram
     Dog --> Food : Association
     User ..> Logger : Dependency
 ```
-<a href="https://eric.run.place/MermZen/#eJxVyjELwjAQhuG_8pFRvA6OQQrFIggODrq5HOlxBmyuJEUp6n-X4qCu7_M-3M351dIF5124ciltZM3cnxMANCn2fMX6SYTWFB67dJEcR05BPsucF0Q48B0eG-sHK3GMlr5sRDjaBI9GNYvyPxPV2Jp1s5diIf74qUhGVdXYm6pkeLQySOokhcm93lztOmc" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eNpVyjELwjAQBeC_cmQU08ExSKEYBKGDg24uR3qcgfauJEUp6n83xUF90-N972Fuxm3WJhhnQo85-4iccLgIlDQSB-xh-7QWvDI4OMiVUpxQAn0uy7wqfMR74Z0Oo-Y4RZUva-GTzoUb5kSM_2xtDXvVbvGcNcQfP2dKUFU1tMpcqgNPI0lHEmbzegNc7Tpn" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+### Relationship Type Selection Guide
+
+| Relationship | Syntax | Use Case |
+|--------------|--------|----------|
+| **Inheritance** | `<\|--` | is-a relationship (subclass inherits from parent), e.g., "Dog is an Animal" |
+| **Composition** | `*--` | Whole-part relationship, same lifecycle (part cannot exist independently), e.g., "Person and Heart" |
+| **Aggregation** | `o--` | Whole-part relationship, independent lifecycle (part can exist independently), e.g., "Class and Student" |
+| **Dependency** | `-->` | Usage relationship, temporary dependency, e.g., "method parameter" |
+| **Association** | `--` | Ownership relationship, permanent association, e.g., "Student and Course" |
+
+**Selection Tips:**
+- If it's an "is-a" relationship → use inheritance
+- If parts are destroyed with the whole → use composition
+- If parts can exist independently → use aggregation
+- If it's just temporary usage → use dependency
 
 ## Multiplicity
 
@@ -51,7 +86,35 @@ classDiagram
     User "1" --> "0..*" Order : Places
     Order "1" *-- "1..*" OrderItem : Contains
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVNQUFAILU4tUohRMoxRUtDVtVOIUTLQ09OKUVLwL0pJLVKwUgjISUxOLYaohYhBFGvp6oJYSIo9S1JzFawUnPPzShIz84qVagEOqiJX" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eNqrVipTsjLSUUpWslJKzkksLnbJTEwvSsyNyVMAgtDi1CKFGCXDGCUFXV07IMtAT08LyPEvSgFKWCkE5CQmpxZD1ELEIIq1dHVBLCTFniWpuUANzvl5JYmZecVKtQAOqiJX" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## Best Practices
+
+### Class Design Guidelines
+
+- **Control class size**: Keep each class under 10 attributes, maintain single responsibility
+- **Use access modifiers**:
+  - `+` Public: External interfaces
+  - `-` Private: Internal implementation details
+  - `#` Protected: Accessible by subclasses
+- **Clearly annotate multiplicity**: Use `1`, `0..*`, `1..*` to express quantity relationships
+- **Control relationship complexity**: Keep relationships per class under 10 to avoid over-coupling
+
+### Naming Conventions
+
+| Element | Convention | Example |
+|---------|------------|---------|
+| Class name | PascalCase | `UserAccount`, `OrderItem` |
+| Attribute | camelCase | `userName`, `createdAt` |
+| Method | verb + camelCase | `placeOrder()`, `calcTotal()` |
+| Relationship label | concise verb phrase | `Places`, `Contains`, `References` |
+
+### Common Mistakes
+
+- ❌ Overusing inheritance (prefer composition)
+- ❌ Ignoring multiplicity notation (leads to unclear relationships)
+- ❌ Using verbs for class names (class names should be nouns)
+- ❌ Mixing access modifier styles for attributes and methods
 
 ## Example: E-commerce Order System
 
@@ -85,7 +148,7 @@ classDiagram
     Order "1" *-- "1..*" OrderItem
     OrderItem "*" --> "1" Product
 ```
-<a href="https://eric.run.place/MermZen/#eJydUcFqAjEQ_ZVhTrrtivbooVDw0pOCestlzE6XQDZrs7OCiP8um4gdECuYS8J7L-9lXk54wPnHO1qco_XUdQtHdaTGBACAhMC24winjAzrzQUBVylgLdGFGgI1rNC9J8vLWHEcjSHtmTyboO0T87__goTBRibh6ksUYcnbTSvkR2P48S3J44Rv4eYu5benIE6OCk420Acnq-isnqdmWfc7eRq3im3VW3mlshy-_wu-WadPMDgzCGX5CQank0lhUPeai8yaoiyHk9IM8ytdqsNgcfMbbl1fjucL1XGaIA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eNqdUcFqwzAM_RWh05Yupd2xh8Ggl50WSHvzRXO8YHCczlEGo_Tf69ilFZS2MF0kP8nvWc97_MXV6wtqXKF2NAxrS22gTnmIkRDYDibAPiNTzKxnsI0Aag7Wt-CpMwLdOdLmMzQmPD1Dyrl5UF7Sp859_jWxAR1MTM07i4Ympzc9k4sK364nvq3wwaa7UvkZybPlPwEnGhi95SpYLfdpDdfjFz-Uq0LfjJr_Y1kW312Ez9TpExQuFUJZvsVqMZ8X8SB8zUbmmaIsp0rMTPuLuWSHwuLMN906vRwPR9VxmiA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ---
 

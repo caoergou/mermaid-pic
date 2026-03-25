@@ -11,6 +11,73 @@ slug: gantt
 
 甘特图（Gantt Chart）以横向条形展示项目任务的时间安排，直观呈现任务的开始时间、持续时长和相互依赖关系。适合项目管理、迭代排期、发布计划等场景。
 
+## 为什么用甘特图？
+
+### 解决的问题
+
+甘特图帮助解决项目管理中的核心痛点：
+
+- **时间可视化** — 一眼看出整个项目的时间跨度、各任务的持续时间
+- **依赖关系清晰** — 明确哪些任务必须在其他任务完成后才能开始
+- **进度追踪** — 通过状态标记快速了解当前进展
+- **资源协调** — 识别任务重叠期，合理安排人力
+- **里程碑管理** — 标记关键节点，确保项目按期交付
+
+### 时间轴图 vs 甘特图
+
+| 特性 | 时间轴图 (Timeline) | 甘特图 (Gantt) |
+|------|-------------------|----------------|
+| 侧重点 | 事件发生的时间点 | 任务的持续时间 |
+| 展示形式 | 垂直列表 + 时间点 | 横向条形图 |
+| 依赖关系 | 不支持 | 支持 `after` 依赖 |
+| 适用场景 | 历史回顾、里程碑展示 | 项目规划、进度管理 |
+| 任务状态 | 无 | `done`/`active`/`crit` |
+
+**简单判断**：如果需要管理"任务何时做、做多久、谁依赖谁"，用甘特图；如果只是展示"发生了什么"，用时间轴。
+
+### 适用与不适用的场景
+
+**适合使用甘特图**：
+- 软件开发迭代规划
+- 产品发布计划
+- 营销活动排期
+- 建筑工程进度管理
+- 多人协作项目的任务分配
+
+**不适合使用甘特图**：
+- 只需要展示事件序列（用流程图或时间轴）
+- 任务数量极少（少于3个）且没有依赖
+- 需要展示复杂决策分支（用流程图）
+- 系统架构设计（用类图或架构图）
+
+## 与其他图表对比
+
+| 图表类型 | 核心用途 | 与甘特图的区别 |
+|---------|---------|---------------|
+| **甘特图** | 项目进度管理 | 强调时间跨度、任务依赖、持续时长 |
+| **时间轴** | 事件序列展示 | 强调时间点，无依赖关系，适合历史回顾 |
+| **流程图** | 流程逻辑与决策 | 强调步骤顺序和分支判断，无时间概念 |
+
+### 何时选择哪种图表
+
+```
+需要管理项目进度、资源、依赖？
+    ├── 是 → 甘特图
+    └── 否 → 只需要展示事件？
+              ├── 是 → 有时间跨度概念？
+              │         ├── 是 → 甘特图
+              │         └── 否 → 时间轴
+              └── 否 → 有流程/决策逻辑？
+                        ├── 是 → 流程图
+                        └── 否 → 其他图表
+```
+
+**示例对比**：
+
+- **甘特图**："后端API开发"需要7天，完成后"前端开发"才能开始（5天）→ 用甘特图清晰展示依赖和时长
+- **时间轴**："2026年3月发布v1.0，6月发布v2.0"→ 用时间轴展示发布节点
+- **流程图**："用户登录 → 验证密码 → 成功/失败分支"→ 用流程图展示逻辑
+
 ## 基本结构
 
 一个完整的甘特图声明包含三个要素：
@@ -64,7 +131,7 @@ gantt
     前端开发  : after be, 5d
     联调测试  : after 前端开发, 3d
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIFacml2Tm5yk83dPwtH8iROzphL7nq9dDRBQUrBSSUnUUjAyMzHQNjHUNDHUUzFOg6jp7UdQlppWkFoFVm0JVvGic8mJD87Ot3S_WT0WoQNano2CcolQLAA6XSH0" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJU1BQUEhJLEl1yy_KTSxRiIyMjNT19dV1cYFIFacml2Tm5yk83dPwtH8iROzphL7nq9dDRBQUrBSSUnUUjAyMzHQNjHUNDHUUzFOg6jp7UdQlppWkFoFVm0JVvGic8mJD87Ot3S_WT0WoQcano2CcolQLAA6XSH0" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 `after 任务名` 表示在指定任务完成后才开始，实现依赖链。给任务指定 ID（如 `be`），方便其他任务引用。
 
@@ -89,6 +156,26 @@ gantt
 | `crit` | 红色（关键路径） |
 | `milestone` | 菱形里程碑节点 |
 | 不标记 | 默认颜色（待开始） |
+
+## 关键路径是什么？
+
+**关键路径**（Critical Path）是项目中从开始到结束的最长任务链。关键路径上的任何任务延期，都会直接导致整个项目延期。
+
+```
+gantt
+    dateFormat YYYY-MM-DD
+    section 关键路径示例
+    需求分析    : crit, req, 2026-03-01, 3d
+    后端开发    : crit, be, after req, 5d
+    前端开发    : fe, after req, 4d
+    联调测试    : crit, after be, 2d
+    上线部署    : crit, after 联调测试, 1d
+```
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJUwCClMSSVLf8otzEEoVIIND19dV1cYFIFacml2Tm5yk8bd38csq6F9vXP93X8nzJrif7uiHyL-c0PNvY9LSj7dm8CSC-lUJyUWaJjkJRaqGOgpGBkZmugbGugaGOgnEKRMPTCX3PV69_uqfhaf9EZA1JqToKiWklqUUQraYw5Z29aMrTUBWaQBW-aJzyYkPzs63dL9ZPRTYXohRkuhFU5ZMdXc937X_ZvOL53k2YKpHN0VEwTFGqBQAy0nsC" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+上例中，**需求分析 → 后端开发 → 联调测试 → 上线部署** 构成关键路径（共 11 天），而前端开发可以与后端开发并行，不影响总工期。
+
+**建议**：用 `crit` 标记关键路径上的任务，让团队一眼识别哪些任务不能延期。
 
 ### 里程碑（milestone）
 
@@ -139,6 +226,167 @@ gantt
     正式上线        : milestone,      after 性能检查, 0d
 ```
 <a href="https://eric.run.place/MermZen/#eJyFkVFLwlAUx7_KYc9bzBk--BZF4IOPPSx8GdstRjpru1oQwai0UFQKEorKlkRBNOkhsND8Mt5tfotwZ5rpQ_flwjn39z___7mHXJFLSjynckluWzEozRgAAFSnWQJpYuY2iQGsdsPcR1ZpBSd9KMaWRAhch51f4ltNoWQ9b-YUCrIsy0I6LaytYYscqNmCRizYJ2SHGJqVMbBhEZXqeQNGt7b3fjzs1gP3O3AdbGIx6Jwy14HoJEHLG4QHAJPsjS-QRCkhiHFBjPEgaUhupIDVW-y-inJzZEEPQVC2KDEjnXhEIjA_M6dniUUjfEqijqjNh2E9mzUusIYr814c726AdVRUVKoXCQ90N8vPKy5HXrzmmf_6wMol5n76vSYrXyM7OYpJF9hExK6EVixYTcGoVPP77gyn_smPDqSFFN5HNehcDbv1Ybfifw2iOOHfY-t3Paqph04oscIbhXHMZLGe_Twm27bXelokp5HQUqgTm5BvbdZroIv_vmR2Cg-ixh39AFPuD8E" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## 最佳实践
+
+### 任务和分组数量建议
+
+- **Section（分组）**：建议 3-5 个，过多会显得杂乱
+- **每个 Section 的任务数**：建议 3-7 个，便于阅读和追踪
+- **总任务数**：控制在 20 个以内，复杂的项目可以拆分为多个甘特图
+
+### 任务依赖最佳实践
+
+```
+gantt
+    title 迭代开发最佳实践示例
+    dateFormat YYYY-MM-DD
+    excludes weekends
+    
+    section 规划
+    需求梳理     : done, plan, 2026-04-01, 2d
+    任务拆分     : done, split, after plan, 1d
+    
+    section 开发
+    核心功能     : crit, active, core, after split, 5d
+    次要功能     : active, minor, after split, 7d
+    代码审查     : after core, after minor, 2d
+    
+    section 交付
+    集成测试     : crit, test, after 代码审查, 3d
+    发布准备     : after test, 1d
+    v1.0发布     : milestone, release, after 发布准备, 0d
+```
+<a href="https://eric.run.place/MermZen/#eJxtkM1OwkAUhfc8xTxAa0r9S1wTdzyAy6ZzNY2lJe2ILkFMIbAQTUxMJAICulGMIURCRV6mM9S3cJy2hKqzmMzcOd-5Z-6RZhGSQXwRg5iAwsVL4PfpR5leXrF2OZiP6eg-fJ8sB7PgsymEWCOwbzsFjaADvuR8Xs7lxAuc6eYJBhedAhyDhV1RFZsLOjFsC4VPF7R-LUpf7TJ7O2cP42XL-7mjPYRtCyRUNDVLQqqi7sjKlqxk-RkLIvB92uixpkfracItmgaRkHZIwInxLP7bPPqWKLHulC6qtNEJq_PYSneEB5eWuKVuO5A4xvbbkSV77oWPlRSaQAXDsp1f1G6Svb_sVuioxzrDhBKy9UYxr_6TPZgNAv82Gtydx-otNmmGrzep7ATc1RTW-0loM3Lkv6fTKq15dFBLhYjIeGal7IYSKWNNwTD5u5i0AyZo7irwuqGEFJz5Bhe25hw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+**依赖设计原则**：
+1. **避免循环依赖** — A 依赖 B，B 又依赖 A，会导致无法排期
+2. **控制依赖深度** — 依赖链过长（A→B→C→D→E）会增加项目风险，适当并行化
+3. **关键路径清晰** — 用 `crit` 标记决定总工期的任务链
+4. **里程碑作为检查点** — 在重要阶段结束时设置里程碑
+
+### 里程碑使用指南
+
+- **设置时机**：阶段完成、重要交付、外部依赖节点
+- **数量控制**：一个甘特图建议 2-4 个里程碑，过多会稀释重要性
+- **命名规范**：使用动词+名词，如"设计评审完成"、"v1.0上线"
+
+### 颜色/状态标记建议
+
+| 标记 | 使用场景 | 视觉提示 |
+|------|---------|---------|
+| `done` | 已完成的任务 | 灰色，表示不再需要关注 |
+| `active` | 正在进行的任务 | 蓝色，当前工作重点 |
+| `crit` | 关键路径任务 | 红色，延期会影响总工期 |
+| `crit, active` | 关键且进行中 | 红色高亮，最高优先级 |
+| 无标记 | 待开始的任务 | 默认颜色，按计划执行 |
+
+**颜色使用建议**：
+- 不要把所有任务都标记为 `crit`，否则失去重点
+- `active` 只标记当前正在做的，完成后改为 `done`
+- 定期更新状态，保持图表反映真实进度
+
+### 使用 `excludes weekends` 排除非工作日
+
+让甘特图更贴近实际工作安排：
+
+```
+gantt
+    dateFormat YYYY-MM-DD
+    excludes weekends
+    section 迭代
+    Sprint 1 : 2026-03-02, 10d
+```
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKT8wrKYnJUwCClMSSVLf8otzEEoVIIND19dV1cYFIpVYk55SmpBYrlKemZqfmpRRDhItTk0sy8_MUXuxf-2T3YohYcEFRZl6JgqGClYKRgZGZroGxroGRjoKhQYpSLQA_biaA" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## 常见误区
+
+### 误区一：将甘特图与时间轴混淆
+
+**错误理解**：甘特图就是横着的时间轴。
+
+**正解**：时间轴展示"事件在什么时候发生"，甘特图展示"任务持续多久、谁依赖谁"。
+
+**何时用哪个**：
+- 展示"公司发展里程碑" → 时间轴
+- 规划"下个迭代的开发任务" → 甘特图
+
+### 误区二：任务过度拆分
+
+**❌ 不推荐**：将简单的登录功能拆成 8 个超细粒度任务
+
+```
+gantt
+    title ❌ 任务过度拆分示例（不推荐）
+    dateFormat YYYY-MM-DD
+    
+    section 开发
+    登录页面-写HTML     : a1, 2026-03-01, 2h
+    登录页面-写CSS      : a2, after a1, 2h
+    登录页面-写JS       : a3, after a2, 2h
+    登录页面-调试       : a4, after a3, 1h
+    注册页面-写HTML     : b1, after a4, 2h
+    注册页面-写CSS      : b2, after b1, 2h
+    注册页面-写JS       : b3, after b2, 2h
+```
+<a href="https://eric.run.place/MermZen/#eJxLT8wrKeFSAIKSzJKcVIVHc3sUnuze_bRr4Yv97U93LXvW3fa0o-35kl1P9nW_39PxZEfv874VL3onvN_TCdaVkliS6pZflJtYohAJBLq-vrouLmAZMFGcmlySmZ-n8HRPw9P-iWCh5zN3P9079eXCrS_nLtJ92jbTI8TXBySuYKWQaKijYGRgZKZrYKxrAGJnYNXhHBysANNhpKOQmFaSWgTRi129F1Q5SL0xXL0RdvUvNjS_WD8VocEErgGo1RCi4dnmFU_berB6IckQrt4EbgG6eiQPJME9kGSIUz2SB5LgHkiCeAAAYUGxxw" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+**✅ 推荐**：合理合并，关注可交付成果
+
+```
+gantt
+    title ✅ 合理任务粒度示例（推荐）
+    dateFormat YYYY-MM-DD
+    
+    section 开发
+    登录功能开发   : done, login, 2026-03-01, 1d
+    注册功能开发   : done, reg, after login, 1d
+    用户中心开发   : active, uc, after reg, 2d
+    整体联调       : after uc, 1d
+```
+<a href="https://eric.run.place/MermZen/#eJxLT8wrKeFSAIKSzJKcVIVHc1oVnk7oeD6h7cnu3U-7Fj7fNOnprmXPl-x6sq_7_Z6OZ30rXvROeL-nE6wlJbEk1S2_KDexRCESCHR9fXVdXMAyYKI4NbkkMz9P4emehqf9E8FCz2fufrp36tOu-S-a90KEgYJWCin5eak6Cjn56Zl5OgpGBkZmugbGugaGOgqGKWBtzzaveNrWg0NbUWq6jkJiWklqEcwEqK7nU1Y869j-ZMfap_ubkXQlAl1VBtRXmgzTBjbBCGrV1C1P9k5-0TjlxYZmBQiwgioDaQAaDQAFs4EC" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+**任务粒度原则**：
+- 一个任务应该是可交付的、有意义的成果
+- 粒度控制在"半天到三天"为宜
+- 任务过多会导致图表臃肿，失去"一目了然"的价值
+
+### 误区三：忽略任务依赖关系
+
+**❌ 不推荐**：所有任务都独立声明，看不出逻辑关系
+
+```
+gantt
+    dateFormat YYYY-MM-DD
+    section 开发
+    需求分析  : 2026-03-01, 3d
+    UI设计    : 2026-03-04, 5d
+    前端开发  : 2026-03-09, 7d
+    后端开发  : 2026-03-09, 7d
+```
+
+**✅ 推荐**：明确依赖，让排期逻辑清晰可见
+
+```
+gantt
+    dateFormat YYYY-MM-DD
+    section 开发
+    需求分析  : req, 2026-03-01, 3d
+    UI设计    : after req, 5d
+    后端开发  : api, after req, 7d
+    前端开发  : after UI设计, after api, 7d
+```
+
+**依赖的价值**：
+- 自动计算开始时间，避免手动日期错误
+- 前置任务延期时，自动影响后续任务
+- 可视化关键路径，识别项目风险点
+
+### 误区四：不标记关键路径
+
+**问题**：所有任务都是默认颜色，无法快速识别哪些任务对项目进度影响最大。
+
+**建议**：用 `crit` 标记关键路径上的任务，让团队聚焦核心工作。
 
 ## 速查表
 

@@ -11,7 +11,42 @@ slug: architecture
 
 Architecture diagrams visualize system architectures, component relationships, and deployment patterns. They are ideal for system design, architecture reviews, and technical documentation. Mermaid uses `architecture-beta` keyword for architecture diagrams.
 
-<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKLErOyCxJTS4pLUp1Si1JjMlTUFBQKMksyUlVCK4sLknNVXBEUqLgkpmYXpSYq1QLABsCF9g" width="100%" height="600" frameborder="0"></iframe>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTslIw0lFQSgbSSolFyRmZJanJJaVFqbpJqSWJMXkKQFCSWZKTqhBTap6clgQkU1PSYkrNzJPMQKSFSUypqVlaqlItAFpDGNg" width="100%" height="600" frameborder="0"></iframe>
+
+## Why Use Architecture Diagrams?
+
+Architecture diagrams are core tools for system design and documentation:
+
+- **Visualize system structure** — See at a glance what components make up the system and how they interact
+- **Architecture review essential** — Identify potential issues during design phase, avoid rework later
+- **Team communication bridge** — Help new members quickly understand the system landscape
+- **Technical documentation core** — Visual representation of architecture design documents
+
+### Use Cases
+
+✅ **Suitable**:
+- System design phase — Plan overall architecture
+- Architecture review — Discuss design decisions with team
+- Technical documentation — Record system structure
+- New member onboarding — Quick overview of system
+
+❌ **Not Suitable**:
+- Showing code logic flow → Use flowchart
+- Showing time sequence → Use sequence diagram
+- Showing single module internals → Use class diagram
+
+## Comparison with Other Diagrams
+
+| Diagram Type | Core Purpose | Difference from Architecture |
+|--------------|--------------|------------------------------|
+| **Architecture** | System components & deployment | Emphasizes component hierarchy, external dependencies, deployment patterns |
+| **Block** | Module structure | More generic, suitable for network topology, industrial flows |
+| **Flowchart** | Process & decisions | Emphasizes step sequence, no component hierarchy concept |
+
+**Selection Guide**:
+- Show "what components exist, how they connect" → Architecture diagram
+- Show "module nesting structure" → Block diagram
+- Show "operation flow and decision branches" → Flowchart
 
 ## Declaring a Chart
 
@@ -21,7 +56,7 @@ Use `architecture-beta` keyword:
 architecture-beta
     title System Architecture Diagram
 ```
-<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKLErOyCxJTS4pLUp1Si1JjMlTUFBQKMksyUlVCK4sLknNVXBEUqLgkpmYXpSYq1QLABsCF9g" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyrVipTslIw0lFQSgbSSolFyRmZJanJJaVFqbpJqSWJMXkKQFCSWZKTqhBTap6clgQkU1PSYkrNzJPMQKSFSUypqVlaqlItAFpDGNg" target="_blank" rel="noopener" class="try-in-editor">Try in MermZen →</a>
 
 ## Component Definition
 
@@ -130,7 +165,50 @@ architecture-beta
     "Payment Service" --> "WeChat Pay"
     "Order Service" --> "Logistics System"
 ```
-<a href="https://eric.run.place/MermZen/#eJyNk7Fu20AMhl-FuKFTvXTMUEBWgsKAjbo2gixa6BNrE5Xu1DvKiRDk3YtEsmvLRzubho-8n9THV7M3d9--GmvuDAa7YyErbaApCRYOAEBYKoKHSe7rmoIlWHdRqIYF2-AjhT1bipCd1PZ11jtBdhSgMI-RAsycUPiNlmCOHYXCwGtP9nTdeEdOoDBPtPkPFyYNLfyGK4KsaTQiK2t2kHsXfXVs83YZLlvO4AcKPWOnZ1rR35aiwMq3wm6rvtnKjpywRWHvNGqFQjDnmt9bwRfIOdiWBaaB8M9J90TYaRvZUYywPmz-xjI_Vj_AWp5l8GVr5Rb2M5Sf6IVd_f51A5u5PTnxoRuDw8wlCm4wEhTmHgVhLT7glvQ5F9361xyWgWsMnSrNB7SipmKL6t-hkiPkaHfjULE3vzAPL0LBYTXcQtRjZRU3qOZ5onyHAkudmPstR2Ebh6dOEvUfF-cCk8n3sdUH9PRornGj00mjR_jsfno0ZV2aVNxLw0kDlb5pD9Nw0sZDwfksQ0VSN4VNCJWY-3pjDU_2Hq3peufE7FrBMcx4twdBzmTXuUvttcyX-pu3f1_DGoY" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+<a href="https://eric.run.place/MermZen/#eJyNk7Fu20AMhl-FuKFTvXTMUEBWgsKAjbo2gixa6BNrE5Xu1DvKiRDk3YtEsmvLRzubho-8n9THV7M3d9--GmvuDAa7YyErbaApCRYOAEBYKoKHSe7rmoIlWHdRqIYF2-AjhT1bipCd1PZ11jtBdhSgMI-RAsycUPiNlmCOHYXCwGtP9nTdeEdOoDBPtPkPFyYNLfyGK4KsaTQiK2t2kHsXfXVs83YZLlvO4AcKPWOnZ1rR35aiwMq3wm6rvtnKjpywRWHvNGqFQjDnmt9bwRfIOdiWBaaB8M9J90TYaRvZUYywPmz-xjI_Vj_AWp5l8GVr5Rb2M5Sf6IVd_f51A5u5PTnxoRuDw8wlCm4wEhTmHgVhLT7glvQ5F9361xyWgWsMnSrNB7SipmKL6t-hkiPkaHfjULE3vzAPL0LBYTXcQtRjZRU3qOZ5onyHAkudmPstR2Ebh6dOEvUfF-cCk8n3sdUH9PRornGj00mjR_jsfno0ZV2aVNxLw0kDlb5pD9Nw0sZDwfksQ0VSN4VNCJWY-3pjDU_2Hq3peufE7FrBMcx4twdBzmTXuUvttcyX-pu3f1_DGoY" target="_blank" rel="noopener" class="try-in-editor">Try in MermZen →</a>
+
+## Best Practices
+
+### Component Organization Principles
+
+- **Organize by layers**: User Interface Layer → API Gateway → Business Services Layer → Data Storage
+- **Keep component granularity consistent**: Components at the same level should be at the same abstraction level
+- **Distinguish internal vs external**: Use `container` for internal components, `system` for external systems
+
+### Connection Guidelines
+
+- **Avoid over-connection**: Single component connections should not exceed 5
+- **Clear direction**: Use `-->` to clearly indicate data/call flow direction
+- **Hierarchical clarity**: Define high-level connections first, then internal connections
+
+### Naming Conventions
+
+| Element | Convention | Example |
+|---------|------------|---------|
+| Container | Name by function/layer | `User Interface Layer`, `API Gateway` |
+| Component | Name by specific responsibility | `Request Routing`, `Authentication` |
+| Database | Name by storage type | `MySQL Primary`, `Redis Cache` |
+| System | Name by external service | `Alipay`, `WeChat Pay` |
+
+## Common Mistakes
+
+### Mistake 1: Too Many Connections Creating Clutter
+
+❌ **Problem**: Drawing connections between all components creates a "spaghetti" diagram
+
+✅ **Solution**: Only draw major call relationships, document minor ones in text or split into multiple diagrams
+
+### Mistake 2: Inconsistent Abstraction Levels
+
+❌ **Problem**: Mixing "User Service" and "getUser API" at the same level
+
+✅ **Solution**: Keep components at the same level at the same abstraction level
+
+### Mistake 3: Ignoring Data Flow Direction
+
+❌ **Problem**: Only drawing components without showing data/call flow direction
+
+✅ **Solution**: Use `-->` to clearly mark call direction, making the architecture diagram reflect actual system interactions
 
 ## Quick Reference
 

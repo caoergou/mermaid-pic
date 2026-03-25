@@ -12,6 +12,29 @@ slug: sequence
 时序图（Sequence Diagram）描述多个参与者之间**按时间顺序**发生的消息交互。与流程图不同，时序图的核心问题是：**谁在什么时候向谁发送了什么**。适合展示 API 调用链路、用户与系统的交互、微服务通信等场景。
 <iframe src="https://eric.run.place/MermZen/embed.html#jZJtSxtBEMff-ykGX2lRTKVWOFARez5VjeYOfFmWZA1Hz7v09kQkHFRBDaJEUEtSChrwCR8aS9Wg1vbT7N3mW7jZxXA2p-29OnbmN_-Z_wzBn-awlcTvDJR20GwT8A8lXduBYPvYz1XEQwY5rpE0Mshywb_Ks6McLR43RPonR_xvG3StFBVM4JRBgl9b9LzQEBtf0KbGmsSzFG3v7a3LKEBLp3SlyC4Pab5CyyvB3iK9uQ6WbujqXVC8o_c7gqwDHA53osBkXNOhA2WMDtNOGxZk5wh2LDSL23gXhMzbTsqT6mGOlwn1rMCQqoPgP8wgw1TqRTxBhlLbGxqg-z_Y5YF_VvJ3LqAl1hopJkxQQFPH1AEdXsFgIj4ONREC08NqQoVHwZ4-gYv8Ri1pIPt-UfNFbtN0QdpWPVln5cXq56_sz6oIRbTxd7VdP7cJo9M66PZHbEHLsNbZ9bb1OfqJYxp3jGBCDNtSsm4N96A7FY0-3XhnLAbx9yChNjG5V-fCiw5fyXmBLh_wFSWRqfH7RWkcgXBGOqQAq_xk92fVwy_V0pXIxCbBj05tF1m5_F9TjkwMJF44jH9M-ib2GrLYcWxHgeawdrP3cvd-4Xewfytz_fwm_5czWKkH" width="100%" height="500" frameborder="0"></iframe>
 
+## 为什么用时序图？
+
+时序图是展示**交互流程**的最佳选择：
+
+- **展示多个参与者之间的消息交互** — 清晰呈现"谁对谁做了什么"
+- **特别适合展示 API 调用链路** — 前端→后端→数据库→缓存的完整链路一目了然
+- **清晰表达"谁在什么时候向谁发送了什么"** — 时间轴从上到下，顺序直观
+
+```
+sequenceDiagram
+    actor 用户 as User
+    participant 前端 as Frontend
+    participant API as API Server
+    participant 数据库 as Database
+    
+    用户->>前端: 点击登录
+    前端->>API: POST /api/login
+    API->>数据库: SELECT * FROM users
+    数据库-->>API: 用户数据
+    API-->>前端: 200 OK + Token
+    前端-->>用户: 跳转首页
+```
+<a href="https://eric.run.place/MermZen/#bZBfT4MwFMW_yk0f1WUItvx5WGLclhg1LIJvvFygLEQt2MJejN_d2yEbbuvDadP7u-ee9pvtWOTesIJFzMivXqpCLmvcavzMFNDComs0ZL3P3SDrhev5gAbejNRDvUXd1UXdouqI4u5dSSzKylJr3ahOqvKcvN88WsBuidS7y2aC-w6pJyQZy9CzHUvsMEcjB_5PJ-Fmi8U0RWSLTh7S3W2V01n4pLzifGw9stRKeSLYxEkKc2zr-UezrdUAUmVvfZopgmT1vHpI4QrWr_EL9PQxZvQ-hWfjiGnif9hh1tk7XMeB-AmuIW3epbqQft9xtLVDgrLySCtRZH0YhoI08Dn7-QU" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
 
 ## 声明图表与参与者
 
@@ -61,6 +84,32 @@ sequenceDiagram
 | `A-)B: 消息` | 异步消息、事件发布 |
 | `A-xB: 消息` | 失败的调用、丢弃的消息 |
 
+### 箭头类型选择指南
+
+选择正确的箭头类型可以让图表语义更清晰：
+
+| 箭头类型 | 语法 | 适用场景 |
+|---------|------|---------|
+| 实线箭头 `->>` | `A->>B: 请求` | 同步请求、HTTP 请求、函数调用 |
+| 虚线箭头 `-->>` | `B-->>A: 响应` | 返回值、HTTP 响应、回调结果 |
+| 异步箭头 `->)` | `A-)B: 事件` | 事件发布、非阻塞调用、WebSocket 消息 |
+| 失败箭头 `-x` | `A-xB: 超时` | 错误的调用、超时、请求失败 |
+
+```
+sequenceDiagram
+    participant 客户端
+    participant 服务器
+    
+    客户端->>服务器: HTTP请求 (同步)
+    服务器-->>客户端: HTTP响应 (返回值)
+    
+    客户端-)服务器: WebSocket消息 (异步)
+    服务器--)客户端: 推送通知 (异步响应)
+    
+    客户端-x服务器: 请求超时 (失败)
+```
+<a href="https://eric.run.place/MermZen/#hZA_a8MwEMW_itFUQQOyLJ1lD5k6dCw00EXLWX-CCXHT1AqB0u_ek9tAmhis4aHTvfvpSV_sxFr5yBxr2Wf4SGFw4anH7RH3dihoHfA49q4_4DAWNukOpU0gq9qmGkOc80AtPDkllqQA5tfzp3eE1Xp9P9IWz5vNi02mi2QDp2TxQB0lHFUdaH6h3Q6uJtztHRecVi67Q6MyzkSv8pQPpKJyfCEon8v5FrrXd7cLIzW9MaQC4hQ2CrkYls9lpapCIjVClFlLpE4d9H_q9WuWkp_nkl__Lu29ISToCNM1TVXmM6k5-_4B" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
 ## 备注（Note）
 
 在参与者旁边添加说明文字：
@@ -74,6 +123,67 @@ sequenceDiagram
     A->>B: 消息
 ```
 <a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslIqTi0sTc1LTnXJTEwvSsyNyVNQUFAoSCwqyUzOLEjMK1FwxBRyggj55ZekKhRlpmeUKOSnKThaKbzYP_PZjPUKjgrPZ7U8XdL-bPMKJIX5ZalFCo46TlYKz1aserF9xdMls57sWPW0v-nJjr4XDa1oWhx17exASrd1PGtcr1QLADkLSl8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## 最佳实践
+
+### 参与者命名建议
+
+- 使用 `actor` 表示**真实用户**（会渲染为小人图标）
+- 使用 `participant` 命名**系统组件**（服务、数据库、缓存等）
+- 使用 `as` 关键字设置**简短别名**，保持代码简洁
+
+### 添加关键说明
+
+使用 `note` 为关键步骤添加说明，帮助读者理解复杂逻辑：
+
+```
+sequenceDiagram
+    participant A
+    participant B
+    Note right of A: 这是 A 的备注
+    Note over A,B: 横跨多个参与者的备注
+    A->>B: 消息
+```
+
+### 控制参与者数量
+
+**建议参与者不超过 5 个**。过多的参与者会让图表变得难以阅读。如果系统复杂，考虑：
+- 拆分为多个时序图
+- 使用 `box` 将相关参与者分组
+- 省略次要的中间步骤
+
+```
+sequenceDiagram
+    actor 用户
+    participant 前端
+    participant API服务
+    participant 缓存
+    participant 数据库
+    
+    Note over 用户,数据库: 推荐不超过5个参与者
+    
+    用户->>前端: 发起请求
+    前端->>API服务: API调用
+    API服务->>缓存: 查询缓存
+    缓存-->>API服务: 缓存命中
+    API服务-->>前端: 返回结果
+    前端-->>用户: 显示数据
+```
+<a href="https://eric.run.place/MermZen/#bVGxboMwEP0V5DmRwId9hiFSpS5dqn4Ai7GPiqGQUMhS9d97Nm1Dgj3ccO-9e3fPX-IqankQTtTiky4LDY6ee_s-2Y9myPhZN49T1iyopGkWLQHX_tlOc-_6sx1mRpUsPXMsdXv06e2FhZj7QLNFSo5dAYy2yqRQrTDnCpqYQxWsnLW-jjNl45XuVzzsRXUYBJYJBhQjJYWFjDeKa-dQhZa0TAYnI8xCk-dq67b1OJ5O27vDfAW-CDMRubYdV-1K-Se9cVn6EEq9pmRcDr8eUfTAipa3rOJJSOGAluQ-xW3nmPK8kyyqRB9D8GnzxMGm8yX3tOeskDwEfuUSB6-b_2cXN9cQVBXY7WeJ7x8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a>
+
+## 与其他图表对比
+
+| 特性 | 时序图 | 流程图 | 活动图 |
+|------|--------|--------|--------|
+| **核心关注** | 时间顺序 | 决策分支 | 流程步骤 |
+| **适合场景** | API 调用链、微服务通信 | 业务逻辑、决策流程 | 工作流、业务流程 |
+| **参与者** | 多个（建议 ≤5） | 无限制 | 无限制 |
+| **时间表达** | 从上到下，直观 | 无时间概念 | 可标注时间 |
+
+**选择建议：**
+- 需要展示**谁对谁做了什么** → 时序图
+- 需要展示**条件分支和循环** → 流程图
+- 需要展示**完整业务流程** → 活动图
 
 ## 控制结构
 
