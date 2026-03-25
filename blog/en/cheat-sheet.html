@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid Cheat Sheet - MermZen</title>
+  <meta name="description" content="Complete Mermaid diagram syntax cheat sheet covering flowcharts, sequence diagrams, class diagrams, Gantt charts, pie charts, mindmaps, and more.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://eric.run.place/MermZen/blog/en/cheat-sheet.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Mermaid Cheat Sheet - MermZen">
+  <meta property="og:description" content="Complete Mermaid diagram syntax cheat sheet covering flowcharts, sequence diagrams, class diagrams, Gantt charts, pie charts, mindmaps, and more.">
+  <meta property="og:url" content="https://eric.run.place/MermZen/blog/en/cheat-sheet.html">
+  <meta property="og:site_name" content="MermZen">
+  <meta property="og:locale" content="en_US">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Mermaid Cheat Sheet",
+    "description": "Complete Mermaid diagram syntax cheat sheet covering flowcharts, sequence diagrams, class diagrams, Gantt charts, pie charts, mindmaps, and more.",
+    "datePublished": "2026-03-05",
+    "publisher": { "@type": "Organization", "name": "MermZen" }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../../logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../blog.css">
+  <style>
+    .cheat-sheet-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: var(--bg-secondary, #f3f3f3);
+      border-radius: 8px;
+    }
+    .cheat-sheet-nav a {
+      padding: 6px 12px;
+      background: var(--bg-primary, #fff);
+      border: 1px solid var(--border-color, #e5e5e5);
+      border-radius: 4px;
+      color: var(--text-primary, #333);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .cheat-sheet-nav a:hover {
+      background: var(--accent, #007acc);
+      color: #fff;
+      border-color: var(--accent, #007acc);
+    }
+    .cheat-sheet-section {
+      margin-top: 48px;
+    }
+    .cheat-sheet-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cheat-sheet-section h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 24px;
+      background: var(--accent, #007acc);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <header class="blog-header">
+    <a href="../../index.html">← Back to Editor</a>
+    <span class="blog-logo">MermZen Tutorials</span>
+    <a href="index.html">All Tutorials</a>
+    <div class="blog-header__spacer"></div>
+    <a href="../zh/cheat-sheet.html" class="lang-toggle-btn" title="查看中文版本">中文</a>
+  </header>
+
+  <main class="blog-post">
+    <h1>Mermaid Cheat Sheet</h1>
+    <p><span class="post-meta">2026-03-05 · Complete Syntax Reference</p>
+    <p>A complete reference for Mermaid diagram syntax covering all supported diagram types. Click navigation to jump to specific diagram types.</p>
+
+    <nav class="cheat-sheet-nav">
+      <a href="#flowchart">Flowchart</a>
+      <a href="#sequence">Sequence</a>
+      <a href="#class">Class</a>
+      <a href="#gantt">Gantt</a>
+      <a href="#pie">Pie</a>
+      <a href="#mindmap">Mindmap</a>
+      <a href="#journey">User Journey</a>
+      <a href="#gitgraph">Git Graph</a>
+      <a href="#er">ER Diagram</a>
+      <a href="#state">State</a>
+    </nav>
+
+    <div class="cheat-sheet-section" id="flowchart">
+      <h2>Flowchart</h2>
+      <pre><code>flowchart TD
+    %% Node definitions
+    A[Start]
+    B{Decision}
+    C[Process]
+    D((End))
+
+    %% Connections
+    A --> B
+    B -->|Yes| C
+    B -->|No| D
+    C --> D
+
+    %% Subgraph
+    subgraph Subprocess
+        C --> E[Step 1]
+        E --> F[Step 2]
+    end</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>flowchart TD</code></td><td>Top Down</td></tr>
+          <tr><td><code>flowchart LR</code></td><td>Left Right</td></tr>
+          <tr><td><code>flowchart BT</code></td><td>Bottom Top</td></tr>
+          <tr><td><code>flowchart RL</code></td><td>Right Left</td></tr>
+          <tr><td><code>A[Text]</code></td><td>Rectangle</td></tr>
+          <tr><td><code>A(Text)</code></td><td>Rounded rectangle</td></tr>
+          <tr><td><code>A((Text))</code></td><td>Circle</td></tr>
+          <tr><td><code>A{Text}</code></td><td>Rhombus (decision)</td></tr>
+          <tr><td><code>A[/Text/]</code></td><td>Parallelogram</td></tr>
+          <tr><td><code>A --> B</code></td><td>Solid arrow</td></tr>
+          <tr><td><code>A -.-> B</code></td><td>Dotted arrow</td></tr>
+          <tr><td><code>A ==> B</code></td><td>Thick arrow</td></tr>
+          <tr><td><code>A --text--> B</code></td><td>Labeled arrow</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="sequence">
+      <h2>Sequence Diagram</h2>
+      <pre><code>sequenceDiagram
+    actor User
+    participant Frontend
+    participant API
+    participant Database
+
+    User->>Frontend: Click login
+    Frontend->>API: POST /login
+    API->>Database: Query user
+    Database-->>API: Return data
+    API-->>Frontend: Return token
+    Frontend-->>User: Login success
+
+    %% Loop
+    loop Retry mechanism
+        API->>Database: Retry query
+    end
+
+    %% Conditional
+    alt User exists
+        API-->>Frontend: Normal response
+    else User not found
+        API-->>Frontend: Error response
+    end</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>participant Name</code></td><td>Define participant</td></tr>
+          <tr><td><code>actor Name</code></td><td>Define actor</td></tr>
+          <tr><td><code>A->>B: msg</code></td><td>Solid arrow (send)</td></tr>
+          <tr><td><code>A-->>B: msg</code></td><td>Dotted arrow (return)</td></tr>
+          <tr><td><code>A->>+B: msg</code></td><td>Activate B</td></tr>
+          <tr><td><code>A-->>-B: msg</code></td><td>Deactivate B</td></tr>
+          <tr><td><code>loop desc</code></td><td>Loop</td></tr>
+          <tr><td><code>alt condition</code></td><td>Conditional branch</td></tr>
+          <tr><td><code>opt condition</code></td><td>Optional execution</td></tr>
+          <tr><td><code>par parallel</code></td><td>Parallel execution</td></tr>
+          <tr><td><code>rect rgb(255,0,0)</code></td><td>Colored background</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="class">
+      <h2>Class Diagram</h2>
+      <pre><code>classDiagram
+    class Animal {
+        +String name
+        +int age
+        +makeSound()
+        +move()
+    }
+
+    class Dog {
+        +breed
+        +fetch()
+    }
+
+    class Cat {
+        +color
+        +climb()
+    }
+
+    Animal <|-- Dog : inherits
+    Animal <|-- Cat : inherits
+    Dog o-- Toy : aggregation
+    Cat *-- Whisker : composition</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>class Name { }</code></td><td>Define class</td></tr>
+          <tr><td><code>+property</code></td><td>Public attribute/method</td></tr>
+          <tr><td><code>-property</code></td><td>Private attribute/method</td></tr>
+          <tr><td><code>#property</code></td><td>Protected attribute/method</td></tr>
+          <tr><td><code>A <|-- B</code></td><td>Inheritance (B extends A)</td></tr>
+          <tr><td><code>A --* B</code></td><td>Composition</td></tr>
+          <tr><td><code>A --o B</code></td><td>Aggregation</td></tr>
+          <tr><td><code>A --> B</code></td><td>Association</td></tr>
+          <tr><td><code>A ..> B</code></td><td>Dependency</td></tr>
+          <tr><td><code>A --|> B</code></td><td>Implementation</td></tr>
+          <tr><td><code>A "1" --> "*" B</code></td><td>One-to-many</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="gantt">
+      <h2>Gantt Chart</h2>
+      <pre><code>gantt
+    title Project Development Plan
+    dateFormat  YYYY-MM-DD
+
+    section Design Phase
+    Requirements    :done, a1, 2026-01-01, 7d
+    UI Design       :active, a2, after a1, 5d
+    Review          :a3, after a2, 3d
+
+    section Development
+    Backend         :b1, after a3, 14d
+    Frontend        :b2, after a3, 14d
+    Integration     :b3, after b1, 5d
+
+    section Testing
+    Test            :c1, after b3, 7d
+    Bug Fix         :c2, after c1, 5d
+    Deploy          :milestone, c3, after c2, 1d</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>dateFormat</code></td><td>Date format definition</td></tr>
+          <tr><td><code>section Name</code></td><td>Phase grouping</td></tr>
+          <tr><td><code>:done</code></td><td>Completed status</td></tr>
+          <tr><td><code>:active</code></td><td>In progress status</td></tr>
+          <tr><td><code>:crit</code></td><td>Critical path</td></tr>
+          <tr><td><code>:milestone</code></td><td>Milestone</td></tr>
+          <tr><td><code>after task</code></td><td>Depends on previous task</td></tr>
+          <tr><td><code>7d</code></td><td>Duration 7 days</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="pie">
+      <h2>Pie Chart</h2>
+      <pre><code>pie title Browser Market Share
+    "Chrome" : 65.3
+    "Safari" : 18.5
+    "Firefox" : 6.2
+    "Edge" : 5.1
+    "Others" : 4.9</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>pie title Title</code></td><td>Declare pie chart</td></tr>
+          <tr><td><code>"Label" : value</code></td><td>Data item</td></tr>
+          <tr><td><code>showData</code></td><td>Show values</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="mindmap">
+      <h2>Mindmap</h2>
+      <pre><code>mindmap
+  root((Project Management))
+    Planning
+      Requirements
+      Resource allocation
+      Scheduling
+    Execution
+      Development
+      Testing
+      Deployment
+    Monitoring
+      Progress tracking
+      Risk management</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>root((Root))</code></td><td>Root node</td></tr>
+          <tr><td><code>indent + node</code></td><td>Child node (2 spaces)</td></tr>
+          <tr><td><code>::icon(icon)</code></td><td>Add icon</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="journey">
+      <h2>User Journey</h2>
+      <pre><code>journey
+    title Shopping User Journey
+    section Browse Products
+      Visit homepage: 5: User
+      Search product: 4: User
+      View details: 4: User
+    section Order & Payment
+      Add to cart: 5: User
+      Fill address: 3: User
+      Complete payment: 5: User, System
+    section Delivery
+      Track shipment: 4: User
+      Confirm receipt: 5: User</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>section Phase</code></td><td>Define phase</td></tr>
+          <tr><td><code>Task: Score: Actor</code></td><td>Task (score 1-5)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="gitgraph">
+      <h2>Git Graph</h2>
+      <pre><code>gitGraph
+    commit "Initial commit"
+    branch feature/login
+    commit "Login feature"
+    commit "Login polish"
+    checkout main
+    branch feature/register
+    commit "Register feature"
+    checkout main
+    merge feature/login tag: "v1.1.0"
+    merge feature/register</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>gitGraph</code></td><td>Declare Git graph</td></tr>
+          <tr><td><code>commit "msg"</code></td><td>Create commit</td></tr>
+          <tr><td><code>branch name</code></td><td>Create branch</td></tr>
+          <tr><td><code>checkout branch</code></td><td>Switch branch</td></tr>
+          <tr><td><code>merge branch</code></td><td>Merge branch</td></tr>
+          <tr><td><code>tag: "version"</code></td><td>Create tag</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="er">
+      <h2>ER Diagram</h2>
+      <pre><code>erDiagram
+    CUSTOMER {
+        string customer_id PK
+        string name
+        string email
+    }
+    ORDER {
+        int order_id PK
+        date order_date
+        string customer_id FK
+    }
+    CUSTOMER ||--o{ ORDER : places</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>ENTITY { }</code></td><td>Define entity</td></tr>
+          <tr><td><code>PK</code></td><td>Primary key</td></tr>
+          <tr><td><code>FK</code></td><td>Foreign key</td></tr>
+          <tr><td><code>||--o{</code></td><td>One-to-many</td></tr>
+          <tr><td><code>||--||</code></td><td>One-to-one</td></tr>
+          <tr><td><code>}|--|{</code></td><td>Many-to-many</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section" id="state">
+      <h2>State Diagram</h2>
+      <pre><code>stateDiagram-v2
+    [*] --> Pending
+    Pending --> Shipped: Payment confirmed
+    Pending --> Cancelled: Cancel order
+    Shipped --> InTransit: Shipped
+    InTransit --> Delivered: Arrived
+    Delivered --> Completed: Confirmed
+    Completed --> [*]</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>[*]</code></td><td>Start/End state</td></tr>
+          <tr><td><code>A --> B</code></td><td>State transition</td></tr>
+          <tr><td><code>state Name { }</code></td><td>Composite state</td></tr>
+          <tr><td><code>State: note</code></td><td>State note</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cheat-sheet-section">
+      <h2>Common Directives</h2>
+      <pre><code>%% This is a comment
+
+%% Theme settings
+theme default
+theme dark
+theme forest
+theme neutral
+theme base
+
+%% Hand-drawn style
+%% Toggle in MermZen editor</code></pre>
+      <table>
+        <thead>
+          <tr><th>Syntax</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>%% comment</code></td><td>Line comment</td></tr>
+          <tr><td><code>title Title</code></td><td>Set chart title</td></tr>
+          <tr><td><code>theme name</code></td><td>Set theme</td></tr>
+          <tr><td><code>subgraph Name</code></td><td>Subgraph group</td></tr>
+          <tr><td><code>direction LR/TD</code></td><td>Subgraph direction</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+    <p>💡 <strong>Tip</strong>: Try all diagrams in the <a href="https://eric.run.place/MermZen/" target="_blank">MermZen editor</a> with live preview and export to SVG/PNG.</p>
+  </main>
+
+  <footer class="blog-footer">
+    <p>Write and preview Mermaid diagrams in <a href="../../index.html">MermZen</a> — export SVG/PNG, share via URL</p>
+  </footer>
+  <script>
+    (function () {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+      });
+
+      var h1 = document.querySelector('.blog-post h1');
+      if (!h1) return;
+      var img = document.createElement('img');
+      img.src = '../../logo.svg';
+      img.alt = '';
+      img.className = 'blog-h1-icon';
+      h1.insertBefore(img, h1.firstChild);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>如何用 Mermaid 画 Git 图 - MermZen</title>
+  <meta name="description" content="深入讲解 Mermaid Git 图的分支创建、提交、合并、标签等语法，附版本控制流程的完整实战示例。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://eric.run.place/MermZen/blog/zh/gitgraph.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="如何用 Mermaid 画 Git 图 - MermZen">
+  <meta property="og:description" content="深入讲解 Mermaid Git 图的分支创建、提交、合并、标签等语法，附版本控制流程的完整实战示例。">
+  <meta property="og:url" content="https://eric.run.place/MermZen/blog/zh/gitgraph.html">
+  <meta property="og:site_name" content="MermZen">
+  <meta property="og:locale" content="zh_CN">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "如何用 Mermaid 画 Git 图",
+    "description": "深入讲解 Mermaid Git 图的分支创建、提交、合并、标签等语法，附版本控制流程的完整实战示例。",
+    "datePublished": "2026-03-05",
+    "publisher": { "@type": "Organization", "name": "MermZen" }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../../logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=LXGW+WenKai+TC&display=swap">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+  <header class="blog-header">
+    <a href="../../index.html">← 返回编辑器</a>
+    <span class="blog-logo">MermZen 教程</span>
+    <a href="index.html">所有教程</a>
+    <div class="blog-header__spacer"></div>
+    <a href="../en/gitgraph.html" class="lang-toggle-btn" title="查看英文版本">EN</a>
+  </header>
+
+  <main class="blog-post">
+    <h1>如何用 Mermaid 画 Git 图</h1>
+<p><span class="post-meta">2026-03-05 · MermZen 教程</p>
+<p>Git 图用于可视化版本控制系统的分支管理、提交历史和合并操作，适合软件开发团队协作、项目管理、版本控制教学等场景。Mermaid 使用 <code>gitGraph</code> 关键字声明 Git 图。</p>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXDPLFF4OnvfswXtLxfNUKoFAGesEeQ" width="100%" height="600" frameborder="0"></iframe>
+
+<h2>声明图表</h2>
+<p>使用 <code>gitGraph</code> 关键字：</p>
+<pre><code>gitGraph
+    title Git 图标题
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXDPLFF4OnvfswXtLxfNUKoFAGesEeQ"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXDPLFF4OnvfswXtLxfNUKoFAGesEeQ" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h2>基本提交和分支</h2>
+<p>创建简单的提交和分支：</p>
+<pre><code>gitGraph
+    title 基本 Git 图
+    commit "初始提交"
+    commit "功能 A"
+    branch feature-branch-1
+    commit "完成功能 1"
+    commit "修复 bug 1"
+    checkout main
+    branch feature-branch-2
+    commit "完成功能 2"
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#eJyFjcsKwjAURH9luGtdNMvuVLD4D9mkITYX8yjxpgjiv7uohVJBlzNnHk-aqFU7stTSwNIVM3qdAEBYgsPR3NmiY8EK2RwjCzRdEgub8DE0bfDZGanF4bCQvphkPa6zv59ls2mdchyDE7fE0HwP8wN9HVbEO3vLVRANpx9f6t-X0kSvN3YUWj4"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#eJyFjcsKwjAURH9luGtdNMvuVLD4D9mkITYX8yjxpgjiv7uohVJBlzNnHk-aqFU7stTSwNIVM3qdAEBYgsPR3NmiY8EK2RwjCzRdEgub8DE0bfDZGanF4bCQvphkPa6zv59ls2mdchyDE7fE0HwP8wN9HVbEO3vLVRANpx9f6t-X0kSvN3YUWj4" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h2>分支合并</h2>
+<p>演示分支合并操作：</p>
+<pre><code>gitGraph
+    title 分支合并示例
+    commit
+    branch feature-1
+    commit
+    commit
+    checkout main
+    branch feature-2
+    commit
+    commit
+    checkout main
+    merge feature-1
+    commit
+    merge feature-2
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXja0fZsyvqnEzqe7tz2fMmuJ_u6IbLJ-bm5mSUQdlJRYl5yhkJaamJJaVGqriGmChR2Rmpydn5piUJuYmYeVgOMSDYgN7UoPRWfA1AVGCnVAgDhnlab"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXja0fZsyvqnEzqe7tz2fMmuJ_u6IbLJ-bm5mSUQdlJRYl5yhkJaamJJaVGqriGmChR2Rmpydn5piUJuYmYeVgOMSDYgN7UoPRWfA1AVGCnVAgDhnlab" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h2>标签和版本</h2>
+<p>添加标签和版本管理：</p>
+<pre><code>gitGraph
+    title 版本管理示例
+    commit &quot;v1.0.0 发布&quot;
+    branch feature/auth
+    commit &quot;添加认证功能&quot;
+    commit &quot;修复安全漏洞&quot;
+    checkout main
+    merge feature/auth tag: &quot;v1.1.0&quot;
+    branch hotfix/security
+    commit &quot;紧急安全修复&quot;
+    checkout main
+    merge hotfix/security tag: &quot;v1.1.1&quot;
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXje2fFszprn6xY-n9D2fMmuJ_u6IbLJ-bm5mSUKMUplhnoGegYKT_snPt3RHKMEkU0qSsxLzlBIS00sKS1K1U8sLclA0_Zs--6nXQterFvyYn3j0675L5r3wvTClTzZv-7pkt6n6zqftq54tqf_2ZZ5cCUZqcnZ-aUlCrmJmXkQodzUovRUFAsVShLTrSAONNQzQHNZRn5JWmaFfnFqcmlRZkklms3Ptyx_1rAUYjPEFQRtRjMQxXLDGCWlWgD525DX"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJU1BQUCjJLMlJVXje2fFszprn6xY-n9D2fMmuJ_u6IbLJ-bm5mSUKMUplhnoGegYKT_snPt3RHKMEkU0qSsxLzlBIS00sKS1K1U8sLclA0_Zs--6nXQterFvyYn3j0675L5r3wvTClTzZv-7pkt6n6zqftq54tqf_2ZZ5cCUZqcnZ-aUlCrmJmXkQodzUovRUFAsVShLTrSAONNQzQHNZRn5JWmaFfnFqcmlRZkklms3Ptyx_1rAUYjPEFQRtRjMQxXLDGCWlWgD525DX" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h2>完整示例：产品开发流程</h2>
+<pre><code>gitGraph
+    title 产品开发 Git 流程图
+    commit &quot;项目初始化&quot;
+    commit &quot;基础架构搭建&quot;
+    branch feature/login
+    commit &quot;登录功能实现&quot;
+    commit &quot;登录 UI 优化&quot;
+    checkout main
+    branch feature/dashboard
+    commit &quot;仪表板框架&quot;
+    commit &quot;数据可视化组件&quot;
+    commit &quot;用户统计功能&quot;
+    checkout main
+    branch feature/settings
+    commit &quot;用户设置页面&quot;
+    commit &quot;安全设置&quot;
+    checkout main
+    merge feature/login tag: &quot;v1.0.0-beta&quot;
+    commit &quot;测试修复&quot;
+    merge feature/dashboard
+    merge feature/settings tag: &quot;v1.0.0&quot;
+    branch hotfix/performance
+    commit &quot;优化加载速度&quot;
+    commit &quot;减少内存泄漏&quot;
+    checkout main
+    merge hotfix/performance tag: &quot;v1.0.1&quot;
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#eJyNUt9KwlAcfpXDua6sLn2B6AG6281xHbeR22QeI4hASe2PlUkpRqgtIiVoCWGRc_oy-50z3yJIhLZFdf195_v3O_t4FyfXl7CMk1jR2IZFsqpkIIQQ01iGIn_Ug6sijAtQq6MNjSE-LIp-FW4nc5Zs6rrGkIRn9oe4deC4Db0qnDUlHMGhOxJ2gXfeeKfEL5_BHS0oKYsYsorSlLC8RRMZU9GMyGNx44LXgNNucOiB0xEXg5j-nIK2NpE_bn0PoFJ5x8wzpJOFbMRwm-TUlEms7Yii7z4Fdp-3p9yu8M5bzJE3BvzcgdpL0KvAWVO4Jd-Ns8R1nx-_C7cbOPa8wP-T5ShjmqHkfpQMnInwnJk9nLXv42s7J1Duzym_-OnUUmh4ecSIkkQS3l1bWV1ZXU5RRuLNh9XgpeFPHXg4X4BhqcimYXBRK2wV-Q6qydLaXiJLrbRp6cSQafQ8X2eG07vA82aFLowe4ysc1WBQh0oZnlv8tcTHtT-3iNuGUq5JGB98AkJmW9Y"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#eJyNUt9KwlAcfpXDua6sLn2B6AG6281xHbeR22QeI4hASe2PlUkpRqgtIiVoCWGRc_oy-50z3yJIhLZFdf195_v3O_t4FyfXl7CMk1jR2IZFsqpkIIQQ01iGIn_Ug6sijAtQq6MNjSE-LIp-FW4nc5Zs6rrGkIRn9oe4deC4Db0qnDUlHMGhOxJ2gXfeeKfEL5_BHS0oKYsYsorSlLC8RRMZU9GMyGNx44LXgNNucOiB0xEXg5j-nIK2NpE_bn0PoFJ5x8wzpJOFbMRwm-TUlEms7Yii7z4Fdp-3p9yu8M5bzJE3BvzcgdpL0KvAWVO4Jd-Ns8R1nx-_C7cbOPa8wP-T5ShjmqHkfpQMnInwnJk9nLXv42s7J1Duzym_-OnUUmh4ecSIkkQS3l1bWV1ZXU5RRuLNh9XgpeFPHXg4X4BhqcimYXBRK2wV-Q6qydLaXiJLrbRp6cSQafQ8X2eG07vA82aFLowe4ysc1WBQh0oZnlv8tcTHtT-3iNuGUq5JGB98AkJmW9Y" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h2>为什么用 Git 图？</h2>
+<h3>Git 图解决什么问题？</h3>
+<p>Git 图专门用于<strong>可视化版本控制系统的分支策略和代码演进历史</strong>，解决以下核心问题：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>Git 图解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分支策略难以理解</td>
+<td>直观展示分支创建、合并、删除的完整流程</td>
+</tr>
+<tr>
+<td>代码评审时沟通困难</td>
+<td>可视化展示功能分支与主线的关系</td>
+</tr>
+<tr>
+<td>版本发布计划混乱</td>
+<td>清晰标注版本标签和发布节点</td>
+</tr>
+<tr>
+<td>新人上手困难</td>
+<td>图形化展示团队 Git 工作流</td>
+</tr>
+</tbody></table>
+<h3>适用场景</h3>
+<p><strong>✅ 推荐使用 Git 图的场景：</strong></p>
+<ol>
+<li><strong>团队新人培训</strong>：帮助新成员快速理解团队的 Git 工作流</li>
+<li><strong>代码评审讨论</strong>：在 PR 描述中展示分支合并策略</li>
+<li><strong>发布计划制定</strong>：可视化版本发布路线图</li>
+<li><strong>技术方案文档</strong>：记录项目的分支管理策略</li>
+<li><strong>故障回溯分析</strong>：展示问题修复的代码路径</li>
+</ol>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyVUMtOwkAU_ZXJrJWHS37A-AHuuhnq0E6kLanTRmJMNAaCUWhMADEEDQ9DN7YbjSFA_Bluh_6FNYjK6Ma7usl55pxgF-d2trCKc1hjfNcmJV0xUXKc8SJF0B3EnQeoVaNmKJ7aovUIXrgcV-G6vaKplmEwjhQc9yeiG0CtB-OrDxSv8LxNTFVHB9SlRaskaWB2Bt6NaIQwuIgrdTEPJFmBEu7YNE0crkta0fSj2usyGC3D88jvQ-92rf2m3E1h3or7L3FvgPb3vnCdqoeWwzdLGdTW6B-BUpMSKRvU5FJSss5i2okayTpDCCfJ85-wTc-1wCDM_Mn-NECcaLkk0s2mMqnMdp5yIo2mW7zAjtNHVHVsxstS1cVbAKM6BJdQ8aOZFz3f_6oqJ0uGGw2yCsan7-iM7d0" width="100%" height="500" frameborder="0"></iframe>
+
+<h3>不适用场景</h3>
+<p><strong>❌ 不建议使用 Git 图的场景：</strong></p>
+<ul>
+<li><strong>简单线性历史</strong>：如果项目只有一条主线，没有分支，用文字描述即可</li>
+<li><strong>单次提交说明</strong>：单个 commit 的详细说明不需要 Git 图</li>
+<li><strong>文件级变更</strong>：需要展示具体文件修改时，应使用 diff 或代码审查工具</li>
+</ul>
+<iframe src="https://eric.run.place/MermZen/embed.html#eJyrVipTsjLSUUpWslJKzyxxL0osyIjJUwCCksySnFSF5-sanvZOfb5r_7OG5U_72p72b3q_p-PJjt6XDU1PJ3Q8n7JCwT2zROHp7H3v93RC9CXn5-YChWKUnnbMfbq8-1n_hCe7lsQooUk-2777adeCp13zXzTvVXDEkH6yf93TJb0KSaXpGFJP-yc-3dGsUGaoZxCjpFQLAAwTV0g" width="100%" height="300" frameborder="0"></iframe>
+
+<blockquote>
+<p>💡 <strong>提示</strong>：上图展示了一个简单的线性历史，这种情况下使用 Git 图反而显得冗余，直接用文字描述&quot;4 个提交&quot;即可。</p>
+</blockquote>
+<h2>Git 工作流最佳实践</h2>
+<h3>功能分支工作流</h3>
+<p>每个功能一个分支，完成后合并到 main：</p>
+<pre><code>gitGraph
+    title 功能分支工作流
+    commit &quot;初始化项目&quot;
+    branch feature/user-auth
+    commit &quot;添加用户认证&quot;
+    checkout main
+    merge feature/user-auth
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#ZY5NEoIwDIWv0ulaRyi0_FzAS3RT0hQYBZzauHG8u6mMK7LIZL6895K3fMlenSTIXo5zukb3mOwquNKc7igsadUFS20RfJ4LY8loxUR71JbqoIGJr8vdBduyzElYmcVltnQwcK9KNnZt01lqDCLvf_IhuhUmEdAlinihJ8azozQdwowPOUa5ggO0apmoquG_BlfnDuU_EiaE20ZJLG5ed7RgHPF4RH6-"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#ZY5NEoIwDIWv0ulaRyi0_FzAS3RT0hQYBZzauHG8u6mMK7LIZL6895K3fMlenSTIXo5zukb3mOwquNKc7igsadUFS20RfJ4LY8loxUR71JbqoIGJr8vdBduyzElYmcVltnQwcK9KNnZt01lqDCLvf_IhuhUmEdAlinihJ8azozQdwowPOUa5ggO0apmoquG_BlfnDuU_EiaE20ZJLG5ed7RgHPF4RH6-" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h3>Git Flow 工作流</h3>
+<p>更复杂的分支策略，适合大型项目：</p>
+<pre><code>gitGraph
+    title Git Flow 工作流
+    commit &quot;初始提交&quot;
+    branch develop
+    commit &quot;开发分支&quot;
+    branch feature/login
+    commit &quot;登录功能&quot;
+    checkout develop
+    merge feature/login
+    checkout main
+    merge develop tag: &quot;v1.0.0&quot;
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#bY5NEoIwDEav0unawfJTEA4gl-imtCkwAmU6LS4c724QWShmkUXyvpc86EKr5EQVrWjb-9rJuRMTwfK9H4DUvSfXwd6JCFwDFyEzXImQ6yzeMGXHERlBEUhijb1UDQKpZgiDzHDzBhsnJ9URDQsMdj6GDcMAT3W8iliOCp6Yn7AB6YOD82DbfjooirxoVhHnq6I0IlyY0btCdaBuNvjvD0ZwLfz17vgo99HGfuLEy7bCs0scsYgJSp8v"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#bY5NEoIwDEav0unawfJTEA4gl-imtCkwAmU6LS4c724QWShmkUXyvpc86EKr5EQVrWjb-9rJuRMTwfK9H4DUvSfXwd6JCFwDFyEzXImQ6yzeMGXHERlBEUhijb1UDQKpZgiDzHDzBhsnJ9URDQsMdj6GDcMAT3W8iliOCp6Yn7AB6YOD82DbfjooirxoVhHnq6I0IlyY0btCdaBuNvjvD0ZwLfz17vgo99HGfuLEy7bCs0scsYgJSp8v" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<h3>分支命名规范</h3>
+<table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>用途</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>feature/</code></td>
+<td>新功能开发</td>
+<td><code>feature/user-profile</code></td>
+</tr>
+<tr>
+<td><code>bugfix/</code></td>
+<td>Bug 修复</td>
+<td><code>bugfix/login-error</code></td>
+</tr>
+<tr>
+<td><code>hotfix/</code></td>
+<td>紧急修复</td>
+<td><code>hotfix/security-patch</code></td>
+</tr>
+<tr>
+<td><code>release/</code></td>
+<td>发布准备</td>
+<td><code>release/v1.2.0</code></td>
+</tr>
+</tbody></table>
+<h2>常用命令对照</h2>
+<p>Git 图语法与 Git 命令的对应关系：</p>
+<pre><code>gitGraph
+    title 常用命令对照
+    commit id: &quot;git commit&quot;
+    branch feature
+    commit id: &quot;git branch&quot;
+    checkout feature
+    commit id: &quot;git checkout&quot;
+    checkout main
+    merge feature id: &quot;git merge&quot;
+    commit id: &quot;git tag v1.0&quot; type: HIGHLIGHT
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#hYxBCsIwEEWvMsxaxGprtRdoBZcus0nTaRs0bQmTgoh3NxorooiBCcOb__4FR8yWM1SYYaM5t3JoRQf-seYTgXAJrTbCpcnS_0mcVsLFRLHfy3rrebROQ171xmgGXWUg7lVPIDCcSys71UJNkp2lH0oITYpqSR17x3-kKfalGam7gAzZhqaaN_XBX95nMcsGxmi-EAh8HiiDYpcXez8HvN4A"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#hYxBCsIwEEWvMsxaxGprtRdoBZcus0nTaRs0bQmTgoh3NxorooiBCcOb__4FR8yWM1SYYaM5t3JoRQf-seYTgXAJrTbCpcnS_0mcVsLFRLHfy3rrebROQ171xmgGXWUg7lVPIDCcSys71UJNkp2lH0oITYpqSR17x3-kKfalGam7gAzZhqaaN_XBX95nMcsGxmi-EAh8HiiDYpcXez8HvN4A" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<table>
+<thead>
+<tr>
+<th>Git 图语法</th>
+<th>Git 命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>commit &quot;信息&quot;</code></td>
+<td><code>git commit -m &quot;信息&quot;</code></td>
+<td>创建提交</td>
+</tr>
+<tr>
+<td><code>branch 分支名</code></td>
+<td><code>git branch 分支名</code></td>
+<td>创建分支</td>
+</tr>
+<tr>
+<td><code>checkout 分支名</code></td>
+<td><code>git checkout 分支名</code></td>
+<td>切换分支</td>
+</tr>
+<tr>
+<td><code>merge 分支名</code></td>
+<td><code>git merge 分支名</code></td>
+<td>合并分支</td>
+</tr>
+<tr>
+<td><code>tag: &quot;版本号&quot;</code></td>
+<td><code>git tag 版本号</code></td>
+<td>打标签</td>
+</tr>
+</tbody></table>
+<h2>最佳实践</h2>
+<pre><code>gitGraph
+    title 最佳实践示例
+    commit &quot;有意义的提交信息&quot;
+    branch feature/user-profile
+    commit &quot;feat: 添加用户资料页&quot;
+    checkout main
+    commit &quot;chore: 更新依赖&quot;
+    merge feature/user-profile tag: &quot;v1.1.0&quot;
+    branch hotfix/security
+    commit &quot;fix: 修复安全漏洞&quot;
+    checkout main
+    merge hotfix/security tag: &quot;v1.1.1&quot;
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#fVBLbsMgEL2KxbpNwDY_XyCXYINhiFFjOyIQpap69w6OsqhV1QtkPc37fpE7Gdo34shAzjGfkr1OZmnwyzFfoDFFSEpN6YPsTOGjBlOUD9wUqTtbcTU-7906zzE3hmwUjS-jAQ-gx38pVI9I56sU2L4SgSFCRUDGJjAmu7ipCWBzSXAsN0jv17SGeIGdQz0ZajQfRgzVWlSVvFWItJ2sAfvqxjU6ayX5y8FN4D7WkpvZxmWn6aY1wSYqwkYet9baVzkuXhIzpDP8mbHJ9ox8cmcHdqC7UtOaQ3wcb-BKivlz3yc-qjNOgutyTX1dWmF4zkQtFeqQwjP4p8gz2M7nVyZmCPn-AQ"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#fVBLbsMgEL2KxbpNwDY_XyCXYINhiFFjOyIQpap69w6OsqhV1QtkPc37fpE7Gdo34shAzjGfkr1OZmnwyzFfoDFFSEpN6YPsTOGjBlOUD9wUqTtbcTU-7906zzE3hmwUjS-jAQ-gx38pVI9I56sU2L4SgSFCRUDGJjAmu7ipCWBzSXAsN0jv17SGeIGdQz0ZajQfRgzVWlSVvFWItJ2sAfvqxjU6ayX5y8FN4D7WkpvZxmWn6aY1wSYqwkYet9baVzkuXhIzpDP8mbHJ9ox8cmcHdqC7UtOaQ3wcb-BKivlz3yc-qjNOgutyTX1dWmF4zkQtFeqQwjP4p8gz2M7nVyZmCPn-AQ" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<p><strong>提交信息规范</strong>：</p>
+<ul>
+<li><code>feat:</code> 新功能</li>
+<li><code>fix:</code> Bug 修复</li>
+<li><code>docs:</code> 文档更新</li>
+<li><code>style:</code> 代码格式</li>
+<li><code>refactor:</code> 重构</li>
+<li><code>test:</code> 测试</li>
+<li><code>chore:</code> 构建/工具</li>
+</ul>
+<p><strong>分支管理建议</strong>：</p>
+<ul>
+<li>功能分支命名：<code>feature/xxx</code></li>
+<li>合并前先 <code>git pull</code> 获取最新代码</li>
+<li>定期清理已合并的分支</li>
+<li>使用 Pull Request 进行代码评审</li>
+</ul>
+<h2>常见误区</h2>
+<pre><code>gitGraph
+    title 常见误区示例
+    commit &quot;直接在 main 开发 ❌&quot;
+    branch feature-a
+    commit &quot;功能 A&quot;
+    branch feature-b
+    commit &quot;功能 B&quot;
+    branch feature-c
+    commit &quot;功能 C&quot;
+    branch feature-d
+    commit &quot;功能 D&quot;
+    checkout main
+    merge feature-a
+    merge feature-b
+    merge feature-c
+    merge feature-d
+    commit &quot;分支过多导致混乱 ❌&quot;
+</code></pre>
+<p><div class="diagram-preview">
+  <iframe
+    src="../../embed.html#fZHNboQgEIBfhXBuE0UR3Ft_kr4EFxhnVtNVGwO9NH33jppmt1WXAwkf8w0zzJf8lCf1IEGe5LmLb5P_aN0geMUuXlC4pLGwLtkact4DEpOi8C6Zet5LsmGNh7Hvuyic5KuKSpeqwmsONsqK3nfDnIqybNabnA_KlMDBixsmP0ArCH1MEz76TUatan7YZtSIpwNpW8aN9HwgwT3p5UBq7kmvvxK0CO9jikvzK-pxOuP_Lv_CsAdhD-5VkVX87VrNtRAYJnXOM9KBgEm-DKUh5iWa6wjk9w8"
+    title="图表预览（手绘风格）"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+<a href="https://eric.run.place/MermZen/#fZHNboQgEIBfhXBuE0UR3Ft_kr4EFxhnVtNVGwO9NH33jppmt1WXAwkf8w0zzJf8lCf1IEGe5LmLb5P_aN0geMUuXlC4pLGwLtkact4DEpOi8C6Zet5LsmGNh7Hvuyic5KuKSpeqwmsONsqK3nfDnIqybNabnA_KlMDBixsmP0ArCH1MEz76TUatan7YZtSIpwNpW8aN9HwgwT3p5UBq7kmvvxK0CO9jikvzK-pxOuP_Lv_CsAdhD-5VkVX87VrNtRAYJnXOM9KBgEm-DKUh5iWa6wjk9w8" target="_blank" rel="noopener" class="try-in-editor">在 MermZen 中试试 →</a></p>
+<p><strong>避免这些问题</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>误区</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直接在 main 分支开发</td>
+<td>使用功能分支，完成后合并</td>
+</tr>
+<tr>
+<td>分支过多导致混乱</td>
+<td>及时删除已合并的分支</td>
+</tr>
+<tr>
+<td>不使用标签标记版本</td>
+<td>重要版本打 tag，便于回溯</td>
+</tr>
+<tr>
+<td>提交信息不清晰</td>
+<td>使用规范的提交信息格式</td>
+</tr>
+<tr>
+<td>长期不合并分支</td>
+<td>定期合并，减少冲突</td>
+</tr>
+</tbody></table>
+<h2>速查表</h2>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gitGraph</code></td>
+<td>声明 Git 图</td>
+</tr>
+<tr>
+<td><code>title 标题</code></td>
+<td>设置图表标题</td>
+</tr>
+<tr>
+<td><code>commit &quot;信息&quot;</code></td>
+<td>创建提交节点</td>
+</tr>
+<tr>
+<td><code>branch 分支名</code></td>
+<td>创建分支</td>
+</tr>
+<tr>
+<td><code>checkout 分支名</code></td>
+<td>切换分支</td>
+</tr>
+<tr>
+<td><code>merge 分支名</code></td>
+<td>合并分支</td>
+</tr>
+<tr>
+<td><code>merge 分支名 tag: &quot;版本号&quot;</code></td>
+<td>合并并打标签</td>
+</tr>
+<tr>
+<td><code>%% 注释</code></td>
+<td>行注释</td>
+</tr>
+</tbody></table>
+<h2>下一步</h2>
+<p>掌握 Git 图后，您可以继续学习其他 Mermaid 图表类型，或查看我们的 <a href="../cheat-sheet.html">Mermaid 图表速查表</a> 获取完整的语法参考。</p>
+<hr>
+<p>如果您想在 MermZen 中尝试上述代码，可以点击 <a href="https://eric.run.place/MermZen/">在线编辑器</a>，然后将代码粘贴进去。</p>
+
+  </main>
+
+  <footer class="blog-footer">
+    <p>在 <a href="../../index.html">MermZen</a> 中实时编辑与预览 Mermaid 图表 · 导出 SVG/PNG · 链接即分享</p>
+  </footer>
+  <script>
+    (function () {
+      // Auto dark theme detection
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+      });
+
+      var h1 = document.querySelector('.blog-post h1');
+      if (!h1) return;
+      var img = document.createElement('img');
+      img.src = '../../logo.svg';
+      img.alt = '';
+      img.className = 'blog-h1-icon';
+      h1.insertBefore(img, h1.firstChild);
+    })();
+  </script>
+</body>
+</html>
