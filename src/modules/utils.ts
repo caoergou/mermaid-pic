@@ -1,5 +1,6 @@
 import { dom } from './dom';
 import { state } from './store';
+import { STRINGS } from './i18n';
 
 export function escapeHtml(str: string): string {
   const div = document.createElement('div');
@@ -147,4 +148,10 @@ export function updateShortcutDisplays(): void {
       el.innerHTML = formatShortcutKbd(shortcut);
     }
   });
+  // 更新按钮 title 中的快捷键提示
+  const btnCmdPaletteQuick = document.getElementById('btn-cmd-palette-quick');
+  if (btnCmdPaletteQuick) {
+    const s = STRINGS[state.currentLang];
+    btnCmdPaletteQuick.title = s.cmdPaletteTitle.replace('{shortcut}', formatShortcut('Ctrl+K'));
+  }
 }
